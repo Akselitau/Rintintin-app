@@ -1,3 +1,4 @@
+from typing import Any, Dict, List
 from pydantic import BaseModel
 
 class Pension(BaseModel):
@@ -9,8 +10,32 @@ class Pension(BaseModel):
     max_capacity: int
     current_occupancy: int
     rating: float
-    description: str  
-    image_url: str 
-
+    description: str
+    image_urls: List[str]
+    equipment: List[str]
+    opening_hours: str
+    distance_km: float = None
+  
     class Config:
-        orm_mode: True
+        orm_mode = True
+
+
+class PensionDetail(BaseModel):
+    id: int
+    name: str
+    address: str
+    phone: str
+    email: str
+    max_capacity: int
+    current_occupancy: int
+    rating: float
+    description: str
+    image_urls: List[str]
+    equipment: List[str]
+    hours: str
+    night_price: float
+    staff: List[Dict[str, str]] = []
+    reviews: List[Dict[str, Any]] = []
+    
+    class Config:
+        orm_mode = True

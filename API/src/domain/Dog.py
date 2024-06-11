@@ -1,12 +1,13 @@
-from dataclasses import dataclass
+from typing import List, Optional
+from pydantic import BaseModel
 
-@dataclass
-class Dog:
-    id: int
-    owner_id: int
+class Dog(BaseModel):
+    dog_id: int
+    user_id: int
     name: str
     breed: str
-    age: int
-    weight: int
-    special_needs: str 
+    profile_photo_url: Optional[str] = None
+    information: Optional[str] = None
 
+    class Config:
+        orm_mode = True

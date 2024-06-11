@@ -1,72 +1,88 @@
 import os
-import sys
 import subprocess
+import sys
+from chalice import Chalice, CORSConfig
+from flask import Response
+from src.errors import CustomError
+from src.infrastructure.database import Database
+from src.application.controllers.auth_controller import auth
+from src.application.controllers.pension_controller import pension
+from src.application.controllers.reservation_controller import reservation
+from src.application.controllers.user_controller import user
+from src.application.controllers.dog_controller import dog
+
+import os
+import sys
+from chalice import Chalice, Response, CORSConfig
+from src.config import Config, initialize_app_config
+import boto3
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
-import boto3
-from chalice import Chalice, Response, CORSConfig
-from src.infrastructure.pension_psql_repository import PsqlPensionRepository
-from src.application.schema.pension_schema import PensionSchema
-
 app = Chalice(app_name='image_processing')
-s3 = boto3.client('s3')
-BUCKET_NAME = 'mockup-product'
 
-# Configuration CORS
+initialize_app_config()
+
 cors_config = CORSConfig(
     allow_origin='*',
-    allow_headers=['Content-Type'],
+    allow_headers=['Content-Type', 'Authorization'],
     max_age=600,
     expose_headers=['X-Custom-Header'],
     allow_credentials=True
 )
 
-def initialize_database():
-    script_path = os.path.join(os.path.dirname(__file__), 'scripts', 'create_tables.py')
-    print(f"Chemin du script de création des tables : {script_path}")
+# Initialize S3 client
+s3 = boto3.client('s3')
+BUCKET_NAME = 'mockup-product'
+
+# Initialize database connection
+Database.initialize_connection(
+    host=Config.DB_HOST,
+    port=Config.DB_PORT,
+    db_name=Config.DB_NAME,
+    user=Config.DB_USER,
+    password=Config.DB_PASSWORD
+)
+
+@app.middleware('all')
+def handle_errors(event, get_response):
     try:
-        subprocess.run([sys.executable, script_path], check=True)
-        print("Initialisation de la base de données réussie")
-    except subprocess.CalledProcessError as e:
-        print(f"Erreur lors de l'initialisation de la base de données : {e}")
-    except FileNotFoundError:
-        print(f"Erreur : Le fichier {script_path} n'a pas été trouvé")
+        response = get_response(event)
+    except CustomError as e:
+        response = Response(
+            body={"message": e.message},
+            status_code=e.status_code,
+            headers={"Content-Type": "application/json"}
+        )
+    except Exception as e:
+        response = Response(
+            body={"message": "An unexpected error occurred"},
+            status_code=500,
+            headers={"Content-Type": "application/json"}
+        )
+    return response
 
-initialize_database()
+app.register_blueprint(auth)
+app.register_blueprint(pension)
+app.register_blueprint(reservation)
+app.register_blueprint(user)
+app.register_blueprint(dog)
 
-
-@app.route('/populate-database', methods=['POST'], cors=cors_config)
-def populate_database():
-    script_path = os.path.join(os.path.dirname(__file__), 'scripts', 'populate_database.py')
-    print(f"Chemin du script de remplissage de la base de données : {script_path}")
-    try:
-        subprocess.run([sys.executable, script_path], check=True)
-        return {"message": "Base de données remplie avec succès"}
-    except subprocess.CalledProcessError as e:
-        print(f"Erreur lors du remplissage de la base de données : {e}")
-        return {"message": f"Erreur lors du remplissage de la base de données : {e}"}
-    except FileNotFoundError:
-        print(f"Erreur : Le fichier {script_path} n'a pas été trouvé")
+def run_script(script_name):
+    script_path = os.path.join(os.path.dirname(__file__), 'scripts', script_name)
+    if not os.path.exists(script_path):
         return {"message": f"Erreur : Le fichier {script_path} n'a pas été trouvé"}
     
-    
+    try:
+        subprocess.run([sys.executable, script_path], check=True)
+        return {"message": f"{script_name} exécuté avec succès"}
+    except subprocess.CalledProcessError as e:
+        return {"message": f"Erreur lors de l'exécution de {script_name} : {e}"}
 
-@app.route('/get-pensions', methods=['GET'], cors=cors_config)
-def get_pensions():
-    psql_pension_repository = get_pension_repo()
-    pensions = psql_pension_repository.get_all_pensions()
-    return Response(
-        body={"pensions": PensionSchema().dump(pensions, many=True)}, 
-        status_code=200,
-        headers={"Content-Type": "application/json"},
-    )
+@app.route('/reset-database', methods=['POST'], cors=cors_config)
+def reset_database():
+    return run_script('create_tables.py')
 
-def get_pension_repo():
-    return PsqlPensionRepository(
-        host="localhost",
-        port=5432,
-        db_name="doggydb",
-        user="mydbuser",
-        password="mypassword",
-    )
+@app.route('/populate-database', methods=['POST'], cors=cors_config)
+def populate_database_route():
+    return run_script('populate_database.py')

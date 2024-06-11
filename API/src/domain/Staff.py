@@ -10,3 +10,4 @@ class Staff:
     role: str  #TODO: change for Enum
     email: str
     phone: str
+    image_url: str

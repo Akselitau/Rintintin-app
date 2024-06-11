@@ -1,14 +1,27 @@
-from chalice.app import Blueprint
-from chalice.app import Response
-from chalicelib.application.schema.reservation_schema import ReservationSchema
-from chalicelib.bootstrap import get_reservation_repo
+from chalice import Blueprint
+from src.usecase.get_reservations_by_pension import get_reservations_pension_handler
+from src.usecase.get_reservations_by_user import get_reservations_user_handler
+from src.usecase.make_reservation import make_reservation_handler
+from src.usecase.update_reservation import update_reservation_handler
 
-reservation_routes = Blueprint(__name__)
+reservation = Blueprint(__name__)
 
-@reservation_routes.route('/reservations', methods=['GET'], cors=True)
-def get_reservations():
-    # Implémentation de la méthode pour récupérer toutes les réservations
+@reservation.route('/make-reservation', methods=['POST'], cors=True)
+def make_new_reservation():
+    request = reservation.current_request
+    data = request.json_body
+    return make_reservation_handler(data)
 
-@reservation_routes.route('/reservation/{reservation_id}', methods=['GET'], cors=True)
-def get_reservation(reservation_id: int):
-    # Implémentation de la méthode pour récupérer une réservation par son ID
+@reservation.route('/get-reservations-user/{user_id}', methods=['GET'], cors=True)
+def get_reservations_user(user_id):
+    return get_reservations_user_handler(user_id)
+
+@reservation.route('/get-reservations-pension/{pension_id}', methods=['GET'], cors=True)
+def get_reservations_pension(pension_id):
+    return get_reservations_pension_handler(pension_id)
+
+@reservation.route('/update-reservation', methods=['POST'], cors=True)
+def update_reservation():
+    request = reservation.current_request
+    data = request.json_body
+    return update_reservation_handler(data)

@@ -1,26 +1,15 @@
+from chalice import Blueprint
+from src.usecase.create_dog_profile import create_dog_profile_handler
+from src.usecase.get_dogs import get_dogs_handler
 
-from chalice.app import Blueprint
-from chalice.app import Response
-from chalicelib.application.schema.dog_schema import DogSchema
-from chalicelib.bootstrap import get_dog_repo
+dog = Blueprint(__name__)
 
-dog_routes = Blueprint(__name__)
+@dog.route('/create-dog-profile', methods=['POST'], cors=True)
+def create_dog_profile():
+    request = dog.current_request
+    data = request.json_body
+    return create_dog_profile_handler(data)
 
-@dog_routes.route('/dogs', methods=['GET'], cors=True)
-def get_dogs():
-    psql_dog_repository = get_dog_repo()
-    dogs = psql_dog_repository.get_all_dogs()
-    return Response(
-        body={"dogs": DogSchema().dump(dogs, many=True)}, 
-        status_code=200,
-        headers={"Content-Type": "application/json"})
-
-@dog_routes.route('/dog/{dog_id}', methods=['GET'], cors=True)
-def get_dog(dog_id: int):
-    psql_dog_repository = get_dog_repo()
-    dog = psql_dog_repository.get_dog_by_id(dog_id)
-    return Response(
-        body={"dog": DogSchema().dump(dog)}, 
-        status_code=200,
-        headers={"Content-Type": "application/json"},
-    )
+@dog.route('/get-dogs/{user_id}', methods=['GET'], cors=True)
+def get_dogs(user_id):
+    return get_dogs_handler(user_id)
