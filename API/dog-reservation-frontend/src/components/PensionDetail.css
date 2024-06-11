@@ -1,0 +1,198 @@
+.pension-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.pension-detail-main {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: flex-start; /* Assurez-vous que les éléments sont alignés en haut */
+}
+
+.pension-detail-content {
+  width: 75%;
+  margin-bottom: 20px;
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative; /* Ajoutez cette ligne */
+  margin-top: 1rem;
+  margin-right: 4rem;
+  margin-left: 2rem;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.carousel-button {
+  background: #ffcc00;
+  border: none;
+  font-size: 36px;
+  cursor: pointer;
+  position: absolute; /* Ajoutez cette ligne */
+  top: 17%; /* Centre verticalement */
+
+  transform: translateY(-50%); /* Centre verticalement */
+  z-index: 1; /* Assurez-vous que les boutons sont au-dessus de l'image */
+  border: 10px solid transparent;
+  border-radius: 20px;
+}
+
+.carousel-nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #ffcc00;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-nav-button.left {
+  left: -15px;
+}
+
+.carousel-nav-button.right {
+  right: -15px;
+}
+
+.reservation-section {
+  width: 25%;
+  background: #F0F0F0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  position: -webkit-sticky; /* Pour les navigateurs WebKit/Safari */
+  position: sticky;
+  top: 20px; /* Distance du haut de la page lorsque l'élément devient "collant" */
+  margin-top: 1rem;
+  align-self: flex-start; /* Assurez-vous que la section de réservation est alignée en haut */
+  max-height: calc(100vh - 40px); /* Limitez la hauteur pour éviter qu'elle ne prenne toute la page */
+  overflow-y: auto; /* Ajoutez un défilement vertical si nécessaire */
+}
+
+.reservation-details {
+  margin-top: 20px;
+}
+
+.number-of-dogs,
+.price-details {
+  margin-bottom: 10px;
+}
+
+.reservation-button {
+  background: #ffcc00;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+.pension-info,
+.pension-about,
+.pension-team,
+.pension-reviews {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  margin-bottom: 20px;
+  margin-right: 4rem;
+  margin-left: 2rem;
+}
+
+.pension-equipment ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.pension-team .team-members {
+  display: flex;
+  justify-content: flex-start; /* Align the items to the left */
+  gap: 35px; /* Add some space between the items */
+}
+
+.pension-team .team-member {
+  text-align: center; /* Align text to the left */
+  flex: none; /* Ensure flex properties don't stretch items */
+  width: 100px; /* Set a fixed width for uniformity */
+}
+
+.pension-team .team-member img {
+  width: 100px; /* Adjust the width as necessary */
+  height: 100px; /* Adjust the height as necessary */
+  border-radius: 15px; /* Adjust the border-radius for rounded corners */
+  object-fit: cover; /* Ensure the images cover the container */
+}
+
+.pension-team .team-member p:first-of-type {
+  font-weight: bold; /* Make the name bold */
+  margin-top: -1px;
+}
+
+.pension-team .team-member p:nth-of-type(2) {
+  color: gray; /* Change text color */
+  font-size: 14px; /* Adjust font size */
+  margin-top: -12px; /* Add some space above */
+}
+
+
+.pension-reviews .reviews {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Add space between reviews */
+  padding: 20px; /* Add padding around the reviews container */
+  background-color: #f9f9f9; /* Light background color for contrast */
+  border-radius: 10px; /* Rounded corners for the container */
+}
+
+.pension-reviews .review {
+  background-color: #ffffff; /* White background for each review */
+  padding: 15px; /* Padding inside each review */
+  border: 1px solid #ddd; /* Light border for separation */
+  border-radius: 8px; /* Rounded corners for each review */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.pension-reviews .review p {
+  margin: 5px 0; /* Space between paragraphs */
+}
+
+.pension-reviews .review p:first-of-type {
+  font-weight: bold; /* Bold name */
+  font-size: 1.1em; /* Slightly larger font for the name */
+}
+
+.pension-reviews .review p:nth-of-type(2) {
+  color: #777; /* Gray color for the date */
+  font-size: 0.9em; /* Smaller font for the date */
+}
+
+.pension-reviews .review p:nth-of-type(3) {
+  color: #ffcc00; /* Gold color for the stars */
+  font-size: 1.2em; /* Slightly larger font for the stars */
+  margin-top: 5px;
+}
+
+.pension-reviews .review p:last-of-type {
+  margin-top: 10px; /* Add space before the comment */
+  font-size: 1em; /* Regular font size for the comment */
+}

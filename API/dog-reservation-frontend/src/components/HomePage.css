@@ -1,0 +1,67 @@
+.home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .hero-container {
+    width: 100%;
+    max-width: 1300px; /* Pour limiter la largeur maximale de l'image de fond */
+    max-height: 800px;
+    border-radius: 10px; /* Arrondir les coins */
+    overflow: hidden; /* Assurez-vous que l'image ne déborde pas des coins arrondis */
+    position: relative;
+  }
+  
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: url('https://images.unsplash.com/photo-1536809188428-e8ecf663d0be?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+    background-size: cover; /* Assurez-vous que l'image couvre toute la section */
+    padding: 60px 20px; /* Ajustez le padding pour donner de l'espace au contenu */
+    height: 70vh; /* Ajustez la hauteur selon vos besoins */
+    filter: blur(4px) grayscale(30%) brightness(70%) opacity(90%); /* Appliquer un flou à l'image */
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1; /* Assurez-vous que le contenu est au-dessus de l'image floue */
+  }
+  .home-page .navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+
+  .yellow-container {
+    background-color: #e0b127;
+    padding: 1px 20px 30px; /* Ajout de padding-top supplémentaire */
+    border-radius: 15px;
+    margin-bottom: 20px;
+    justify-content: center; /* Centrer horizontalement */
+    align-items: center; /* Centrer verticalement */
+    text-align: center; /* Centrer le texte */
+    font-size: 1.3rem; /* Ajuster la taille du texte */
+    align-items: flex-start; /* Aligner au début verticalement */
+  }
+  
+  .hero-content h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  .search-bar-container.margin-top {
+    margin-top: -4.5rem; /* Ajustez la valeur selon vos besoins */
+  }

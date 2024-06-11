@@ -1,0 +1,25 @@
+.dashboard-page {
+  display: flex;
+}
+
+.sidebar {
+  width: 200px;
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.reservation-card {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin: 10px 0;
+}
+
+.reservation-list {
+  display: flex;
+  flex-direction: column;
+}

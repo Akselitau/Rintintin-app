@@ -1,0 +1,104 @@
+.register-pension {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  text-align: left;
+  margin-top: 50rem;
+
+}
+
+.register-pension h1 {
+  margin-bottom: 20px;
+  font-size: 2em;
+  color: #333;
+  text-align: center;
+
+}
+
+.register-pension p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+  color: #666;
+  
+}
+
+.register-pension ol {
+  margin-left: 20px;
+  padding-left: 20px;
+  list-style-type: decimal;
+  color: #666;
+}
+
+.register-pension ol li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+  color: #555;
+}
+
+.register-pension ol li::marker {
+  color: #ff6600;
+}
+
+.register-pension a {
+  color: #ff6600;
+  text-decoration: none;
+}
+
+.register-pension a:hover {
+  text-decoration: underline;
+}
+
+.register-pension {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  text-align: left;
+}
+
+.register-pension h1 {
+  margin-bottom: 20px;
+  font-size: 2em;
+  color: #333;
+  text-align: center;
+}
+
+.register-pension p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+  color: #666;
+}
+
+.register-pension ol {
+  margin-left: 20px;
+  padding-left: 20px;
+  list-style-type: decimal;
+  color: #666;
+}
+
+.register-pension ol li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+  color: #555;
+}
+
+.register-pension ol li::marker {
+  color: #ff6600;
+}
+
+.register-pension a {
+  color: #ff6600;
+  text-decoration: none;
+}
+
+.register-pension a:hover {
+  text-decoration: underline;
+}
+

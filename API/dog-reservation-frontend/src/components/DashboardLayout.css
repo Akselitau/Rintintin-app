@@ -1,0 +1,15 @@
+.dashboard-layout {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 200px;
+    background-color: #f0f0f0;
+    padding: 20px;
+  }
+  
+  .content {
+    flex: 1;
+    padding: 20px;
+  }
+  

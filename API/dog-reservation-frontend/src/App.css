@@ -1,0 +1,73 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.pension-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.pension-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  overflow: hidden;
+  width: 300px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.pension-card:hover {
+  transform: translateY(-5px);
+}
+
+.pension-card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.pension-card-content {
+  padding: 20px;
+}
+
+.pension-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.pension-card-title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.pension-card-rating {
+  color: #ffd700;
+}
+
+.pension-card-distance {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.pension-card-description {
+  font-size: 1em;
+  color: #333;
+  margin-top: 10px;
+}
