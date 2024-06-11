@@ -1,0 +1,3 @@
+[submodule "API/dog-reservation-frontend"]
+	path = API/dog-reservation-frontend
+	url = git@github.com:Akselitau/rintintin.git
