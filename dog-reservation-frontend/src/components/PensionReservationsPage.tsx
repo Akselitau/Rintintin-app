@@ -25,7 +25,7 @@ const PensionReservationsPage: React.FC = () => {
       if (user) {
         const token = localStorage.getItem('token');
         try {
-          const pensionResponse = await axios.get(`http://127.0.0.1:8000/get-pension-user/${user.user_id}`, {
+          const pensionResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/get-pension-user/${user.user_id}`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -33,7 +33,7 @@ const PensionReservationsPage: React.FC = () => {
 
           if (pensionResponse.data.pension) {
             const pensionId = pensionResponse.data.pension.pension_id;
-            const reservationsResponse = await axios.get(`http://127.0.0.1:8000/get-reservations-pension/${pensionId}`, {
+            const reservationsResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/get-reservations-pension/${pensionId}`, {
               headers: {
                 'Authorization': `Bearer ${token}`
               }
@@ -65,7 +65,7 @@ const PensionReservationsPage: React.FC = () => {
     const token = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        'http://127.0.0.1:8000/update-reservation',
+        `${process.env.REACT_APP_API_BASE_URL}/update-reservation`,
         {
           reservation_id,
           status

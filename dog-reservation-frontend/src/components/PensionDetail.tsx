@@ -52,7 +52,7 @@ const PensionDetail: React.FC = () => {
     const token = localStorage.getItem('token');
     if (token) {
       setIsLoggedIn(true);
-      axios.get('http://127.0.0.1:8000/get-profile', {
+      axios.get(`${process.env.REACT_APP_API_BASE_URL}/get-profile`, {
         headers: { Authorization: `Bearer ${token}` }
       }).then(response => {
         setUser(response.data);
@@ -64,7 +64,7 @@ const PensionDetail: React.FC = () => {
     }
 
     if (id) {
-      axios.get(`http://127.0.0.1:8000/get-pension/${id}`)
+      axios.get(`${process.env.REACT_APP_API_BASE_URL}/get-pension/${id}`)
         .then(response => {
           const data = response.data;
           const team = data.staff.map((member: any) => ({
@@ -83,7 +83,7 @@ const PensionDetail: React.FC = () => {
   }, [id]);
 
   const fetchDogs = (user_id: number, token: string) => {
-    axios.get(`http://127.0.0.1:8000/get-dogs/${user_id}`, {
+    axios.get(`${process.env.REACT_APP_API_BASE_URL}/get-dogs/${user_id}`, {
       headers: { Authorization: `Bearer ${token}` }
     }).then(response => {
       setDogs(response.data.dogs);
@@ -125,7 +125,7 @@ const PensionDetail: React.FC = () => {
 
       console.log("Reservation Data:", reservationData); // Pour vérifier les données
 
-      axios.post('http://127.0.0.1:8000/make-reservation', reservationData, {
+      axios.post(`${process.env.REACT_APP_API_BASE_URL}/make-reservation`, reservationData, {
         headers: { Authorization: `Bearer ${user?.token}` }
       }).then(response => {
         toast.success('Réservation réussie !');

@@ -18,7 +18,7 @@ const SignupPage: React.FC = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:8000/create-user', {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/create-user`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

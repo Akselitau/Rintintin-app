@@ -28,9 +28,9 @@ const ReservationList: React.FC<ReservationListProps> = ({ userId, pensionId, ca
       try {
         let response;
         if (userId) {
-          response = await axios.get(`http://127.0.0.1:8000/get-reservations-user/${userId}`);
+          response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/get-reservations-user/${userId}`);
         } else if (pensionId) {
-          response = await axios.get(`http://127.0.0.1:8000/get-reservations-pension/${pensionId}`);
+          response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/get-reservations-pension/${pensionId}`);
         }
         if (response && response.data) {
           setReservations(response.data.reservations);
@@ -45,7 +45,7 @@ const ReservationList: React.FC<ReservationListProps> = ({ userId, pensionId, ca
 
   const handleStatusChange = async (reservationId: number, newStatus: string) => {
     try {
-      await axios.post('http://127.0.0.1:8000/update-reservation', {
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/update-reservation`, {
         reservation_id: reservationId,
         status: newStatus
       });

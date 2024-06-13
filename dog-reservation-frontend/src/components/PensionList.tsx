@@ -15,7 +15,7 @@ interface Pension {
   currentOccupancy: number;
   rating: number;
   description: string;
-  imageUrls: string[]; // Modifié pour être un tableau de chaînes de caractères
+  imageUrls: string[];
   distance_km?: number;
 }
 
@@ -35,7 +35,7 @@ const PensionList: React.FC = () => {
         params.lon = coordinates.lon;
       }
 
-      const response = await axios.get('http://127.0.0.1:8000/get-pensions', { params });
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/get-pensions`, { params });
       setPensions(response.data.pensions);
       setLoading(false);
     } catch (error) {

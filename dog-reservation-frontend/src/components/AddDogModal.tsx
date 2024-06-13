@@ -27,7 +27,7 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
     const data = { ...formData, user_id: user?.user_id };
 
     try {
-      const response = await fetch('http://localhost:8000/create-dog-profile', {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/create-dog-profile`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

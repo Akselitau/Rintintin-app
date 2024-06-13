@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import Modal from 'react-modal';
 import './DogPage.css';
 
-Modal.setAppElement('#root'); // Important pour l'accessibilité
+Modal.setAppElement('#root');
 
 const DogPage: React.FC = () => {
   const { user } = useAuth();
@@ -18,7 +18,7 @@ const DogPage: React.FC = () => {
   useEffect(() => {
     const fetchDogs = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/get-dogs/${user.user_id}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/get-dogs/${user.user_id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ const DogPage: React.FC = () => {
     const data = { ...formData, user_id: user.user_id };
 
     try {
-      const response = await fetch('http://localhost:8000/create-dog-profile', {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/create-dog-profile`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -16,7 +16,7 @@ const CreatePensionPage: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      await axios.post('http://127.0.0.1:8000/create-pension', {
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/create-pension`, {
         name,
         address,
         phone,
