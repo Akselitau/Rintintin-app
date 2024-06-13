@@ -27,3 +27,7 @@ def update_pension():
     request = pension.current_request
     data = request.json_body
     return update_pension_handler(data)
+
+@pension.route('/get-pension/{pensionId}', methods=['GET'], cors=True)
+def get_pension_by_id(pensionId):
+    return get_pension_by_id_handler(pensionId)
