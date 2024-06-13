@@ -40,7 +40,7 @@ const PensionDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [dateRange, setDateRange] = useState<[Date, Date] | null>(null);
   const [numDogs, setNumDogs] = useState(1);
-  const [fees, setFees] = useState(10);
+  const [fees] = useState(10);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [dogs, setDogs] = useState<Dog[]>([]);
   const [selectedDog, setSelectedDog] = useState<string | number>('');
