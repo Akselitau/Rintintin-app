@@ -1,14 +1,19 @@
 import psycopg2
+import os
+from dotenv import load_dotenv
+
+# Charger les variables d'environnement
+load_dotenv()
 
 def test_connection():
     connection = None
     try:
         connection = psycopg2.connect(
-            host="localhost",
-            port=5432,
-            database="doggydb",
-            user="mydbuser",
-            password="mypassword"
+            host="",
+            port=os.getenv('DB_PORT'),
+            database=os.getenv('DB_NAME'),
+            user=os.getenv('DB_USER'),
+            password=os.getenv('DB_PASSWORD')
         )
         cursor = connection.cursor()
         cursor.execute("SELECT 1")

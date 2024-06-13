@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./API
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - CHALICE_APP_NAME=your_chalice_app_name
+      - CHALICE_STAGE=dev
+    volumes:
+      - ./API:/app
+
+  frontend:
+    build:
+      context: ./dog-reservation-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./dog-reservation-frontend:/app
