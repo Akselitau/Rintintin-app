@@ -34,3 +34,4 @@ chalice
 geocoding
 psycopg2-binary
 python-dotenv
+pyjwt
