@@ -30,7 +30,6 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'chalicelib/src'))
 
 app = Chalice(app_name='image_processing')
 
-#load_dotenv() si rien ne casse alors a supprimer
 initialize_app_config()
 
 cors_config = CORSConfig(

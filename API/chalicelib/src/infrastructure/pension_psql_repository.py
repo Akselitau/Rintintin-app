@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Any, Dict, List
 from psycopg2 import sql
 import psycopg2
@@ -110,18 +111,26 @@ class PsqlPensionRepository:
             reviews = []
 
             for row in query_result:
-                if row[14]:  # Check if staff first_name exists
+                print("Processing row:", row)  # Debugging print
+
+                if row[13]:  # Check if staff first_name exists
                     staff_members.append({
-                        "first_name": row[14],
-                        "role": row[15],
-                        "image_url": row[16]
+                        "first_name": row[13],
+                        "role": row[14],
+                        "image_url": row[15]
                     })
-                if row[17]:  # Check if review name exists
+                if row[16]:  # Check if review name exists
+                    review_date = row[17]
+                    if isinstance(review_date, datetime):
+                        review_date_str = review_date.strftime('%Y-%m-%d')
+                    else:
+                        review_date_str = None
+
                     reviews.append({
-                        "name": row[17],
-                        "date": row[18].strftime('%Y-%m-%d') if row[18] else None,
-                        "rating": row[19],
-                        "comment": row[20]
+                        "name": row[16],
+                        "date": review_date_str,
+                        "rating": row[18],
+                        "comment": row[19]
                     })
 
             pension = PensionDetail(
@@ -147,6 +156,8 @@ class PsqlPensionRepository:
         except psycopg2.Error as err:
             print("Error database: ", err)
             return None
+
+
 
     def create_pension_profile(self, user_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours, night_price):
         try:

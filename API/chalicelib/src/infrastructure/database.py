@@ -1,5 +1,5 @@
+import os
 import psycopg2
-from chalicelib.src.config import Config
 
 class Database:
     _connection = None
@@ -8,11 +8,11 @@ class Database:
     def initialize_connection():
         if Database._connection is None or Database._connection.closed:
             Database._connection = psycopg2.connect(
-                host=Config.DB_HOST,
-                port=Config.DB_PORT,
-                dbname=Config.DB_NAME,
-                user=Config.DB_USER,
-                password=Config.DB_PASSWORD
+                host=os.environ['DB_HOST'],
+                port=os.environ['DB_PORT'],
+                dbname=os.environ['DB_NAME'],
+                user=os.environ['DB_USER'],
+                password=os.environ['DB_PASSWORD']
             )
 
     @staticmethod
