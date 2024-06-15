@@ -13,17 +13,16 @@ interface Pension {
   address: string;
   phone: string;
   email: string;
-  maxCapacity: number;
-  currentOccupancy: number;
+  max_capacity: number;
+  current_occupancy: number;
   rating: number;
   description: string;
-  imageUrls: string[];
+  image_urls: string[];
   equipment: string[];
-  size: string;
   hours: string;
-  nightPrice: number; 
-  team: { name: string; role: string; imageUrl: string }[];
-  reviews: { name: string; date: string; rating: number; comment: string }[];
+  night_price: number;
+  staff: { first_name: string; role: string; image_url: string }[];
+  reviews: { name: string; date: string | null; rating: number; comment: string }[];
 }
 
 interface Dog {
@@ -67,12 +66,12 @@ const PensionDetail: React.FC = () => {
       axios.get(`${process.env.REACT_APP_API_BASE_URL}/get-pension/${id}`)
         .then(response => {
           const data = response.data;
-          const team = data.staff.map((member: any) => ({
-            name: member.first_name,
+          const staff = data.staff.map((member: any) => ({
+            first_name: member.first_name,
             role: member.role,
-            imageUrl: member.image_url
+            image_url: member.image_url
           }));
-          setPension({ ...data, team });
+          setPension({ ...data, staff });
           setLoading(false);
         })
         .catch(error => {
@@ -138,14 +137,14 @@ const PensionDetail: React.FC = () => {
   };
 
   const nextImage = () => {
-    if (pension && pension.imageUrls.length > 1) {
-      setCurrentImageIndex((currentImageIndex + 1) % pension.imageUrls.length);
+    if (pension && pension.image_urls.length > 1) {
+      setCurrentImageIndex((currentImageIndex + 1) % pension.image_urls.length);
     }
   };
 
   const prevImage = () => {
-    if (pension && pension.imageUrls.length > 1) {
-      setCurrentImageIndex((currentImageIndex - 1 + pension.imageUrls.length) % pension.imageUrls.length);
+    if (pension && pension.image_urls.length > 1) {
+      setCurrentImageIndex((currentImageIndex - 1 + pension.image_urls.length) % pension.image_urls.length);
     }
   };
 
@@ -167,11 +166,11 @@ const PensionDetail: React.FC = () => {
         <div className="pension-detail-content">
           <button className="carousel-button" onClick={handleBackButtonClick}>⬅</button>
           <div className="carousel">
-            {pension.imageUrls.length > 1 && (
+            {pension.image_urls.length > 1 && (
               <button className="carousel-nav-button left" onClick={prevImage}>⬅</button>
             )}
-            <img src={pension.imageUrls[currentImageIndex]} alt={pension.name} className="carousel-image" />
-            {pension.imageUrls.length > 1 && (
+            <img src={pension.image_urls[currentImageIndex]} alt={pension.name} className="carousel-image" />
+            {pension.image_urls.length > 1 && (
               <button className="carousel-nav-button right" onClick={nextImage}>➡</button>
             )}
           </div>
@@ -189,7 +188,7 @@ const PensionDetail: React.FC = () => {
             </div>
             <div className="pension-size">
               <h2>🐶 Taille de la pension</h2>
-              <p>{pension.maxCapacity}</p>
+              <p>{pension.max_capacity}</p>
             </div>
             <div className="pension-hours">
               <h2>⏰ Horaires</h2>
@@ -200,10 +199,10 @@ const PensionDetail: React.FC = () => {
           <div className="pension-team">
             <h2>L'équipe</h2>
             <div className="team-members">
-              {pension.team && pension.team.map((member: { name: string; role: string; imageUrl: string }, index: number) => (
+              {pension.staff && pension.staff.map((member: { first_name: string; role: string; image_url: string }, index: number) => (
                 <div key={index} className="team-member">
-                  <img src={member.imageUrl} alt={member.name} />
-                  <p><strong>{member.name}</strong></p>
+                  <img src={member.image_url} alt={member.first_name} />
+                  <p><strong>{member.first_name}</strong></p>
                   <p>{member.role}</p>
                 </div>
               ))}
@@ -212,7 +211,7 @@ const PensionDetail: React.FC = () => {
           <div className="pension-reviews">
             <h2>Ce que vous en pensez</h2>
             <div className="reviews">
-              {pension.reviews && pension.reviews.map((review: { name: string; date: string; rating: number; comment: string }, index: number) => (
+              {pension.reviews && pension.reviews.map((review: { name: string; date: string | null; rating: number; comment: string }, index: number) => (
                 <div key={index} className="review">
                   <p>{review.name}</p>
                   <p>{review.date}</p>
@@ -240,9 +239,9 @@ const PensionDetail: React.FC = () => {
               />
             </div>
             <div className="price-details">
-              <p>Price: {pension.nightPrice * numDogs}$ / night</p>
+              <p>Price: {pension.night_price * numDogs}$ / night</p>
               <p>Fees: {fees}$</p>
-              <p>Total: {(pension.nightPrice * numDogs + fees)}$</p>
+              <p>Total: {(pension.night_price * numDogs + fees)}$</p>
             </div>
             {isLoggedIn ? (
               <div className="dog-selection">
