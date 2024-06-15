@@ -3,13 +3,13 @@
     {
       "name": "default-role",
       "resource_type": "iam_role",
-      "role_arn": "arn:aws:iam::975050130459:role/temp_project-dev",
-      "role_name": "temp_project-dev"
+      "role_arn": "arn:aws:iam::975050130459:role/rintintin-API-dev",
+      "role_name": "rintintin-API-dev"
     },
     {
       "name": "api_handler",
       "resource_type": "lambda_function",
-      "lambda_arn": "arn:aws:lambda:eu-west-3:975050130459:function:temp_project-dev"
+      "lambda_arn": "arn:aws:lambda:eu-west-3:975050130459:function:rintintin-API-dev"
     },
     {
       "name": "rest_api",

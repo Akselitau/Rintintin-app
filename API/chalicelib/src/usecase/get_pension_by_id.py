@@ -12,9 +12,7 @@ def get_pension_by_id_handler(pension_id):
                 status_code=404,
                 headers={"Content-Type": "application/json"}
             )
-        
-        print("Result from repo:", result)  # Debugging print
-        
+                
         return Response(
             body=result.dict(),
             status_code=200,

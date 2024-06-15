@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "app_name": "image_processing",
+  "app_name": "rintintin-API",
   "stages": {
     "dev": {
       "api_gateway_stage": "api",

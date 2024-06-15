@@ -28,7 +28,7 @@ except Exception as e:
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'chalicelib/src'))
 
-app = Chalice(app_name='image_processing')
+app = Chalice(app_name='rintintin-API')
 
 initialize_app_config()
 
