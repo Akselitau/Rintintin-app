@@ -8,7 +8,7 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
-
+ 
   const handleLogin = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/login`, {
