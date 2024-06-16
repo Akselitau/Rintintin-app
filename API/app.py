@@ -1,5 +1,4 @@
 import os
-import subprocess
 import sys
 from venv import logger
 from chalicelib.src.scripts.create_tables import create_tables
@@ -11,13 +10,9 @@ from chalicelib.src.application.controllers.pension_controller import pension
 from chalicelib.src.application.controllers.reservation_controller import reservation
 from chalicelib.src.application.controllers.user_controller import user
 from chalicelib.src.application.controllers.dog_controller import dog
-import psycopg2
-import os
-import sys
 from chalice import Chalice, Response, CORSConfig
-from chalicelib.src.config import Config, initialize_app_config
-import boto3
-from dotenv import load_dotenv
+from chalicelib.src.config import initialize_app_config
+
 
 try:
     from chalicelib.src.geocoding_service import get_coordinates
@@ -28,6 +23,7 @@ except Exception as e:
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'chalicelib/src'))
 
+#A mettre ça aussi dans une variable d'en
 app = Chalice(app_name='rintintin-API')
 
 initialize_app_config()
@@ -40,8 +36,9 @@ cors_config = CORSConfig(
     allow_credentials=True
 )
 
-s3 = boto3.client('s3')
-BUCKET_NAME = 'mockup-product'
+#USELESS ?
+#s3 = boto3.client('s3')
+#BUCKET_NAME = 'mockup-product'
 
 # Initialize the database connection
 Database.initialize_connection()

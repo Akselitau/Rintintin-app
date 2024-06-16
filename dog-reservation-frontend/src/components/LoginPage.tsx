@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './LoginPage.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import './LoginPage.css';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -10,18 +10,13 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    const credentials = {
-      email,
-      password,
-    };
-
     try {
       const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(credentials),
+        body: JSON.stringify({ email, password }),
       });
 
       if (response.ok) {
@@ -29,10 +24,18 @@ const LoginPage: React.FC = () => {
         login(data.token);
         navigate('/');
       } else {
-        console.error('Invalid credentials');
+        const errorData = await response.json();
+        console.error('Error logging in:', errorData);
+        alert(`Error logging in: ${errorData.message || 'Unknown error'}`);
       }
     } catch (error) {
-      console.error('Error:', error);
+      if (error instanceof Error) {
+        console.error('Error logging in:', error);
+        alert(`Error logging in: ${error.message || 'Unknown error'}`);
+      } else {
+        console.error('Unknown error:', error);
+        alert('An unknown error occurred.');
+      }
     }
   };
 
@@ -40,24 +43,24 @@ const LoginPage: React.FC = () => {
     <div className="login-container">
       <h2>Connexion</h2>
       <div className="login-form">
-        <input 
-          type="email" 
-          placeholder="Email" 
+        <input
+          type="email"
+          placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input 
-          type="password" 
-          placeholder="Mot de passe" 
+        <input
+          type="password"
+          placeholder="Mot de passe"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <button onClick={handleLogin}>Connexion</button>
       </div>
       <hr />
-      <Link to="/signup">
-        <button className="btn-outline">Je créer un compte</button>
-      </Link>
+      <div className="signup-link">
+        <Link to="/signup">Je créer un compte</Link>
+      </div>
     </div>
   );
 };

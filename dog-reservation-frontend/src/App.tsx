@@ -19,14 +19,14 @@ import PensionInfo from './components/PensionInfo';
 import PensionReservationsPage from './components/PensionReservationsPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AlphaBanner from './components/AlphaBanner'; // Importer le nouveau composant
+import AlphaBanner from './components/AlphaBanner';
 
 const App: React.FC = () => {
   return (
     <AuthProvider>
       <Router>
         <div className="App">
-          <AlphaBanner /> {/* Ajouter le composant AlphaBanner ici */}
+          <AlphaBanner />
           <Navbar />
           <div className="content">
             <Routes>

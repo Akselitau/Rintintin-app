@@ -1,39 +1,38 @@
 import React, { useState } from 'react';
-import './SignupPage.css';
 import { useNavigate } from 'react-router-dom';
+import './SignupPage.css';
 
 const SignupPage: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
   const navigate = useNavigate();
 
   const handleSignup = async () => {
-    const user = {
-      name,
-      email,
-      password,
-      profile_photo_url: profilePhotoUrl || null, // Optionnel
-    };
-
     try {
       const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/create-user`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify({ name, email, password }),
       });
 
       if (response.ok) {
-        console.log('User created successfully');
-        navigate('/login'); // Redirect to login page after successful signup
+        navigate('/login');
       } else {
-        console.error('Error creating user');
+        const errorData = await response.json();
+        console.error('Error creating user:', errorData);
+        alert(`Error creating user: ${errorData.message || 'Unknown error'}`);
       }
     } catch (error) {
-      console.error('Error:', error);
+      if (error instanceof Error) {
+        console.error('Error creating user:', error);
+        alert(`Error creating user: ${error.message || 'Unknown error'}`);
+      } else {
+        console.error('Unknown error:', error);
+        alert('An unknown error occurred.');
+      }
     }
   };
 
@@ -58,12 +57,6 @@ const SignupPage: React.FC = () => {
           placeholder="Mot de passe"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="URL de la photo de profil (optionnel)"
-          value={profilePhotoUrl}
-          onChange={(e) => setProfilePhotoUrl(e.target.value)}
         />
         <button onClick={handleSignup}>Créer son compte</button>
       </div>
