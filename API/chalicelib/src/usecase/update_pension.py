@@ -8,14 +8,13 @@ def update_pension_handler(data):
     try:
         pension = PensionDetail(**data)
     except ValidationError as e:
-        raise BadRequestError("Missing required parameters")
+        raise BadRequestError("Invalid parameters provided")
 
     try:
         pension_repo = get_pension_repo()
         success = pension_repo.update_pension(pension)
         if not success:
             raise InternalServerError("Failed to update pension status")
-
 
         return Response(
             body={"message": "Pension status updated successfully"},

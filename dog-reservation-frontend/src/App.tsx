@@ -23,8 +23,8 @@ import AlphaBanner from './components/AlphaBanner';
 
 const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         <div className="App">
           <AlphaBanner />
           <Navbar />
@@ -50,8 +50,8 @@ const App: React.FC = () => {
           <Footer />
           <ToastContainer />
         </div>
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 };
 

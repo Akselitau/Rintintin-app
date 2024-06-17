@@ -1,26 +1,11 @@
+from chalicelib.src.errors import BadRequestError
 import pytest
-from src.errors import BadRequestError
-from src.usecase.create_dog_profile import create_dog_profile_handler
-
-@pytest.fixture
-def mock_repo(mocker):
-    return mocker.patch('src.bootstrap.get_dog_repo')
-
-import pytest
-from src.usecase.create_dog_profile import create_dog_profile_handler
+from chalicelib.src.usecase.create_dog_profile import create_dog_profile_handler
 from chalice import Response
 
 @pytest.fixture
 def mock_repo(mocker):
-    return mocker.patch('src.bootstrap.get_dog_repo')
-
-import pytest
-from src.usecase.create_dog_profile import create_dog_profile_handler
-from chalice import Response
-
-@pytest.fixture
-def mock_repo(mocker):
-    return mocker.patch('src.bootstrap.get_dog_repo')
+    return mocker.patch('chalicelib.src.bootstrap.get_dog_repo')
 
 def test_create_dog_profile_success(mock_repo):
     data = {

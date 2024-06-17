@@ -23,6 +23,7 @@ interface Pension {
   night_price: number;
   staff: { first_name: string; role: string; image_url: string }[];
   reviews: { name: string; date: string | null; rating: number; comment: string }[];
+  status: string; // Ajout du champ status
 }
 
 interface Dog {
@@ -114,7 +115,7 @@ const PensionDetail: React.FC = () => {
     if (isLoggedIn && dateRange && selectedDog) {
       const checkIn = formatDate(dateRange[0] as Date);
       const checkOut = formatDate(dateRange[1] ? dateRange[1] : dateRange[0]);
-      
+
       const reservationData = {
         pension_id: id,
         check_in: checkIn,
@@ -222,46 +223,54 @@ const PensionDetail: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="reservation-section">
-          <Calendar
-            value={dateRange as [Date, Date]}
-            onChange={handleDateChange as any}
-            selectRange={true}
-          />
-          <div className="reservation-details">
-            <div className="number-of-dogs">
-              <label>Nombre de chiens:</label>
-              <input
-                type="number"
-                min="1"
-                value={numDogs}
-                onChange={(e) => setNumDogs(parseInt(e.target.value))}
-              />
-            </div>
-            <div className="price-details">
-              <p>Price: {pension.night_price * numDogs}$ / night</p>
-              <p>Fees: {fees}$</p>
-              <p>Total: {(pension.night_price * numDogs + fees)}$</p>
-            </div>
-            {isLoggedIn ? (
-              <div className="dog-selection">
-                <label>Choisissez votre chien:</label>
-                <select value={selectedDog} onChange={(e) => setSelectedDog(e.target.value)}>
-                  <option value="">Sélectionner un chien</option>
-                  {dogs.map(dog => (
-                    <option key={dog.dog_id} value={dog.dog_id}>{dog.name}</option>
-                  ))}
-                </select>
-                <button className="add-dog-button" onClick={() => setModalIsOpen(true)}>Ajouter un chien</button>
+        {pension.status === 'Validé' ? (
+          <div className="reservation-section">
+            <Calendar
+              value={dateRange as [Date, Date]}
+              onChange={handleDateChange as any}
+              selectRange={true}
+            />
+            <div className="reservation-details">
+              <div className="number-of-dogs">
+                <label>Nombre de chiens:</label>
+                <input
+                  type="number"
+                  min="1"
+                  value={numDogs}
+                  onChange={(e) => setNumDogs(parseInt(e.target.value))}
+                />
               </div>
-            ) : (
-              <button className="login-button" onClick={() => navigate('/login')}>Se connecter</button>
-            )}
-            <button className="reservation-button" onClick={handleReservation} disabled={!dateRange || !selectedDog}>
-              Demander à réserver
-            </button>
+              <div className="price-details">
+                <p>Price: {pension.night_price * numDogs}$ / night</p>
+                <p>Fees: {fees}$</p>
+                <p>Total: {(pension.night_price * numDogs + fees)}$</p>
+              </div>
+              {isLoggedIn ? (
+                <div className="dog-selection">
+                  <label>Choisissez votre chien:</label>
+                  <select value={selectedDog} onChange={(e) => setSelectedDog(e.target.value)}>
+                    <option value="">Sélectionner un chien</option>
+                    {dogs.map(dog => (
+                      <option key={dog.dog_id} value={dog.dog_id}>{dog.name}</option>
+                    ))}
+                  </select>
+                  <button className="add-dog-button" onClick={() => setModalIsOpen(true)}>Ajouter un chien</button>
+                </div>
+              ) : (
+                <button className="login-button" onClick={() => navigate('/login')}>Se connecter</button>
+              )}
+              <button className="reservation-button" onClick={handleReservation} disabled={!dateRange || !selectedDog}>
+                Demander à réserver
+              </button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="referenced-section">
+            <h2>Cette pension est à vous ?</h2>
+            <p>Contactez-nous pour pouvoir gérer les réservations facilement !</p>
+            <button className="contact-button" onClick={() => navigate('/contact')}>Nous contacter</button>
+          </div>
+        )}
       </div>
       <AddDogModal 
         isOpen={modalIsOpen} 
@@ -273,3 +282,4 @@ const PensionDetail: React.FC = () => {
 };
 
 export default PensionDetail;
+

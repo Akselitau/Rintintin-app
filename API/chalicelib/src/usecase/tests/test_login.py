@@ -1,6 +1,6 @@
 import pytest
-from src.errors import UnauthorizedError
-from src.usecase.login import login_handler
+from chalicelib.src.errors import UnauthorizedError
+from chalicelib.src.usecase.login import login_handler
 from chalice import Response
 import jwt
 
@@ -8,7 +8,7 @@ SECRET_KEY = "your_secret_key"
 
 @pytest.fixture
 def mock_repo(mocker):
-    return mocker.patch('src.bootstrap.get_user_repo')
+    return mocker.patch('chalicelib.src.bootstrap.get_user_repo')
 
 def test_login_success(mock_repo, mocker):
     data = {

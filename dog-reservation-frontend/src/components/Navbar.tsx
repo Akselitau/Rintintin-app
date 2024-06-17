@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
 
   return (
     <nav className="navbar">
@@ -25,9 +25,9 @@ const Navbar: React.FC = () => {
         <Link to="/register-pension">
           <button className="btn outline">Je suis une pension</button>
         </Link>
-        {user ? (
+        {isAuthenticated ? (
           <div className="user-menu">
-            <img src={user.profile_photo_url || 'default-profile.png'} alt="Profile" className="profile-pic" />
+            <img src={user?.profile_photo_url || 'default-profile.png'} alt="Profile" className="profile-pic" />
             <div className="dropdown">
               <button className="dropbtn">☰</button>
               <div className="dropdown-content">

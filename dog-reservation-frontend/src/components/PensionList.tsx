@@ -17,6 +17,7 @@ interface Pension {
   description: string;
   imageUrls: string[];
   distance_km?: number;
+  status: string; // Ajout du champ status
 }
 
 const PensionList: React.FC = () => {

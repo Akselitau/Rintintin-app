@@ -1,34 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
-import Modal from 'react-modal';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ModalComponent from './ModalUpdatePension';
 import './PensionInfo.css';
-
-interface Pension {
-  id: number;
-  name: string;
-  address: string;
-  phone: string;
-  email: string;
-  max_capacity: number;
-  current_occupancy: number;
-  rating: number;
-  description: string;
-  image_urls: string[];
-  equipment: string[];
-  size: string;
-  hours: string;
-}
 
 const PensionInfo: React.FC = () => {
   const { user } = useAuth();
-  const [pension, setPension] = useState<Pension | null>(null);
+  const [pension, setPension] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [updatedPension, setUpdatedPension] = useState<Pension | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchPension = async () => {
@@ -40,15 +23,12 @@ const PensionInfo: React.FC = () => {
               'Authorization': `Bearer ${token}`
             }
           });
-          console.log('Response:', response.data);
           if (response.data.pension) {
             setPension(response.data.pension);
-            setUpdatedPension(response.data.pension);
           } else {
             setError('No pension found for user');
           }
         } catch (error) {
-          console.error('Error fetching pension:', error);
           setError('Error fetching pension');
         } finally {
           setLoading(false);
@@ -59,40 +39,44 @@ const PensionInfo: React.FC = () => {
     fetchPension();
   }, [user]);
 
-  const handleOpenModal = () => {
-    setModalIsOpen(true);
-  };
+  const handleUpdatePension = async (updatedPension: any) => {
+    const updatedPensionData = {
+      id: updatedPension.pension_id,
+      name: updatedPension.name,
+      address: updatedPension.address,
+      phone: updatedPension.phone,
+      email: updatedPension.email,
+      max_capacity: updatedPension.max_capacity,
+      current_occupancy: updatedPension.current_occupancy,
+      rating: updatedPension.rating,
+      description: updatedPension.description,
+      image_urls: updatedPension.image_urls,
+      equipment: updatedPension.equipment,
+      hours: updatedPension.hours,
+      night_price: updatedPension.night_price,
+    };
 
-  const handleCloseModal = () => {
-    setModalIsOpen(false);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    if (updatedPension) {
-      setUpdatedPension({
-        ...updatedPension,
-        [name]: value,
-      });
-    }
-  };
-
-  const handleUpdatePension = async () => {
-    if (updatedPension) {
+    if (user) {
       const token = localStorage.getItem('token');
       try {
-        await axios.post(`${process.env.REACT_APP_API_BASE_URL}/update-pension`, updatedPension, {
+        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/update-pension`, updatedPensionData, {
           headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
+            'Content-Type': 'application/json'
+          }
         });
+        console.log('Update Response:', response.data);
         toast.success('Pension updated successfully!');
-        setPension(updatedPension);
-        handleCloseModal();
+        setShowModal(false);
+        setPension(updatedPension); // Mettre à jour l'état de la pension avec les nouvelles données
       } catch (error) {
-        console.error('Error updating pension:', error);
-        toast.error('Failed to update pension');
+        if (axios.isAxiosError(error)) {
+          console.error('Error updating pension:', error.response?.data || error.message);
+          toast.error(`Error updating pension: ${error.response?.data.message || error.message}`);
+        } else {
+          console.error('Unexpected error updating pension:', error);
+          toast.error('Unexpected error occurred');
+        }
       }
     }
   };
@@ -123,83 +107,28 @@ const PensionInfo: React.FC = () => {
       <p><strong>Current Occupancy:</strong> {pension.current_occupancy}</p>
       <p><strong>Rating:</strong> {pension.rating}</p>
       <p><strong>Description:</strong> {pension.description}</p>
-      <p><strong>Size:</strong> {pension.size}</p>
       <p><strong>Hours:</strong> {pension.hours}</p>
       <div>
         <h2>Equipment</h2>
         <ul>
-          {pension.equipment.map((item, index) => (
+          {pension.equipment.map((item: string, index: number) => (
             <li key={index}>{item}</li>
           ))}
         </ul>
       </div>
       <div>
         <h2>Images</h2>
-        {pension.image_urls.map((url, index) => (
-          // eslint-disable-next-line jsx-a11y/img-redundant-alt
+        {pension.image_urls.map((url: string, index: number) => (
           <img key={index} src={url} alt={`Pension image ${index}`} />
         ))}
       </div>
-      <button onClick={handleOpenModal}>Update Pension</button>
-      <Modal isOpen={modalIsOpen} onRequestClose={handleCloseModal}>
-        <h2>Update Pension</h2>
-        <input
-          type="text"
-          name="name"
-          value={updatedPension?.name || ''}
-          onChange={handleChange}
-          placeholder="Name"
-        />
-        <input
-          type="text"
-          name="address"
-          value={updatedPension?.address || ''}
-          onChange={handleChange}
-          placeholder="Address"
-        />
-        <input
-          type="text"
-          name="phone"
-          value={updatedPension?.phone || ''}
-          onChange={handleChange}
-          placeholder="Phone"
-        />
-        <input
-          type="email"
-          name="email"
-          value={updatedPension?.email || ''}
-          onChange={handleChange}
-          placeholder="Email"
-        />
-        <input
-          type="number"
-          name="max_capacity"
-          value={updatedPension?.max_capacity || ''}
-          onChange={handleChange}
-          placeholder="Max Capacity"
-        />
-        <textarea
-          name="description"
-          value={updatedPension?.description || ''}
-          onChange={handleChange}
-          placeholder="Description"
-        />
-        <textarea
-          name="equipment"
-          value={updatedPension?.equipment.join(', ') || ''}
-          onChange={handleChange}
-          placeholder="Equipment"
-        />
-        <input
-          type="text"
-          name="hours"
-          value={updatedPension?.hours || ''}
-          onChange={handleChange}
-          placeholder="Hours"
-        />
-        <button onClick={handleUpdatePension}>Save</button>
-        <button onClick={handleCloseModal}>Cancel</button>
-      </Modal>
+      <button onClick={() => setShowModal(true)}>Update Pension</button>
+      <ModalComponent
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        handleSave={handleUpdatePension}
+        pension={pension}
+      />
     </div>
   );
 };

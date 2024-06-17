@@ -1,11 +1,11 @@
 import pytest
-from src.errors import BadRequestError
-from src.usecase.create_user import create_user_handler
+from chalicelib.src.errors import BadRequestError
+from chalicelib.src.usecase.create_user import create_user_handler
 from chalice import Response
 
 @pytest.fixture
 def mock_repo(mocker):
-    return mocker.patch('src.bootstrap.get_user_repo')
+    return mocker.patch('chalicelib.src.bootstrap.get_user_repo')
 
 def test_create_user_success(mock_repo):
     data = {

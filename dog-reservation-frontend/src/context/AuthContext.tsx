@@ -1,10 +1,12 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthContextType {
   user: any;
   login: (token: string) => void;
   logout: () => void;
+  isAuthenticated: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -15,15 +17,23 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<any>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
         const decoded = jwtDecode<JwtPayload>(token);
-        setUser(decoded);
+        if (decoded.exp && decoded.exp * 1000 > Date.now()) {
+          setUser(decoded);
+          setIsAuthenticated(true);
+        } else {
+          logout();
+        }
       } catch (error) {
         console.error('Invalid token:', error);
+        logout();
       }
     }
   }, []);
@@ -32,15 +42,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.setItem('token', token);
     const decoded = jwtDecode<JwtPayload>(token);
     setUser(decoded);
+    setIsAuthenticated(true);
   };
 
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
+    setIsAuthenticated(false);
+    navigate('/login');
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

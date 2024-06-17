@@ -1,6 +1,6 @@
 import pytest
-from src.errors import UnauthorizedError
-from src.usecase.get_profile import get_profile_handler
+from chalicelib.src.errors import UnauthorizedError
+from chalicelib.src.usecase.get_profile import get_profile_handler
 from chalice import Response
 import jwt
 
@@ -8,7 +8,7 @@ SECRET_KEY = "your_secret_key"
 
 @pytest.fixture
 def mock_repo(mocker):
-    return mocker.patch('src.bootstrap.get_user_repo')
+    return mocker.patch('chalicelib.src.bootstrap.get_user_repo')
 
 def test_get_profile_success(mock_repo, mocker):
     auth_header = 'Bearer mock_token'

@@ -1,6 +1,9 @@
 from chalice import Response
 from chalicelib.src.bootstrap import get_pension_repo
 
+from chalice import Response
+from chalicelib.src.bootstrap import get_pension_repo
+
 def get_pension_by_id_handler(pension_id):
     try:
         pension_repo = get_pension_repo()

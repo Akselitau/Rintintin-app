@@ -16,7 +16,7 @@ class PsqlPensionRepository:
         try:
             pension_query = sql.SQL(
                 """
-                SELECT pension_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours AS opening_hours
+                SELECT pension_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours AS opening_hours, status
                 FROM pensions
                 """
             )
@@ -39,7 +39,8 @@ class PsqlPensionRepository:
                     image_urls=row[9],
                     equipment=row[10],
                     opening_hours=row[11],
-                    distance_km=0.0  # Valeur par défaut pour distance_km
+                    distance_km=0.0,  # Valeur par défaut pour distance_km
+                    status=row[12]  # Ajout du champ status
                 ))
 
             return pensions
@@ -51,7 +52,7 @@ class PsqlPensionRepository:
         try:
             with self.conn.cursor() as cursor:
                 cursor.execute(
-                    """SELECT pension_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours 
+                    """SELECT pension_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours, status 
                     FROM pensions 
                     WHERE user_id = %s""",
                     (user_id,)
@@ -72,6 +73,7 @@ class PsqlPensionRepository:
                     "image_urls": pension[9],
                     "equipment": pension[10],
                     "hours": pension[11],
+                    "status": pension[12],  # Ajout du champ status
                     "distance_km": 0.0  # Valeur par défaut pour distance_km
                 }
                 return {"pension": pension_data}
@@ -89,7 +91,7 @@ class PsqlPensionRepository:
                 SELECT 
                     p.pension_id, p.name, p.address, p.phone, p.email, p.max_capacity, 
                     p.current_occupancy, p.rating, p.description, p.image_urls,
-                    p.equipment, p.hours, p.night_price,
+                    p.equipment, p.hours, p.night_price, p.status,
                     s.first_name, s.role, s.image_url,
                     r.name, r.date, r.rating, r.comment
                 FROM pensions p
@@ -113,24 +115,24 @@ class PsqlPensionRepository:
             for row in query_result:
                 print("Processing row:", row)  # Debugging print
 
-                if row[13]:  # Check if staff first_name exists
+                if row[14]:  # Check if staff first_name exists
                     staff_members.append({
-                        "first_name": row[13],
-                        "role": row[14],
-                        "image_url": row[15]
+                        "first_name": row[14],
+                        "role": row[15],
+                        "image_url": row[16]
                     })
-                if row[16]:  # Check if review name exists
-                    review_date = row[17]
+                if row[17]:  # Check if review name exists
+                    review_date = row[18]
                     if isinstance(review_date, datetime):
                         review_date_str = review_date.strftime('%Y-%m-%d')
                     else:
                         review_date_str = None
 
                     reviews.append({
-                        "name": row[16],
+                        "name": row[17],
                         "date": review_date_str,
-                        "rating": row[18],
-                        "comment": row[19]
+                        "rating": row[19],
+                        "comment": row[20]
                     })
 
             pension = PensionDetail(
@@ -147,6 +149,7 @@ class PsqlPensionRepository:
                 equipment=pension_data[10],
                 hours=pension_data[11],
                 night_price=pension_data[12],
+                status=pension_data[13],  # Correction de l'index pour status
                 staff=staff_members,
                 reviews=reviews
             )
@@ -158,13 +161,12 @@ class PsqlPensionRepository:
             return None
 
 
-
     def create_pension_profile(self, user_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours, night_price):
         try:
             with self.conn.cursor() as cursor:
                 cursor.execute(
-                    "INSERT INTO pensions (user_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours, night_price) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING pension_id",
-                    (user_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours, night_price)
+                    "INSERT INTO pensions (user_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours, night_price, status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING pension_id",
+                    (user_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours, night_price, 'Référencé')
                 )
                 pension_id = cursor.fetchone()[0]
                 self.conn.commit()
@@ -177,8 +179,8 @@ class PsqlPensionRepository:
         try:
             with self.conn.cursor() as cursor:
                 cursor.execute(
-                    "UPDATE pensions SET name = %s, address = %s, phone = %s, email = %s, max_capacity = %s, rating = %s, description = %s, equipment = %s, hours = %s, night_price = %s WHERE pension_id = %s",
-                    (pension.name, pension.address, pension.phone, pension.email, pension.max_capacity, pension.rating, pension.description, pension.equipment, pension.hours, pension.night_price, pension.id)
+                    "UPDATE pensions SET name = %s, address = %s, phone = %s, email = %s, max_capacity = %s, rating = %s, description = %s, equipment = %s, hours = %s, night_price = %s, status = %s WHERE pension_id = %s",
+                    (pension.name, pension.address, pension.phone, pension.email, pension.max_capacity, pension.rating, pension.description, pension.equipment, pension.hours, pension.night_price, pension.status, pension.id)
                 )
                 self.conn.commit()
             return True

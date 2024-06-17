@@ -1,7 +1,6 @@
 from marshmallow import fields
 from chalicelib.src.application.schema.camel_case_schema import CamelCaseSchema
 
-
 class PensionSchema(CamelCaseSchema):
     id = fields.Integer(required=True)
     name = fields.String(required=True)
@@ -16,8 +15,8 @@ class PensionSchema(CamelCaseSchema):
     equipment = fields.String(required=True)
     opening_hours = fields.String(required=True)
     distance_km = fields.Float(dump_only=True)
+    status = fields.String(required=True)  # Ajout du champ status
 
-    
 class PensionDetailSchema(CamelCaseSchema):
     id = fields.Integer(required=True)
     name = fields.String(required=True)
@@ -34,3 +33,4 @@ class PensionDetailSchema(CamelCaseSchema):
     night_price = fields.Float(required=False)
     staff = fields.List(fields.Dict(keys=fields.String, values=fields.String), required=True)
     reviews = fields.List(fields.Dict(keys=fields.String, values=fields.Raw), required=True)
+    status = fields.String(required=True)  # Ajout du champ status

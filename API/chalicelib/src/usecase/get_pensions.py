@@ -38,6 +38,7 @@ def get_pensions_handler(query_params):
             pension_data = PensionSchema().dump(pension)
             if hasattr(pension, 'distance_km'):
                 pension_data['distance_km'] = pension.distance_km
+            pension_data['status'] = pension.status  # Ajout du champ status
             response_body.append(pension_data)
 
         return Response(
