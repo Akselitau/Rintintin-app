@@ -20,6 +20,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  const logout = () => {
+    localStorage.removeItem('token');
+    setUser(null);
+    setIsAuthenticated(false);
+    navigate('/login');
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -36,20 +43,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         logout();
       }
     }
-  }, []);
+  }, [logout]);
 
   const login = (token: string) => {
     localStorage.setItem('token', token);
     const decoded = jwtDecode<JwtPayload>(token);
     setUser(decoded);
     setIsAuthenticated(true);
-  };
-
-  const logout = () => {
-    localStorage.removeItem('token');
-    setUser(null);
-    setIsAuthenticated(false);
-    navigate('/login');
   };
 
   return (

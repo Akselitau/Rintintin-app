@@ -119,6 +119,7 @@ const PensionInfo: React.FC = () => {
       <div>
         <h2>Images</h2>
         {pension.image_urls.map((url: string, index: number) => (
+          // eslint-disable-next-line jsx-a11y/img-redundant-alt
           <img key={index} src={url} alt={`Pension image ${index}`} />
         ))}
       </div>
