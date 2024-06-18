@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import CreatePensionPage from './CreatePensionPage';
-import { useAuth } from '../context/AuthContext';
+import CreatePensionPage from '../CreatePension/CreatePensionPage';
+import { useAuth } from '../../context/AuthContext';
 
 interface Pension {
   id: number;
@@ -92,6 +92,7 @@ const PensionPage: React.FC = () => {
       <div>
         <h2>Images</h2>
         {pension.image_urls.map((url, index) => (
+          // eslint-disable-next-line jsx-a11y/img-redundant-alt
           <img key={index} src={url} alt={`Pension image ${index}`} style={{ width: '200px', margin: '10px' }} />
         ))}
       </div>

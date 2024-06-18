@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import PensionCard from './PensionCard';
-import SearchBar from './SearchBar';
+import PensionCard from '../PensionCard/PensionCard';
+import SearchBar from '../SearchBar/SearchBar';
 import './PensionList.css';
 
 interface Pension {

@@ -1,25 +1,25 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import HomePage from './components/HomePage';
-import PensionList from './components/PensionList';
-import PensionDetail from './components/PensionDetail';
-import LoginPage from './components/LoginPage';
-import SignupPage from './components/SignupPage';
-import DogPage from './components/DogPage';
-import ProfilePage from './components/ProfilePage';
-import ReservationsPage from './components/ReservationsPage';
-import Footer from './components/Footer';
+import Navbar from './components/Navbar/Navbar';
+import HomePage from './pages/Home/HomePage';
+import PensionList from './components/PensionList/PensionList';
+import PensionDetail from './pages/PensionDetail/PensionDetail';
+import LoginPage from './pages/Login/LoginPage';
+import SignupPage from './pages/Signup/SignupPage';
+import DogPage from './pages/Dog/DogPage';
+import ProfilePage from './pages/Profile/ProfilePage';
+import Footer from './components/Footer/Footer';
 import { AuthProvider } from './context/AuthContext';
-import RegisterPension from './components/RegisterPension';
-import ContactPage from './components/ContactPage';
-import LegalPage from './components/LegalPage';
-import DashboardPage from './components/DashboardPage';
-import PensionInfo from './components/PensionInfo';
-import PensionReservationsPage from './components/PensionReservationsPage';
+import RegisterPension from './components/RegisterPension/RegisterPension';
+import ContactPage from './pages/Contact/ContactPage';
+import LegalPage from './pages/Legal/LegalPage';
+import DashboardPage from './pages/Dashboard/DashboardPage';
+import PensionInfo from './components/PensionInfo/PensionInfo';
+import PensionReservationsPage from './pages/PensionReservation/PensionReservationsPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AlphaBanner from './components/AlphaBanner';
+import AlphaBanner from './components/BannerAlphaWarning/AlphaBanner';
+import ReservationsPage from './pages/Reservations/ReservationsPage';
 
 const App: React.FC = () => {
   return (

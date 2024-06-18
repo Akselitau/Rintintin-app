@@ -4,7 +4,7 @@ import axios from 'axios';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './PensionDetail.css';
-import AddDogModal from './AddDogModal';
+import AddDogModal from '../../modals/AddDogModal';
 import { toast } from 'react-toastify';
 
 interface Pension {

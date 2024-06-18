@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ModalComponent from './ModalUpdatePension';
+import ModalComponent from '../../modals/ModalUpdatePension';
 import './PensionInfo.css';
 
 const PensionInfo: React.FC = () => {

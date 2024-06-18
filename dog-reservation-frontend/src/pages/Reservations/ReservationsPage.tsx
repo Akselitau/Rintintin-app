@@ -1,6 +1,6 @@
 import React from 'react';
-import ReservationList from './ReservationList';
-import { useAuth } from '../context/AuthContext';
+import ReservationList from '../../components/ReservationList/ReservationList';
+import { useAuth } from '../../context/AuthContext';
 
 const ReservationsPage: React.FC = () => {
   const { user } = useAuth();
