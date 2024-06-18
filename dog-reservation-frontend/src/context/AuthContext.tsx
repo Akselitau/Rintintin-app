@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import React, { createContext, useState, useContext, useEffect, ReactNode, useCallback } from 'react';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,12 +20,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem('token');
     setUser(null);
     setIsAuthenticated(false);
     navigate('/login');
-  };
+  }, [navigate]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
