@@ -16,8 +16,8 @@ const AlphaBanner: React.FC = () => {
     <div className={`alpha-banner ${isFadingOut ? 'fade-out' : ''}`}>
       <span className="bold-text">Le site est dans sa première phase de développement.</span>
       <br />
-      <span >Nous travaillons activement pour améliorer l'expérience utilisateur et ajouter de nouvelles fonctionnalités. Merci de votre compréhension et de votre soutien.</span>
-      <button onClick={handleClose} className="close-button">X</button>
+      <span>Nous travaillons activement pour améliorer l'expérience utilisateur et ajouter de nouvelles fonctionnalités. Merci de votre compréhension et de votre soutien.</span>
+      <button onClick={handleClose} className="close-button">J'ai compris</button>
     </div>
   );
 };
