@@ -49,7 +49,9 @@
 }
 
 .pension-card-distance {
-  display: none; /* Masquer l'élément distance pour l'instant */
+  font-size: 0.9rem;
+  color: #888;
+  margin: 0 0 0.25rem 0; /* Ajuster les marges pour espacer correctement */
 }
 
 .pension-card-description {

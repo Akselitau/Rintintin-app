@@ -32,8 +32,11 @@ const PensionCard: React.FC<PensionCardProps> = ({ id, imageUrls, name, rating, 
           <h2 className="pension-card-title">{name}</h2>
           <div className="pension-card-rating">{rating} ⭐</div>
         </div>
-        <p className="pension-card-location">{address}</p> {/* Ajout de l'affichage de l'adresse */}
-        <p className="pension-card-description">{truncateText(description, 200)}</p> {/* Tronquer la description à 100 caractères */}
+        <p className="pension-card-location">{address}</p>
+        {distanceKm !== undefined && distanceKm > 0 && (
+          <p className="pension-card-distance">{distanceKm.toFixed(2)} km</p>
+        )}
+        <p className="pension-card-description">{truncateText(description, 200)}</p>
       </div>
     </div>
   );
