@@ -14,7 +14,6 @@ def create_pension_profile_handler(data):
     description = data.get('description')
     image_urls = data.get('image_urls')
     equipment = data.get('equipment')
-    size = data.get('size')
     hours = data.get('hours')
     night_price = data.get('night_price')
 

@@ -1,6 +1,8 @@
 import os
 import sys
 from venv import logger
+
+import requests
 from chalicelib.src.scripts.create_tables import create_tables
 from chalicelib.src.scripts.populate_database import populate_database
 from chalicelib.src.errors import CustomError
@@ -42,6 +44,30 @@ cors_config = CORSConfig(
 
 # Initialize the database connection
 Database.initialize_connection()
+
+@app.route('/test-internet-connection', methods=['GET'], cors=True)
+def test_internet_connection():
+    try:
+        response = requests.get('https://www.google.com', timeout=100)
+        return {
+            'statusCode': 200,
+            'body': f'Successfully reached Google: {response.status_code}'
+        }
+    except requests.ConnectionError as e:
+        return {
+            'statusCode': 500,
+            'body': f'Connection error: {e}'
+        }
+    except requests.Timeout as e:
+        return {
+            'statusCode': 500,
+            'body': f'Timeout error: {e}'
+        }
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'body': f'An error occurred: {e}'
+        }
 
 @app.route('/test-db-connection', methods=['GET'])
 def test_db_connection():

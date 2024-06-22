@@ -6,14 +6,17 @@ class Database:
 
     @staticmethod
     def initialize_connection():
-        if Database._connection is None or Database._connection.closed:
+        try:
             Database._connection = psycopg2.connect(
-                host=os.environ['DB_HOST'],
-                port=os.environ['DB_PORT'],
-                dbname=os.environ['DB_NAME'],
-                user=os.environ['DB_USER'],
-                password=os.environ['DB_PASSWORD']
+                host=os.getenv('DB_HOST'),
+                database=os.getenv('DB_NAME'),
+                user=os.getenv('DB_USER'),
+                password=os.getenv('DB_PASSWORD'),
+                connect_timeout=10
             )
+        except psycopg2.OperationalError as e:
+            print(f"Could not connect to the database: {e}")
+            raise e
 
     @staticmethod
     def get_connection():

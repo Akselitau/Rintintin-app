@@ -10,9 +10,10 @@ def get_coordinates(address: str) -> (float, float):
     headers = {
         'User-Agent': 'my-app/1.0.0'
     }
-
-    response = requests.get(base_url, params=params, headers=headers)
-    if response.status_code == 200:
+    
+    try:
+        response = requests.get(base_url, params=params, headers=headers, timeout=10)
+        response.raise_for_status()  # Check if the request was successful
         data = response.json()
         if data:
             latitude = float(data[0]['lat'])
@@ -21,6 +22,9 @@ def get_coordinates(address: str) -> (float, float):
             return latitude, longitude
         else:
             print(f"No data returned for address: {address}")
-    else:
-        print(f"Failed to get coordinates for address: {address}, status code: {response.status_code}")
+    except requests.exceptions.Timeout as e:
+        print(f"Timeout error: {e}")
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed: {e}")
+
     return None, None

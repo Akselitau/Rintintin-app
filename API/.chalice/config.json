@@ -7,7 +7,7 @@
       "lambda_memory_size": 256,
       "lambda_timeout": 60,
       "environment_variables": {
-        "DB_HOST": "database-1.cra8ueqsi8ry.eu-west-3.rds.amazonaws.com",
+        "DB_HOST": "restored-database.cra8ueqsi8ry.eu-west-3.rds.amazonaws.com",
         "DB_PORT": "5432",
         "DB_NAME": "rintintindb",
         "DB_USER": "postgres",
