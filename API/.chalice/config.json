@@ -11,7 +11,7 @@
         "DB_PORT": "5432",
         "DB_NAME": "rintintindb",
         "DB_USER": "postgres",
-        "DB_PASSWORD": "e7gn59hrtu23w7"
+        "DB_PASSWORD": "ee6db149bd06"
       },
       "vpc_config": {
         "subnet_ids": ["subnet-0cb01cedc7f9c96af", "subnet-0a1239f7f962a7b81"],

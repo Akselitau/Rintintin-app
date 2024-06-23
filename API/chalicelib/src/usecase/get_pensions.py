@@ -18,9 +18,11 @@ def get_pensions_handler(query_params):
 
         if address:
             latitude, longitude = get_coordinates(address)
+            print(f"Coordinates for provided address ({address}): {latitude}, {longitude}")  # Debugging line
             if latitude is not None and longitude is not None:
                 for pension in pensions:
                     pension_lat, pension_lon = get_coordinates(pension.address)
+                    print(f"Coordinates for pension address ({pension.address}): {pension_lat}, {pension_lon}")  # Debugging line
                     if pension_lat is not None and pension_lon is not None:
                         pension.distance_km = haversine(latitude, longitude, pension_lat, pension_lon)
                         logger.info(f"Distance from {address} to {pension.address}: {pension.distance_km} km")

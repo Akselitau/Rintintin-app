@@ -18,7 +18,7 @@ def get_coordinates(address: str) -> (float, float):
         if data:
             latitude = float(data[0]['lat'])
             longitude = float(data[0]['lon'])
-            print(f"Coordinates for {address}: {latitude}, {longitude}")
+            print(f"Coordinates for {address}: {latitude}, {longitude}")  # Debugging line
             return latitude, longitude
         else:
             print(f"No data returned for address: {address}")

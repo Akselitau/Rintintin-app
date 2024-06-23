@@ -28,7 +28,6 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'chalicelib/src'))
 #A mettre ça aussi dans une variable d'en
 app = Chalice(app_name='rintintin-API')
 
-initialize_app_config()
 
 cors_config = CORSConfig(
     allow_origin='*',
