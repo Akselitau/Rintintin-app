@@ -33,7 +33,7 @@ const PensionCard: React.FC<PensionCardProps> = ({ id, imageUrls, name, rating, 
           <div className="pension-card-rating">{rating} ⭐</div>
         </div>
         <p className="pension-card-location">{address}</p>
-        {distanceKm !== undefined && distanceKm > 0 && (
+        {distanceKm !== undefined && (
           <p className="pension-card-distance">{distanceKm.toFixed(2)} km</p>
         )}
         <p className="pension-card-description">{truncateText(description, 200)}</p>

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import PensionCard from '../PensionCard/PensionCard';
 import SearchBar from '../SearchBar/SearchBar';
+import MapComponent from '../Map/MapComponent';
 import './PensionList.css';
 
 interface Pension {
@@ -17,7 +18,9 @@ interface Pension {
   description: string;
   imageUrls: string[];
   distance_km?: number;
-  status: string; // Ajout du champ status
+  status: string;
+  lat: number;
+  lon: number;
 }
 
 const PensionList: React.FC = () => {
@@ -37,7 +40,16 @@ const PensionList: React.FC = () => {
       }
 
       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/get-pensions`, { params });
-      setPensions(response.data.pensions);
+      const fetchedPensions: Pension[] = response.data.pensions;
+      
+      // Get coordinates for each pension
+      for (const pension of fetchedPensions) {
+        const [lat, lon] = await getCoordinates(pension.address);
+        pension.lat = lat;
+        pension.lon = lon;
+      }
+      
+      setPensions(fetchedPensions);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching pensions:', error);
@@ -56,26 +68,55 @@ const PensionList: React.FC = () => {
   return (
     <div className="pension-list-container">
       <SearchBar withMarginTop={false} onSearch={handleSearch} />
-      <div className="pension-list">
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          pensions.map(pension => (
-            <PensionCard
-              key={pension.id}
-              id={pension.id}
-              imageUrls={pension.imageUrls}
-              name={pension.name}
-              rating={pension.rating}
-              address={pension.address}
-              description={pension.description}
-              distanceKm={pension.distance_km}
-            />
-          ))
-        )}
+      <div className="content-container">
+        <div className="pension-cards">
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            pensions.map(pension => (
+              <PensionCard
+                key={pension.id}
+                id={pension.id}
+                imageUrls={pension.imageUrls}
+                name={pension.name}
+                rating={pension.rating}
+                address={pension.address}
+                description={pension.description}
+                distanceKm={pension.distance_km}
+              />
+            ))
+          )}
+        </div>
+        <div className="map-container">
+          <MapComponent pensions={pensions} />
+        </div>
       </div>
     </div>
   );
 };
 
 export default PensionList;
+
+async function getCoordinates(address: string): Promise<[number, number]> {
+  try {
+    const response = await axios.get('https://nominatim.openstreetmap.org/search', {
+      params: {
+        q: address,
+        format: 'json',
+        limit: 1
+      },
+      headers: {
+        'User-Agent': 'my-app/1.0.0'
+      }
+    });
+
+    if (response.data && response.data.length > 0) {
+      const lat = parseFloat(response.data[0].lat);
+      const lon = parseFloat(response.data[0].lon);
+      return [lat, lon];
+    }
+  } catch (error) {
+    console.error('Error fetching coordinates:', error);
+  }
+  return [0, 0];
+}

@@ -1,8 +1,46 @@
+.pension-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content-container {
+  display: flex;
+  width: 100%;
+}
+
+.pension-cards {
+  flex: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.map-container {
+  position: -webkit-sticky; /* Pour les navigateurs WebKit/Safari */
+  position: sticky;
+  top: 20px; /* Distance du haut de la page lorsque l'élément devient "collant" */
+  flex: 1; /* Augmentez cette valeur pour augmenter la largeur de la carte */
+  margin-left: 20px; /* Ajout d'une marge à gauche */
+  margin-right: 100px; /* Ajout d'une marge à droite */
+  border-radius: 15px;
+  overflow: hidden;
+  max-height: calc(100vh - 40px); /* Limitez la hauteur pour éviter qu'elle ne prenne toute la page */
+  overflow-y: auto; /* Ajoutez un défilement vertical si nécessaire */
+  margin-top: 1rem;
+}
+
+.map-container .leaflet-container {
+  height: calc(100vh - 40px); /* Ajuster la hauteur selon les besoins */
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 .pension-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 0.6rem; /* Réduire l'espace entre les cartes */
+  margin: 0.6rem;
   margin-top: -1rem;
 }
-
