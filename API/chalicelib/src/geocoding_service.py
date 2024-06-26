@@ -13,7 +13,7 @@ def get_coordinates(address: str) -> (float, float):
     
     try:
         response = requests.get(base_url, params=params, headers=headers, timeout=10)
-        response.raise_for_status()  # Check if the request was successful
+        response.raise_for_status()
         data = response.json()
         if data:
             latitude = float(data[0]['lat'])

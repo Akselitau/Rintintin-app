@@ -1,37 +1,23 @@
 import psycopg2
-import os
-from dotenv import load_dotenv
 
-# Charger les variables d'environnement
-load_dotenv()
+connection_params = {
+    "host": "localhost",
+    "port": "5433",
+    "database": "doggydb",
+    "user": "mydbuser",
+    "password": "mypassword"
+}
 
-def test_connection():
-    connection = None
-    try:
-        host = os.getenv('DB_HOST')
-        port = os.getenv('DB_PORT')
-        database = os.getenv('DB_NAME')
-        user = os.getenv('DB_USER')
-        password = os.getenv('DB_PASSWORD')
+print(f"Connecting to database with host={connection_params['host']}, port={connection_params['port']}, database={connection_params['database']}, user={connection_params['user']}")
 
-        print(f"Connecting to database with host={host}, port={port}, database={database}, user={user}")
-
-        connection = psycopg2.connect(
-            host=host,
-            port=port,
-            database=database,
-            user=user,
-            password=password
-        )
-        cursor = connection.cursor()
-        cursor.execute("SELECT 1")
-        print("Connexion réussie")
-    except Exception as e:
-        print(f"Erreur de connexion : {e}")
-    finally:
-        if connection:
-            cursor.close()
-            connection.close()
-
-if __name__ == "__main__":
-    test_connection()
+try:
+    connection = psycopg2.connect(**connection_params)
+    cursor = connection.cursor()
+    cursor.execute("SELECT 1")
+    result = cursor.fetchone()
+    print("Connexion réussie :", result)
+except Exception as e:
+    print("Erreur de connexion :", e)
+finally:
+    if connection:
+        connection.close()

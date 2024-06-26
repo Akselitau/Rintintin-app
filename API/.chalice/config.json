@@ -1,22 +1,4 @@
 {
   "version": "2.0",
-  "app_name": "rintintin-API",
-  "stages": {
-    "dev": {
-      "api_gateway_stage": "api",
-      "lambda_memory_size": 256,
-      "lambda_timeout": 60,
-      "environment_variables": {
-        "DB_HOST": "restored-database.cra8ueqsi8ry.eu-west-3.rds.amazonaws.com",
-        "DB_PORT": "5432",
-        "DB_NAME": "rintintindb",
-        "DB_USER": "postgres",
-        "DB_PASSWORD": "ee6db149bd06"
-      },
-      "vpc_config": {
-        "subnet_ids": ["subnet-0cb01cedc7f9c96af", "subnet-0a1239f7f962a7b81"],
-        "security_group_ids": ["sg-0aa564fae4022ac75"]
-      }
-    }
-  }
+  "app_name": "rintintin-API"
 }

@@ -1,3 +1,4 @@
+// src/App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
@@ -20,6 +21,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AlphaBanner from './components/BannerAlphaWarning/AlphaBanner';
 import ReservationsPage from './pages/Reservations/ReservationsPage';
+import AuthHandler from './context/AuthHandler'; // Importez le composant AuthHandler
 
 const App: React.FC = () => {
   return (
@@ -35,6 +37,8 @@ const App: React.FC = () => {
               <Route path="/pensions/:id" element={<PensionDetail />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
+              <Route path="/auth/login" element={<AuthHandler />} />
+              <Route path="/auth/signup" element={<AuthHandler />} />
               <Route path="/my-pension/*" element={<DashboardPage />}>
                 <Route path="info" element={<PensionInfo />} />
                 <Route path="reservations" element={<PensionReservationsPage />} />

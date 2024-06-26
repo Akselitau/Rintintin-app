@@ -39,8 +39,8 @@ class PsqlPensionRepository:
                     image_urls=row[9],
                     equipment=row[10],
                     opening_hours=row[11],
-                    distance_km=0.0,  # Valeur par défaut pour distance_km
-                    status=row[12]  # Ajout du champ status
+                    distance_km=0.0,
+                    status=row[12] if row[12] is not None else "Validated"
                 ))
 
             return pensions
@@ -73,8 +73,8 @@ class PsqlPensionRepository:
                     "image_urls": pension[9],
                     "equipment": pension[10],
                     "hours": pension[11],
-                    "status": pension[12],  # Ajout du champ status
-                    "distance_km": 0.0  # Valeur par défaut pour distance_km
+                    "status": pension[12],
+                    "distance_km": 0.0 
                 }
                 return {"pension": pension_data}
             else:
@@ -113,15 +113,15 @@ class PsqlPensionRepository:
             reviews = []
 
             for row in query_result:
-                print("Processing row:", row)  # Debugging print
+                print("Processing row:", row) 
 
-                if row[14]:  # Check if staff first_name exists
+                if row[14]: 
                     staff_members.append({
                         "first_name": row[14],
                         "role": row[15],
                         "image_url": row[16]
                     })
-                if row[17]:  # Check if review name exists
+                if row[17]:
                     review_date = row[18]
                     if isinstance(review_date, datetime):
                         review_date_str = review_date.strftime('%Y-%m-%d')
@@ -149,7 +149,7 @@ class PsqlPensionRepository:
                 equipment=pension_data[10],
                 hours=pension_data[11],
                 night_price=pension_data[12],
-                status=pension_data[13],  # Correction de l'index pour status
+                status=pension_data[13],
                 staff=staff_members,
                 reviews=reviews
             )

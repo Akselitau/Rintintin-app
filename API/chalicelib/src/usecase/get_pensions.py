@@ -1,9 +1,9 @@
 from chalice import Response
 import logging
+from chalicelib.src.utils import haversine
 from chalicelib.src.geocoding_service import get_coordinates
 from chalicelib.src.errors import InternalServerError
 from chalicelib.src.application.schema.pension_schema import PensionSchema
-from chalicelib.src.utils import haversine
 from chalicelib.src.bootstrap import get_pension_repo
 
 logging.basicConfig(level=logging.INFO)
@@ -18,11 +18,9 @@ def get_pensions_handler(query_params):
 
         if address:
             latitude, longitude = get_coordinates(address)
-            print(f"Coordinates for provided address ({address}): {latitude}, {longitude}")  # Debugging line
             if latitude is not None and longitude is not None:
                 for pension in pensions:
                     pension_lat, pension_lon = get_coordinates(pension.address)
-                    print(f"Coordinates for pension address ({pension.address}): {pension_lat}, {pension_lon}")  # Debugging line
                     if pension_lat is not None and pension_lon is not None:
                         pension.distance_km = haversine(latitude, longitude, pension_lat, pension_lon)
                         logger.info(f"Distance from {address} to {pension.address}: {pension.distance_km} km")
@@ -40,7 +38,7 @@ def get_pensions_handler(query_params):
             pension_data = PensionSchema().dump(pension)
             if hasattr(pension, 'distance_km'):
                 pension_data['distance_km'] = pension.distance_km
-            pension_data['status'] = pension.status  # Ajout du champ status
+            pension_data['status'] = "Validated"
             response_body.append(pension_data)
 
         return Response(
@@ -49,4 +47,5 @@ def get_pensions_handler(query_params):
             headers={"Content-Type": "application/json"},
         )
     except Exception as e:
+        logger.error(f"An error occurred: {e}")
         raise InternalServerError(f"An error occurred: {e}")

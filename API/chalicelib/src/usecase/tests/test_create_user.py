@@ -18,7 +18,7 @@ def test_create_user_success(mock_repo):
 
     response = create_user_handler(data, mock_repo.return_value)
     assert response.status_code == 201
-    response_body = response.body  # Accéder directement au corps de la réponse JSON
+    response_body = response.body
     assert response_body['message'] == 'User created successfully'
 
 def test_create_user_missing_parameters(mock_repo):

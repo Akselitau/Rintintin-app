@@ -1,64 +1,39 @@
+// src/pages/Signup/SignupPage.tsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useStytch } from '@stytch/react';
 import './SignupPage.css';
 
 const SignupPage: React.FC = () => {
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const stytch = useStytch();
 
   const handleSignup = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/create-user`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, password }),
+      // @ts-ignore
+      await stytch.magicLinks.email.loginOrCreate({
+        email,
+        login_magic_link_url: `${window.location.origin}/auth/login`,
+        signup_magic_link_url: `${window.location.origin}/auth/signup`,
       });
-
-      if (response.ok) {
-        navigate('/login');
-      } else {
-        const errorData = await response.json();
-        console.error('Error creating user:', errorData);
-        alert(`Error creating user: ${errorData.message || 'Unknown error'}`);
-      }
+      alert('Check your email for the signup link!');
     } catch (error) {
-      if (error instanceof Error) {
-        console.error('Error creating user:', error);
-        alert(`Error creating user: ${error.message || 'Unknown error'}`);
-      } else {
-        console.error('Unknown error:', error);
-        alert('An unknown error occurred.');
-      }
+      console.error('Error signing up:', error);
+      // @ts-ignore
+      alert('Error signing up: ' + (error.message || 'Unknown error'));
     }
   };
 
   return (
     <div className="signup-container">
-      <h2>Créer un compte</h2>
+      <h2>Signup</h2>
       <div className="signup-form">
-        <input
-          type="text"
-          placeholder="Nom"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button onClick={handleSignup}>Créer son compte</button>
+        <button onClick={handleSignup}>Signup</button>
       </div>
     </div>
   );

@@ -21,7 +21,7 @@ def test_login_success(mock_repo, mocker):
 
     response = login_handler(data, mock_repo.return_value)
     assert response.status_code == 200
-    response_body = response.body  # Accéder directement au corps de la réponse JSON
+    response_body = response.body
     assert response_body['token'] == 'mock_token'
 
 def test_login_invalid_credentials(mock_repo):

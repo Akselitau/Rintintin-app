@@ -1,7 +1,6 @@
 import os
 import sys
 from venv import logger
-
 import requests
 from chalicelib.src.scripts.create_tables import create_tables
 from chalicelib.src.scripts.populate_database import populate_database
@@ -15,7 +14,6 @@ from chalicelib.src.application.controllers.dog_controller import dog
 from chalice import Chalice, Response, CORSConfig
 from chalicelib.src.config import initialize_app_config
 
-
 try:
     from chalicelib.src.geocoding_service import get_coordinates
     logger.info("Module 'geocoding' imported successfully.")
@@ -25,9 +23,7 @@ except Exception as e:
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'chalicelib/src'))
 
-#A mettre ça aussi dans une variable d'en
 app = Chalice(app_name='rintintin-API')
-
 
 cors_config = CORSConfig(
     allow_origin='*',
@@ -36,10 +32,6 @@ cors_config = CORSConfig(
     expose_headers=['X-Custom-Header'],
     allow_credentials=True
 )
-
-#USELESS ?
-#s3 = boto3.client('s3')
-#BUCKET_NAME = 'mockup-product'
 
 # Initialize the database connection
 Database.initialize_connection()
@@ -70,7 +62,6 @@ def test_internet_connection():
 
 @app.route('/test-db-connection', methods=['GET'])
 def test_db_connection():
-    connection = None
     try:
         connection = Database.get_connection()
         cursor = connection.cursor()
@@ -89,7 +80,7 @@ def test_db_connection():
         if Database._connection is not None:
             Database._connection.close()
             Database._connection = None
-                        
+
 @app.middleware('all')
 def handle_errors(event, get_response):
     try:
@@ -108,12 +99,6 @@ def handle_errors(event, get_response):
         )
     return response
 
-app.register_blueprint(auth)
-app.register_blueprint(pension)
-app.register_blueprint(reservation)
-app.register_blueprint(user)
-app.register_blueprint(dog)
-
 
 @app.route('/reset-database', methods=['POST'], cors=cors_config)
 def reset_database():
@@ -124,3 +109,12 @@ def reset_database():
 def populate_database_route():
     result = populate_database()
     return {"message": result}
+
+
+
+app.register_blueprint(auth)
+app.register_blueprint(pension)
+app.register_blueprint(reservation)
+app.register_blueprint(user)
+app.register_blueprint(dog)
+

@@ -1,5 +1,3 @@
-# src/usecase/make_reservation.py
-
 from chalice import Response
 from chalicelib.src.bootstrap import get_reservation_repo
 from chalicelib.src.errors import BadRequestError, InternalServerError

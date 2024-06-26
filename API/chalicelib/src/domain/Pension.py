@@ -15,11 +15,10 @@ class Pension(BaseModel):
     equipment: List[str]
     opening_hours: str
     distance_km: Optional[float] = 0.0
-    status: str  # Ajout du champ status
+    status: Optional[str] = "Validated"
 
     class Config:
-        orm_mode = True
-
+        from_attributes = True
 
 class PensionDetail(BaseModel):
     id: int
@@ -37,7 +36,7 @@ class PensionDetail(BaseModel):
     night_price: float
     staff: List[Dict[str, str]] = []
     reviews: List[Dict[str, Any]] = []
-    status: str  # Ajout du champ status
+    status: Optional[str] = "Validated"
     
     class Config:
-        orm_mode = True
+        from_attributes = True

@@ -18,7 +18,7 @@ def test_create_dog_profile_success(mock_repo):
 
     response = create_dog_profile_handler(data, mock_repo.return_value)
     assert response.status_code == 201
-    response_body = response.body  # Accéder directement au corps de la réponse JSON
+    response_body = response.body
     assert response_body['message'] == 'Dog profile created successfully'
 
 

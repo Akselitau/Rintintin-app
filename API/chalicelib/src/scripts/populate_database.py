@@ -7,7 +7,7 @@ def populate_database():
     try:
         connection = psycopg2.connect(
             host=os.getenv('DB_HOST'),
-            port=os.getenv('DB_PORT', 5432),
+            port=os.getenv('DB_PORT'),
             database=os.getenv('DB_NAME'),
             user=os.getenv('DB_USER'),
             password=os.getenv('DB_PASSWORD')
@@ -47,7 +47,7 @@ def populate_database():
 
         # Insert pensions
         pensions = [
-            (user_map['alice@example.com'], "Happy Paws", "10 Rue de Rivoli, 75001 Paris, France", "123-456-7890", "info@happypaws.com", 20, 5, 4.5, "A great place for your dog to stay.", ["https://placedog.net/500/280?id=1", "https://placedog.net/500/280?id=4"], ['Wifi', 'Air conditioning'], "9am - 5pm",23),
+            (user_map['alice@example.com'], "Happy Paws", "10 Rue de Rivoli, 75001 Paris, France", "123-456-7890", "info@happypaws.com", 20, 5, 4.5, "A great place for your dog to stay.", ["https://placedog.net/500/280?id=1", "https://placedog.net/500/280?id=4"], ['Wifi', 'Air conditioning'], "9am - 5pm",23, "Validated"),
             (user_map['bob@example.com'], "Dog Haven", "20 Avenue de l'Opéra, 75001 Paris, France", "987-654-3210", "contact@doghaven.com", 15, 3, 4.2, "Safe and loving environment for your pet.", ["https://placedog.net/500/280?id=2", "https://placedog.net/500/280?id=5"], ['Playground', 'Swimming pool'], "8am - 6pm",30),
             (user_map['charlie@example.com'], "Puppy Paradise", "30 Boulevard de Sébastopol, 75004 Paris, France", "456-789-0123", "info@puppyparadise.com", 25, 10, 4.8, "The ultimate paradise for your puppy.", ["https://placedog.net/500/280?id=3", "https://placedog.net/500/280?id=6"], ['Grooming', 'Vet on call'], "7am - 7pm", 20)
         ]
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     populate_database()
 
 
-#SCRIPT SQL
+# SCRIPT SQL
 
 # -- Insert users
 # INSERT INTO users (name, email, password, profile_photo_url) VALUES 

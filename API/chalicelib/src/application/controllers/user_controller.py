@@ -6,11 +6,11 @@ user = Blueprint(__name__)
 
 SECRET_KEY = "your_secret_key"
 
-@user.route('/create-user', methods=['POST'], cors=True)
-def create_user():
-    request = user.current_request
-    data = request.json_body
-    return create_user_handler(data)
+# @user.route('/create-user', methods=['POST'], cors=True)
+# def create_user():
+#     request = user.current_request
+#     data = request.json_body
+#     return create_user_handler(data)
 
 @user.route('/get-profile', methods=['GET'], cors=True)
 def get_profile():
