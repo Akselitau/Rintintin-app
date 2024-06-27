@@ -36,6 +36,6 @@ def login_handler(data, user_repo=None, secret_key='your_secret_key'):
             raise UnauthorizedError("Invalid credentials")
 
     except UnauthorizedError:
-        raise  # Propagate the UnauthorizedError
+        raise
     except Exception as e:
         raise InternalServerError(f"An error occurred: {e}")

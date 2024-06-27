@@ -3,7 +3,7 @@ from chalicelib.src.bootstrap import get_reservation_repo
 from chalicelib.src.errors import BadRequestError, InternalServerError
 from datetime import datetime
 
-def make_reservation_handler(data, reservation_repo=None):
+def create_reservation_handler(data, reservation_repo=None):
     if reservation_repo is None:
         reservation_repo = get_reservation_repo()
 

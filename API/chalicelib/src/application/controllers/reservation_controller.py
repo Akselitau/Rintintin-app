@@ -1,8 +1,8 @@
 from chalice import Blueprint
-from chalicelib.src.usecase.get_reservations_by_pension import get_reservations_pension_handler
-from chalicelib.src.usecase.get_reservations_by_user import get_reservations_user_handler
-from chalicelib.src.usecase.make_reservation import make_reservation_handler
-from chalicelib.src.usecase.update_reservation import update_reservation_handler
+from chalicelib.src.usecase.get.get_reservations_by_pension import get_reservations_pension_handler
+from chalicelib.src.usecase.get.get_reservations_by_user import get_reservations_user_handler
+from chalicelib.src.usecase.create.create_reservation import create_reservation_handler
+from chalicelib.src.usecase.update.update_reservation import update_reservation_handler
 
 reservation = Blueprint(__name__)
 
@@ -10,7 +10,7 @@ reservation = Blueprint(__name__)
 def make_new_reservation():
     request = reservation.current_request
     data = request.json_body
-    return make_reservation_handler(data)
+    return create_reservation_handler(data)
 
 @reservation.route('/get-reservations-user/{user_id}', methods=['GET'], cors=True)
 def get_reservations_user(user_id):

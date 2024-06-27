@@ -1,6 +1,6 @@
 from chalicelib.src.errors import BadRequestError
 import pytest
-from chalicelib.src.usecase.create_dog_profile import create_dog_profile_handler
+from API.chalicelib.src.usecase.create.create_dog_profile import create_dog_profile_handler
 from chalice import Response
 
 @pytest.fixture

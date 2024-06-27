@@ -6,7 +6,7 @@ from chalicelib.src.infrastructure.database import Database
 from chalicelib.src.domain.Pension import Pension, PensionDetail
 from chalicelib.src.domain.Reservation import Reservation
 from chalice import Response
-from chalicelib.src.geocoding_service import get_coordinates
+from chalicelib.src.utils import get_coordinates
 
 class PsqlPensionRepository:
     def __init__(self):

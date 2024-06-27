@@ -1,4 +1,4 @@
-# pour pytest
+# for trying pytest, TODO: change this file once testing pytest over
 
 import sys
 import os

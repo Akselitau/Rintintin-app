@@ -1,4 +1,3 @@
-// src/pages/AuthHandler.tsx
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useStytch } from '@stytch/react';

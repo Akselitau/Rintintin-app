@@ -1,6 +1,6 @@
 from chalice import Blueprint
-from chalicelib.src.usecase.create_dog_profile import create_dog_profile_handler
-from chalicelib.src.usecase.get_dogs import get_dogs_handler
+from chalicelib.src.usecase.create.create_dog_profile import create_dog_profile_handler
+from chalicelib.src.usecase.get.get_dogs import get_dogs_handler
 
 dog = Blueprint(__name__)
 

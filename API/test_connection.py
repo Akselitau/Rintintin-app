@@ -1,3 +1,5 @@
+#TODO: Erase this, used to debbug 
+
 import psycopg2
 
 connection_params = {

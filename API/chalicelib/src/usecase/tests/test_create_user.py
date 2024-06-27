@@ -1,6 +1,6 @@
 import pytest
 from chalicelib.src.errors import BadRequestError
-from chalicelib.src.usecase.create_user import create_user_handler
+from API.chalicelib.src.usecase.create.create_user import create_user_handler
 from chalice import Response
 
 @pytest.fixture

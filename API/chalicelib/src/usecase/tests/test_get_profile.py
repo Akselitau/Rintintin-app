@@ -1,6 +1,6 @@
 import pytest
 from chalicelib.src.errors import UnauthorizedError
-from chalicelib.src.usecase.get_profile import get_profile_handler
+from API.chalicelib.src.usecase.get.get_profile import get_profile_handler
 from chalice import Response
 import jwt
 

@@ -1,4 +1,3 @@
-// src/context/StytchContext.tsx
 import React, { createContext, useContext, ReactNode } from 'react';
 import { StytchProvider, useStytch } from '@stytch/react';
 

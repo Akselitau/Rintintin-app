@@ -1,9 +1,9 @@
 from chalice import Blueprint, CORSConfig
-from chalicelib.src.usecase.update_pension import update_pension_handler
-from chalicelib.src.usecase.get_pension_by_user import get_pension_by_user_handler
-from chalicelib.src.usecase.create_pension_profile import create_pension_profile_handler
-from chalicelib.src.usecase.get_pensions import get_pensions_handler
-from chalicelib.src.usecase.get_pension_by_id import get_pension_by_id_handler
+from chalicelib.src.usecase.update.update_pension import update_pension_handler
+from chalicelib.src.usecase.get.get_pension_by_user import get_pension_by_user_handler
+from chalicelib.src.usecase.create.create_pension_profile import create_pension_profile_handler
+from chalicelib.src.usecase.get.get_pensions import get_pensions_handler
+from chalicelib.src.usecase.get.get_pension_by_id import get_pension_by_id_handler
 
 pension = Blueprint(__name__)
 
