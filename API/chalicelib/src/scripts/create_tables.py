@@ -113,6 +113,11 @@ def create_tables():
         );
         """
     ]
+    
+    #TODO: Modifier pour
+    # ALTER TABLE users
+    # ALTER COLUMN profile_photo_url SET DEFAULT 'https://img.freepik.com/vecteurs-premium/photo-profil-avatar-homme-illustration-vectorielle_268834-538.jpg';
+
 
     try:
         connection = psycopg2.connect(

@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
 
+
 const SignupAddDogPage: React.FC = () => {
   const [step, setStep] = useState(1);
   const [name, setName] = useState('');
@@ -29,6 +30,7 @@ const SignupAddDogPage: React.FC = () => {
 
   const navigate = useNavigate();
   const { login, forceUpdate } = useAuth();
+  const { user } = useAuth();
 
   const handleNext = async () => {
     if (step === 1) {
@@ -36,7 +38,7 @@ const SignupAddDogPage: React.FC = () => {
         toast.error('Les mots de passe ne correspondent pas.');
         return;
       }
-
+  
       try {
         const response = await axios.post('http://localhost:8000/create-user', {
           name: name,
@@ -54,24 +56,33 @@ const SignupAddDogPage: React.FC = () => {
         toast.error('Erreur lors de la création du compte : ' + (error.response?.data?.message || 'Erreur inconnue'));
       }
     } else if (step === 2) {
+      const data = { name: dogName, breed: breed, age: age, user_id: user.user_id };
+  
       try {
-        await axios.post(
-          'http://localhost:8000/create-dog-profile',
-          { name: dogName, breed: breed, age: age },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-          }
-        );
-        toast.success('Chien ajouté avec succès !');
-        navigate('/');
-      } catch (error: any) {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/create-dog-profile`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify(data),
+        });
+  
+        if (response.ok) {
+          const result = await response.json();
+          toast.success('Chien ajouté avec succès !');
+          navigate('/');
+        } else {
+          toast.error('Erreur lors de l\'ajout du chien');
+          console.error('Failed to add dog');
+        }
+      } catch (error) {
+        toast.error('Erreur lors de l\'ajout du chien : ' + 'Erreur inconnue');
         console.error('Error adding dog:', error);
-        toast.error('Erreur lors de l\'ajout du chien : ' + (error.response?.data?.message || 'Erreur inconnue'));
       }
     }
   };
+  
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
