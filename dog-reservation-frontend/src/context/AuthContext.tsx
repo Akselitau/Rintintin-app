@@ -7,6 +7,7 @@ interface AuthContextType {
   login: (token: string) => void;
   logout: () => void;
   isAuthenticated: boolean;
+  forceUpdate: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,12 +19,14 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [update, setUpdate] = useState(0);
   const navigate = useNavigate();
 
   const logout = useCallback(() => {
     localStorage.removeItem('token');
     setUser(null);
     setIsAuthenticated(false);
+    setUpdate(prev => prev + 1);
     navigate('/login');
   }, [navigate]);
 
@@ -50,10 +53,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const decoded = jwtDecode<JwtPayload>(token);
     setUser(decoded);
     setIsAuthenticated(true);
+    setUpdate(prev => prev + 1);
+  };
+
+  const forceUpdate = () => {
+    setUpdate(prev => prev + 1);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated, forceUpdate }}>
       {children}
     </AuthContext.Provider>
   );

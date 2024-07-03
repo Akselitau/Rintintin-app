@@ -5,7 +5,7 @@ import HomePage from './pages/Home/HomePage';
 import PensionList from './components/PensionList/PensionList';
 import PensionDetail from './pages/PensionDetail/PensionDetail';
 import LoginPage from './pages/Login/LoginPage';
-import SignupPage from './pages/Signup/SignupPage';
+import SignupAddDogPage from './pages/SignupAddDog/SignupAddDogPage';
 import DogPage from './pages/Dog/DogPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import Footer from './components/Footer/Footer';
@@ -39,7 +39,7 @@ const App: React.FC = () => {
               <Route path="/pensions" element={<PensionList />} />
               <Route path="/pensions/:id" element={<PensionDetail />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/signup" element={<SignupAddDogPage />} />
               <Route
                 path="/my-pension/*"
                 element={

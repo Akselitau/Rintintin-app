@@ -20,8 +20,11 @@ def create_user():
         user_id = user_repo.create_user(name, email, password, None)
         if user_id is None:
             raise InternalServerError("Failed to create user")
+        
+        token = create_jwt_token(user_id)
+        
         return Response(
-            body={"user_id": user_id, "message": "User created successfully"},
+            body={"user_id": user_id, "token": token, "message": "User created successfully"},
             status_code=201,
             headers={"Content-Type": "application/json"},
         )

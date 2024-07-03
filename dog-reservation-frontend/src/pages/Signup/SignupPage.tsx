@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { TextInputField, Button, Text, Pane } from 'evergreen-ui';
 import './SignupPage.css';
 
 const SignupPage: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const navigate = useNavigate();
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   const handleSignup = async () => {
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
     try {
-      const response = await axios.post('http://localhost:8000/create-user', {
-        name: name,
-        email: email,
-        password: password,
-      });
+      await axios.post('http://localhost:8000/create-user', { name, email, password });
       alert('Account created successfully!');
-      navigate('/login');
     } catch (error: any) {
       console.error('Error signing up:', error);
       alert('Error signing up: ' + (error.response?.data?.message || 'Unknown error'));
@@ -25,34 +26,36 @@ const SignupPage: React.FC = () => {
   };
 
   return (
-    <div className="signup-container">
-      <div className="signup-form">
-        <h2>Create Account</h2>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Name"
-          className="input-field"
-        />
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          className="input-field"
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          className="input-field"
-        />
-        <button onClick={handleSignup} className="signup-button">Create Account</button>
-        <button onClick={() => navigate('/login')} className="login-button">Back to Login</button>
-      </div>
-    </div>
+    <Pane>
+      <TextInputField
+        label="Name"
+        value={name}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+        placeholder="Name"
+      />
+      <TextInputField
+        label="Email"
+        value={email}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+        placeholder="Email"
+      />
+      <TextInputField
+        label="Password"
+        type="password"
+        value={password}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+        placeholder="Password"
+      />
+      <TextInputField
+        label="Confirm Password"
+        type="password"
+        value={confirmPassword}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
+        placeholder="Confirm Password"
+      />
+      {error && <Text color="danger">{error}</Text>}
+      <Button onClick={handleSignup} appearance="primary">Create Account</Button>
+    </Pane>
   );
 };
 

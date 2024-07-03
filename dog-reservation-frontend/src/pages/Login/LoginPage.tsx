@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Button, TextInput, Card, Heading } from 'evergreen-ui';
 import './LoginPage.css';
 
 const LoginPage: React.FC = () => {
@@ -25,25 +26,24 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="login-container">
-      <div className="login-form">
-        <h2>Login</h2>
-        <input
-          type="email"
+      <Card elevation={2} padding={32} borderRadius={8} className="login-form">
+        <Heading size={700} marginBottom={24} className="login-title">Login</Heading>
+        <TextInput
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
           placeholder="Email"
           className="input-field"
         />
-        <input
+        <TextInput
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
           placeholder="Password"
           className="input-field"
         />
-        <button onClick={handleLogin} className="login-button">Login</button>
-        <button onClick={() => navigate('/signup')} className="signup-button">Create Account</button>
-      </div>
+        <Button appearance="primary" onClick={handleLogin} className="login-button">Login</Button>
+        <Button appearance="minimal" onClick={() => navigate('/signup')} className="signup-button">Create Account</Button>
+      </Card>
     </div>
   );
 };
