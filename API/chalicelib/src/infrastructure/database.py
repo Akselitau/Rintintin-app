@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 import psycopg2
 
 class Database:
@@ -6,6 +7,7 @@ class Database:
 
     @staticmethod
     def initialize_connection():
+        load_dotenv()
         try:
             Database._connection = psycopg2.connect(
                 host=os.getenv("DB_HOST"),

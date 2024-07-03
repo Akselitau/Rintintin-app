@@ -1,39 +1,56 @@
-// src/pages/Signup/SignupPage.tsx
 import React, { useState } from 'react';
-import { useStytch } from '@stytch/react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './SignupPage.css';
 
 const SignupPage: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const stytch = useStytch();
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const navigate = useNavigate();
 
   const handleSignup = async () => {
     try {
-      // @ts-ignore
-      await stytch.magicLinks.email.loginOrCreate({
-        email,
-        login_magic_link_url: `${window.location.origin}/auth/login`,
-        signup_magic_link_url: `${window.location.origin}/auth/signup`,
+      const response = await axios.post('http://localhost:8000/create-user', {
+        name: name,
+        email: email,
+        password: password,
       });
-      alert('Check your email for the signup link!');
-    } catch (error) {
+      alert('Account created successfully!');
+      navigate('/login');
+    } catch (error: any) {
       console.error('Error signing up:', error);
-      // @ts-ignore
-      alert('Error signing up: ' + (error.message || 'Unknown error'));
+      alert('Error signing up: ' + (error.response?.data?.message || 'Unknown error'));
     }
   };
 
   return (
     <div className="signup-container">
-      <h2>Signup</h2>
       <div className="signup-form">
+        <h2>Create Account</h2>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Name"
+          className="input-field"
+        />
         <input
           type="email"
-          placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          className="input-field"
         />
-        <button onClick={handleSignup}>Signup</button>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          className="input-field"
+        />
+        <button onClick={handleSignup} className="signup-button">Create Account</button>
+        <button onClick={() => navigate('/login')} className="login-button">Back to Login</button>
       </div>
     </div>
   );

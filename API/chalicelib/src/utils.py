@@ -1,5 +1,31 @@
+import datetime
 import math
+import os
+from dotenv import load_dotenv
+import jwt
 import requests
+from chalicelib.src.errors import CustomError
+
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+def create_jwt_token(user_id):
+    payload = {
+        'user_id': user_id,
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+    }
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    return token
+
+def decode_jwt_token(token):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        return payload['user_id']
+    except jwt.ExpiredSignatureError:
+        raise CustomError('Token has expired', status_code=401)
+    except jwt.InvalidTokenError:
+        raise CustomError('Invalid token', status_code=401)
 
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371  # Rayon de la Terre en kilomètres

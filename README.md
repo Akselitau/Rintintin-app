@@ -46,3 +46,8 @@ Code Information
 
 Comments: There are a lot of comments in the frontend code because I am currently learning new things about it.
 Code Review: My code has not been reviewed by anyone yet, so I apologize in advance for any mistakes or inconsistencies you might encounter.
+
+
+
+
+Pour le front ne pas oublier de faire "npm install" pour la première fois

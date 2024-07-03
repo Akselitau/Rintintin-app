@@ -27,6 +27,7 @@ class UserPsqlRepository:
                 )
                 user_id = cursor.fetchone()[0]
                 self.conn.commit()
+                print("User ID created:", user_id)  # Debugging line
             return user_id
         except psycopg2.Error as err:
             print("Error database: ", err)

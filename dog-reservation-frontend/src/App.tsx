@@ -9,7 +9,7 @@ import SignupPage from './pages/Signup/SignupPage';
 import DogPage from './pages/Dog/DogPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import Footer from './components/Footer/Footer';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import RegisterPension from './components/RegisterPension/RegisterPension';
 import ContactPage from './pages/Contact/ContactPage';
 import LegalPage from './pages/Legal/LegalPage';
@@ -20,7 +20,11 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AlphaBanner from './components/BannerAlphaWarning/AlphaBanner';
 import ReservationsPage from './pages/Reservations/ReservationsPage';
-import AuthHandler from './context/AuthHandler';
+
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <LoginPage />;
+};
 
 const App: React.FC = () => {
   return (
@@ -36,9 +40,14 @@ const App: React.FC = () => {
               <Route path="/pensions/:id" element={<PensionDetail />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
-              <Route path="/auth/login" element={<AuthHandler />} />
-              <Route path="/auth/signup" element={<AuthHandler />} />
-              <Route path="/my-pension/*" element={<DashboardPage />}>
+              <Route
+                path="/my-pension/*"
+                element={
+                  <ProtectedRoute>
+                    <DashboardPage />
+                  </ProtectedRoute>
+                }
+              >
                 <Route path="info" element={<PensionInfo />} />
                 <Route path="reservations" element={<PensionReservationsPage />} />
               </Route>
