@@ -5,6 +5,8 @@ from chalicelib.src.errors import BadRequestError, InternalServerError, Unauthor
 
 auth = Blueprint(__name__)
 
+DEFAULT_PROFIL_PICTURE = 'https://img.freepik.com/vecteurs-premium/photo-profil-avatar-homme-illustration-vectorielle_268834-538.jpg'
+
 @auth.route('/create-user', methods=['POST'], cors=True)
 def create_user():
     request = auth.current_request.json_body
@@ -17,7 +19,7 @@ def create_user():
 
     try:
         user_repo = get_user_repo()
-        user_id = user_repo.create_user(name, email, password, None)
+        user_id = user_repo.create_user(name, email, password, DEFAULT_PROFIL_PICTURE)
         if user_id is None:
             raise InternalServerError("Failed to create user")
         
