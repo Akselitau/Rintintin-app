@@ -20,7 +20,6 @@ def create_pension_profile_handler(data):
     if not all([user_id, name, address, max_capacity]):
         raise BadRequestError("Missing required parameters")
 
-
     try:
         pension_repo = get_pension_repo()
         pension_id = pension_repo.create_pension_profile(user_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours, night_price)

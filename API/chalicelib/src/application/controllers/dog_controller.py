@@ -1,22 +1,34 @@
 from chalice import Blueprint, Response
-from chalicelib.src.errors import InternalServerError
+from chalicelib.src.errors import InternalServerError, BadRequestError
 from chalicelib.src.bootstrap import get_dog_repo
 from chalicelib.src.usecase.create.create_dog_profile import create_dog_profile_handler
-from chalicelib.src.usecase.get.get_dogs import get_dogs_handler
+from chalicelib.src.usecase.get.get_dogs_by_user import get_dogs_by_user_handler
 
 dog = Blueprint(__name__)
 
 @dog.route('/create-dog-profile', methods=['POST'], cors=True)
 def create_dog_profile():
-    request = dog.current_request
-    data = request.json_body
-    return create_dog_profile_handler(data)
+    try:
+        request = dog.current_request
+        data = request.json_body
+        return create_dog_profile_handler(data)
+    except BadRequestError as e:
+        return Response(
+            body={"message": e.message},
+            status_code=e.status_code,
+            headers={"Content-Type": "application/json"},
+        )
+    except Exception as e:
+        raise InternalServerError(f"An error occurred: {e}")
 
 @dog.route('/get-dogs/{user_id}', methods=['GET'], cors=True)
 def get_dogs(user_id):
-    return get_dogs_handler(user_id)
+    try:
+        return get_dogs_by_user_handler(user_id)
+    except Exception as e:
+        raise InternalServerError(f"An error occurred: {e}")
 
-
+#No need of an usecase here
 @dog.route('/get-dog-breeds', methods=['GET'], cors=True)
 def get_dog_breeds():
     try:

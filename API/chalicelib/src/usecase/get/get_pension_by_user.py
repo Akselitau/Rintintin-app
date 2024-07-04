@@ -1,5 +1,4 @@
 from chalice import Response
-
 from chalicelib.src.bootstrap import get_pension_repo
 
 def get_pension_by_user_handler(user_id):

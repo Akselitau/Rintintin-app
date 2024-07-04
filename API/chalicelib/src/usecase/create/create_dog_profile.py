@@ -1,6 +1,6 @@
 from chalice import Response
 from chalicelib.src.bootstrap import get_dog_repo
-from chalicelib.src.errors import BadRequestError, InternalServerError
+from chalicelib.src.errors import BadRequestError
 
 def create_dog_profile_handler(data, dog_repo=None):
     if dog_repo is None:
@@ -16,12 +16,9 @@ def create_dog_profile_handler(data, dog_repo=None):
     if not all([user_id, name, breed]):
         raise BadRequestError("Missing required parameters")
 
-    try:
-        dog_id = dog_repo.create_dog_profile(user_id, name, breed, profile_photo_url, information, birthdate)
-        return Response(
-            body={"dog_id": dog_id, "message": "Dog profile created successfully"},
-            status_code=201,
-            headers={"Content-Type": "application/json"},
-        )
-    except Exception as e:
-        raise InternalServerError(f"An error occurred: {e}")
+    dog_id = dog_repo.create_dog_profile(user_id, name, breed, profile_photo_url, information, birthdate)
+    return Response(
+        body={"dog_id": dog_id, "message": "Dog profile created successfully"},
+        status_code=201,
+        headers={"Content-Type": "application/json"},
+    )

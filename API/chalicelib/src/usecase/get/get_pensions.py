@@ -1,7 +1,6 @@
 from chalice import Response
 import logging
-from chalicelib.src.utils import haversine
-from chalicelib.src.utils import get_coordinates
+from chalicelib.src.utils import haversine, get_coordinates
 from chalicelib.src.errors import InternalServerError
 from chalicelib.src.application.schema.pension_schema import PensionSchema
 from chalicelib.src.bootstrap import get_pension_repo
