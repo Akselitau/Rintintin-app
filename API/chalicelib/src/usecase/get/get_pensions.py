@@ -16,16 +16,21 @@ def get_pensions_handler(query_params):
         pensions = repo.get_all_pensions()
 
         if address:
-            latitude, longitude = get_coordinates(address)
-            if latitude is not None and longitude is not None:
+            coordinates = get_coordinates(address)
+            if coordinates:
+                latitude, longitude = coordinates
                 for pension in pensions:
-                    pension_lat, pension_lon = get_coordinates(pension.address)
-                    if pension_lat is not None and pension_lon is not None:
-                        pension.distance_km = haversine(latitude, longitude, pension_lat, pension_lon)
-                        logger.info(f"Distance from {address} to {pension.address}: {pension.distance_km} km")
+                    pension_coordinates = get_coordinates(pension.address)
+                    if pension_coordinates:
+                        pension_lat, pension_lon = pension_coordinates
+                        if pension_lat is not None and pension_lon is not None:
+                            pension.distance_km = haversine(latitude, longitude, pension_lat, pension_lon)
+                            logger.info(f"Distance from {address} to {pension.address}: {pension.distance_km} km")
+                        else:
+                            logger.warning(f"Failed to get valid coordinates for pension address: {pension.address}")
                     else:
                         logger.warning(f"Failed to get coordinates for pension address: {pension.address}")
-                pensions.sort(key=lambda x: x.distance_km if x.distance_km is not None else float('inf'))
+                pensions.sort(key=lambda x: x.distance_km if hasattr(x, 'distance_km') else float('inf'))
             else:
                 logger.warning(f"Failed to get coordinates for provided address: {address}")
                 pensions.sort(key=lambda x: x.rating, reverse=True)

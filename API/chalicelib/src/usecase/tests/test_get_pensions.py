@@ -1,8 +1,17 @@
 import pytest
 from chalice import Response
+from unittest.mock import MagicMock, patch
 from chalicelib.src.usecase.get.get_pensions import get_pensions_handler
-from unittest.mock import MagicMock
-from chalicelib.src.application.schema.pension_schema import PensionSchema
+from chalicelib.src.errors import InternalServerError
+
+class MockPension:
+    def __init__(self, address, rating, distance_km=None):
+        self.address = address
+        self.rating = rating
+        self.distance_km = distance_km
+        
+    def __getitem__(self, item):
+        return getattr(self, item)
 
 @pytest.fixture
 def mock_repo(mocker):
@@ -18,14 +27,15 @@ def mock_haversine(mocker):
 
 def test_get_pensions_success_no_address(mock_repo):
     pensions_data = [
-        MagicMock(address="123 Main St", rating=4.5),
-        MagicMock(address="456 Elm St", rating=4.7)
+        MockPension(address="123 Main St", rating=4.5, distance_km=None),
+        MockPension(address="456 Elm St", rating=4.7, distance_km=None)
     ]
+
     mock_repo.return_value.get_all_pensions.return_value = pensions_data
 
     query_params = {}
     response = get_pensions_handler(query_params)
-    
+
     assert response.status_code == 200
     assert len(response.body["pensions"]) == 2
     assert response.body["pensions"][0]["rating"] == 4.7
@@ -33,16 +43,17 @@ def test_get_pensions_success_no_address(mock_repo):
 
 def test_get_pensions_success_with_address(mock_repo, mock_get_coordinates, mock_haversine):
     pensions_data = [
-        MagicMock(address="123 Main St", rating=4.5),
-        MagicMock(address="456 Elm St", rating=4.7)
+        MockPension(address="123 Main St", rating=4.5, distance_km=None),
+        MockPension(address="456 Elm St", rating=4.7, distance_km=None)
     ]
+
     mock_repo.return_value.get_all_pensions.return_value = pensions_data
     mock_get_coordinates.side_effect = [(40.7128, -74.0060), (40.730610, -73.935242), (40.741895, -73.989308)]
     mock_haversine.side_effect = [2.0, 1.5]
 
     query_params = {'address': 'New York, NY'}
     response = get_pensions_handler(query_params)
-    
+
     assert response.status_code == 200
     assert len(response.body["pensions"]) == 2
     assert response.body["pensions"][0]["distance_km"] == 1.5
@@ -50,15 +61,16 @@ def test_get_pensions_success_with_address(mock_repo, mock_get_coordinates, mock
 
 def test_get_pensions_address_coordinates_failure(mock_repo, mock_get_coordinates):
     pensions_data = [
-        MagicMock(address="123 Main St", rating=4.5),
-        MagicMock(address="456 Elm St", rating=4.7)
+        MockPension(address="123 Main St", rating=4.5, distance_km=None),
+        MockPension(address="456 Elm St", rating=4.7, distance_km=None)
     ]
+
     mock_repo.return_value.get_all_pensions.return_value = pensions_data
     mock_get_coordinates.side_effect = [None]
 
     query_params = {'address': 'Unknown Address'}
     response = get_pensions_handler(query_params)
-    
+
     assert response.status_code == 200
     assert len(response.body["pensions"]) == 2
     assert response.body["pensions"][0]["rating"] == 4.7
@@ -69,6 +81,6 @@ def test_get_pensions_empty_list(mock_repo):
 
     query_params = {}
     response = get_pensions_handler(query_params)
-    
+
     assert response.status_code == 200
     assert response.body["pensions"] == []

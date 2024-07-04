@@ -37,5 +37,7 @@ def create_reservation_handler(data, reservation_repo=None):
 
     except ValueError as e:
         raise BadRequestError(f"Invalid date format: {e}")
+    except BadRequestError as e:
+        raise e
     except Exception as e:
         raise InternalServerError(f"An error occurred: {e}")
