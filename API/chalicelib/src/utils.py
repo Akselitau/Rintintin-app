@@ -5,10 +5,21 @@ from dotenv import load_dotenv
 import jwt
 import requests
 from chalicelib.src.errors import CustomError
+import bcrypt
+
 
 load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
+
+def hash_password(password: str) -> str:
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+    return hashed_password.decode('utf-8')
+
+def check_password(password: str, hashed_password: str) -> bool:
+    # Comparer le mot de passe fourni avec le hachage stocké
+    return bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
 
 def create_jwt_token(user_id):
     payload = {

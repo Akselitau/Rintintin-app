@@ -20,6 +20,7 @@ class UserPsqlRepository:
 
     def create_user(self, name, email, password, profile_photo_url):
         try:
+            print(f"Creating user in database: {name}, {email}, {profile_photo_url}")
             with self.conn.cursor() as cursor:
                 cursor.execute(
                     "INSERT INTO users (name, email, password, profile_photo_url) VALUES (%s, %s, %s, %s) RETURNING user_id",
@@ -33,14 +34,15 @@ class UserPsqlRepository:
             print("Error database: ", err)
             return None
 
-    def get_user_by_credentials(self, email, password):
+    def get_user_by_email(self, email):
         try:
             with self.conn.cursor() as cursor:
                 cursor.execute(
-                    "SELECT user_id, name, profile_photo_url FROM users WHERE email = %s AND password = %s",
-                    (email, password)
+                    "SELECT user_id, name, password, profile_photo_url FROM users WHERE email = %s",
+                    (email,)
                 )
                 user = cursor.fetchone()
+                print(f"Fetched user: {user}")  # Log pour débogage
             return user
         except psycopg2.Error as err:
             print("Error database: ", err)
