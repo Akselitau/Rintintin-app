@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
@@ -8,12 +8,17 @@ import {
   Tablist,
   Tab,
   Paragraph,
+  SelectMenu,
 } from 'evergreen-ui';
 import './SignupAddDogPage.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
 
+interface Breed {
+  breed_id: number;
+  name: string;
+}
 
 const SignupAddDogPage: React.FC = () => {
   const [step, setStep] = useState(1);
@@ -23,14 +28,38 @@ const SignupAddDogPage: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [dogName, setDogName] = useState('');
   const [breed, setBreed] = useState('');
-  const [age, setAge] = useState('');
+  const [birthDate, setBirthDate] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [passwordError, setPasswordError] = useState('');
   const [signupError, setSignupError] = useState('');
+  const [breeds, setBreeds] = useState<{ label: string, value: string }[]>([]);
 
   const navigate = useNavigate();
-  const { login, forceUpdate } = useAuth();
-  const { user } = useAuth();
+  const { login, user } = useAuth();
+
+  useEffect(() => {
+    const fetchBreeds = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/get-dog-breeds`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setBreeds(data.breeds.map((breed: Breed) => ({ label: breed.name, value: breed.name })));
+        } else {
+          console.error('Failed to fetch dog breeds');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchBreeds();
+  }, []);
 
   const handleNext = async () => {
     if (step === 1) {
@@ -47,7 +76,6 @@ const SignupAddDogPage: React.FC = () => {
         });
         localStorage.setItem('token', response.data.token);
         login(response.data.token);
-        forceUpdate();
         toast.success('Compte créé avec succès !');
         setStep(2);
         setSelectedIndex(2);
@@ -56,7 +84,7 @@ const SignupAddDogPage: React.FC = () => {
         toast.error('Erreur lors de la création du compte : ' + (error.response?.data?.message || 'Erreur inconnue'));
       }
     } else if (step === 2) {
-      const data = { name: dogName, breed: breed, age: age, user_id: user.user_id };
+      const data = { name: dogName, breed: breed, birthDate: birthDate, user_id: user.user_id };
   
       try {
         const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/create-dog-profile`, {
@@ -82,7 +110,6 @@ const SignupAddDogPage: React.FC = () => {
       }
     }
   };
-  
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -182,27 +209,27 @@ const SignupAddDogPage: React.FC = () => {
                 setDogName(e.target.value)
               }
             />
+            <SelectMenu
+              options={breeds}
+              selected={breed}
+              hasFilter={false}
+              onSelect={(item: any) => setBreed(item.value)}
+            >
+              <Button>{breed || 'Sélectionner une race'}</Button>
+            </SelectMenu>
             <TextInputField
-              label="Race"
-              placeholder="Race"
-              value={breed}
+              label="Date de naissance"
+              placeholder="Date de naissance"
+              type="date"
+              value={birthDate}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setBreed(e.target.value)
-              }
-            />
-            <TextInputField
-              label="Âge"
-              placeholder="Âge"
-              value={age}
-              type="number"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setAge(e.target.value)
+                setBirthDate(e.target.value)
               }
             />
             <Button
               appearance="primary"
               onClick={handleNext}
-              disabled={!dogName || !breed || !age}
+              disabled={!dogName || !breed || !birthDate}
             >
               Ajouter un chien
             </Button>
@@ -217,3 +244,4 @@ const SignupAddDogPage: React.FC = () => {
 };
 
 export default SignupAddDogPage;
+

@@ -6,6 +6,18 @@ import psycopg2
 class DogPsqlRepository:
     def __init__(self):
         self.conn = Database.get_connection()
+        
+    def get_dog_breeds(self) -> List[dict]:
+        try:
+            with self.conn.cursor() as cursor:
+                cursor.execute("SELECT breed_id, name FROM dog_breed ORDER BY name")
+                rows = cursor.fetchall()
+
+            breeds = [{"breed_id": row[0], "name": row[1]} for row in rows]
+            return breeds
+        except psycopg2.Error as err:
+            print("Error database: ", err)
+            return []
 
     def create_dog_profile(self, user_id: int, name: str, breed: str, profile_photo_url: str, information: str) -> int:
         try:

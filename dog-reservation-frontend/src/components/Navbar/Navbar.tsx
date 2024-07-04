@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
         </Link>
         {isAuthenticated ? (
           <div className="user-menu">
-            <img src={user?.profile_photo_url || 'default-profile.png'} alt="Profile" className="profile-pic" />
+            <img src={user?.profile_photo_url || 'https://img.freepik.com/vecteurs-premium/photo-profil-avatar-homme-illustration-vectorielle_268834-538.jpg'} alt="Profile" className="profile-pic" />
             <div className="dropdown">
               <button className="dropbtn">☰</button>
               <div className="dropdown-content">
