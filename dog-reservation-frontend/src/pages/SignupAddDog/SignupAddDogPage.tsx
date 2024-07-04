@@ -84,32 +84,41 @@ const SignupAddDogPage: React.FC = () => {
         toast.error('Erreur lors de la création du compte : ' + (error.response?.data?.message || 'Erreur inconnue'));
       }
     } else if (step === 2) {
-      const data = { name: dogName, breed: breed, birthDate: birthDate, user_id: user.user_id };
-  
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/create-dog-profile`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          },
-          body: JSON.stringify(data),
-        });
-  
-        if (response.ok) {
-          const result = await response.json();
-          toast.success('Chien ajouté avec succès !');
-          navigate('/');
-        } else {
-          toast.error('Erreur lors de l\'ajout du chien');
-          console.error('Failed to add dog');
+        const data = {
+          name: dogName,
+          breed: breed,
+          user_id: user.user_id,
+          birthdate: birthDate || null,
+        };
+    
+        if (birthDate) {  // Ajouter birthdate seulement si elle est fournie
+          data.birthdate = birthDate;
         }
-      } catch (error) {
-        toast.error('Erreur lors de l\'ajout du chien : ' + 'Erreur inconnue');
-        console.error('Error adding dog:', error);
+    
+        try {
+          const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/create-dog-profile`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify(data),
+          });
+    
+          if (response.ok) {
+            const result = await response.json();
+            toast.success('Chien ajouté avec succès !');
+            navigate('/');
+          } else {
+            toast.error('Erreur lors de l\'ajout du chien');
+            console.error('Failed to add dog');
+          }
+        } catch (error) {
+          toast.error('Erreur lors de l\'ajout du chien : ' + 'Erreur inconnue');
+          console.error('Error adding dog:', error);
+        }
       }
-    }
-  };
+    };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);

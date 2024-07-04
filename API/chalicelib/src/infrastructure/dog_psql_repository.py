@@ -19,12 +19,12 @@ class DogPsqlRepository:
             print("Error database: ", err)
             return []
 
-    def create_dog_profile(self, user_id: int, name: str, breed: str, profile_photo_url: str, information: str) -> int:
+    def create_dog_profile(self, user_id: int, name: str, breed: str, profile_photo_url: str, information: str, birthdate: str) -> int:
         try:
             with self.conn.cursor() as cursor:
                 cursor.execute(
-                    "INSERT INTO dogs (user_id, name, breed, profile_photo_url, information) VALUES (%s, %s, %s, %s, %s) RETURNING dog_id",
-                    (user_id, name, breed, profile_photo_url, information)
+                    "INSERT INTO dogs (user_id, name, breed, profile_photo_url, information, birthdate) VALUES (%s, %s, %s, %s, %s, %s) RETURNING dog_id",
+                    (user_id, name, breed, profile_photo_url, information, birthdate)
                 )
                 dog_id = cursor.fetchone()[0]
                 self.conn.commit()
@@ -32,6 +32,7 @@ class DogPsqlRepository:
         except psycopg2.Error as err:
             print("Error database: ", err)
             return None
+
 
     def get_dogs_by_user(self, user_id: int) -> List[dict]:
         try:

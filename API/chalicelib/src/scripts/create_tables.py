@@ -297,6 +297,9 @@ def create_tables():
 # ('Chien nu mexicain'),
 # ('Yorkshire Terrier');
 
+#ALTER TABLE dogs ADD COLUMN birthdate DATE;
+
+
 
     try:
         connection = psycopg2.connect(
