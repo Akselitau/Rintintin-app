@@ -1,12 +1,16 @@
+// src/pages/HomePage/HomePage.tsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from '../../components/SearchBar/SearchBar';
+import BulletPointDescription from '../../components/BulletPointDescription/BulletPointDescription';
+import SocialProof from '../../components/SocialProof/SocialProof';
+import FAQ from '../../components/FAQ/FAQ';
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
-  // Fonction pour récupérer les coordonnées géographiques
+  // Function to get geographical coordinates
   const getCoordinates = async (address: string) => {
     try {
       const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
@@ -26,10 +30,8 @@ const HomePage: React.FC = () => {
   const handleSearch = async (address: string) => {
     const coordinates = await getCoordinates(address);
     if (coordinates) {
-      // Passez les coordonnées à la page de liste de pensions
       navigate('/pensions', { state: { address, coordinates } });
     } else {
-      // Redirigez sans les coordonnées si elles ne peuvent pas être récupérées
       navigate('/pensions', { state: { address } });
     }
   };
@@ -43,10 +45,21 @@ const HomePage: React.FC = () => {
             <div className="yellow-container">
               <h2>Trouve l'endroit parfait pour ton compagnon de vie</h2>
             </div>
-            <SearchBar withMarginTop={true} onSearch={handleSearch} />
+            <div className="search-bar-wrapper">
+              <SearchBar withMarginTop={true} onSearch={handleSearch} />
+            </div>
           </div>
         </div>
       </div>
+      
+      {/* BulletPointDescription Section */}
+      <BulletPointDescription />
+      
+      {/* SocialProof Section */}
+      <SocialProof />
+
+      {/* FAQ Section */}
+      <FAQ />
     </div>
   );
 };

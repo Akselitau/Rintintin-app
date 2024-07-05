@@ -1,0 +1,58 @@
+/* src/components/SocialProof/SocialProof.css */
+.social-proof {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    max-width: 1200px;
+    margin: 40px auto;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .social-proof-image {
+    flex: 1;
+    padding-right: 20px;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.6s ease-out;
+  }
+  
+  .social-proof-image.animate {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .social-proof-image img {
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  .social-proof-text {
+    flex: 2;
+    background-color: #343a40;
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.6s ease-out 0.3s; /* Delay the text animation */
+  }
+  
+  .social-proof-text.animate {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .social-proof-text h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+  }
+  
+  .social-proof-text p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  

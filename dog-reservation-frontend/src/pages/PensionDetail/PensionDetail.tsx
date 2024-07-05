@@ -223,7 +223,7 @@ const PensionDetail: React.FC = () => {
             </div>
           </div>
         </div>
-        {pension.status === 'Validé' ? (
+        {pension.status === 'Validated' ? (
           <div className="reservation-section">
             <Calendar
               value={dateRange as [Date, Date]}
