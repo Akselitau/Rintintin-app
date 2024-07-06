@@ -1,145 +1,165 @@
+/* Conteneur principal de la barre de navigation */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .search-container {
-    display: flex;
-    align-items: left;
-    flex: 1;
-    margin: 0 2rem;
-  }
-  
-  .search-input {
-    width: 150px; /* Ajuster la taille de l'input de recherche */
-    padding: 0.5rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 20px 0 0 20px;
-    outline: none;
-  }
-  
-  .search-button {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-left: none;
-    border-radius: 0 20px 20px 0;
-    padding: 0rem 1rem;
-    cursor: pointer;
-  }
-  
-  .search-button svg {
-    fill: #ccc;
-  }
-  
-  .search-button:hover svg {
-    fill: #777;
-  }
-  
-  .buttons {
-    display: flex;
-    align-items: center;
-  }
-  
-  .btn {
-    margin-left: 1rem;
-    padding: 0.5rem 1rem;
-    border: 2px solid transparent;
-    border-radius: 20px;
-    background-color: #fff;
-    color: #000;
-    cursor: pointer;
-  }
-  
-  .btn.outline {
-    border-color: #ccc;
-  }
-  
-  .btn.filled {
-    background-color: #f7c52f;
-    color: #000000;
-    font-weight: bold;
+  display: flex; /* Utiliser Flexbox pour l'alignement */
+  justify-content: space-between; /* Espace entre les éléments enfants */
+  align-items: center; /* Aligner les éléments enfants au centre verticalement */
+  padding: 1rem 2rem; /* Espacement interne */
+  background-color: #fff; /* Couleur de fond */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre portée */
+  width: 100%; /* Largeur complète */
+  transition: all 0.3s ease; /* Transition pour le changement de position */
+  z-index: 1000; /* Assurer que la navbar est au-dessus des autres éléments */
+  position: absolute; /* Position absolue */
+  top: 0; /* Position initiale en haut */
+}
 
-  }
-  
-  .btn.filled:hover {
-    background-color: #e0b127;
-  }
-  
-  .btn.outline:hover {
-    border-color: #999;
-  }
+/* Etat flottant de la barre de navigation */
+.navbar.floating {
+  position: fixed; /* Position fixe lors du défilement */
+  top: 0; /* Fixer en haut de l'écran */
+  left: 0; /* Fixer à gauche de l'écran */
+  right: 0; /* Fixer à droite de l'écran */
+  width: 100%; /* Largeur complète */
+  background-color: rgba(255, 255, 255, 0.9); /* Fond avec légère transparence */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre plus marquée */
+}
 
-  .user-menu {
-    display: flex;
-    align-items: center;
-    position: relative;
-    margin-left: 10px;
-  }
-  
-  .profile-pic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .dropbtn {
-    background-color: #e0b127;
-    color: white;
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: white;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    border-radius: 5px;
-    overflow: hidden;
-  }
-  
-  .dropdown-content a, .dropdown-content button {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-    background: none;
-    border: none;
-    width: 100%;
-    cursor: pointer;
-  }
-  
-  .dropdown-content a:hover, .dropdown-content button:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  
-  .dropdown:hover .dropbtn {
-    background-color: #000;
-  }
-  
+/* Logo de la barre de navigation */
+.logo {
+  font-size: 1.5rem; /* Taille de la police */
+  font-weight: bold; /* Épaisseur de la police */
+}
+
+/* Conteneur des liens de navigation */
+.nav-links {
+  display: flex; /* Utiliser Flexbox pour l'alignement */
+  gap: 2rem; /* Espacement entre les liens */
+}
+
+/* Style des liens de navigation */
+.nav-link {
+  font-size: 1rem; /* Taille de la police */
+  color: #000; /* Couleur du texte */
+  text-decoration: none; /* Supprimer la décoration de texte par défaut */
+}
+
+/* Style pour les liens désactivés */
+.nav-link.disabled {
+  color: #ccc; /* Couleur grisée pour les liens désactivés */
+  pointer-events: none; /* Désactiver les événements de pointeur */
+}
+
+/* Conteneur des boutons */
+.buttons {
+  display: flex; /* Utiliser Flexbox pour l'alignement */
+  align-items: center; /* Aligner les éléments enfants au centre verticalement */
+  margin-right: 1rem; /* Ajouter un peu de marge à droite pour l'alignement */
+}
+
+/* Style des boutons */
+.btn {
+  margin-left: 1rem; /* Marge à gauche entre les boutons */
+  padding: 0.5rem 1rem; /* Espacement interne des boutons */
+  border: 2px solid transparent; /* Bordure par défaut transparente */
+  border-radius: 20px; /* Bordure arrondie */
+  background-color: #fff; /* Couleur de fond */
+  color: #000; /* Couleur du texte */
+  cursor: pointer; /* Curseur pointeur au survol */
+}
+
+/* Style des boutons avec bordure */
+.btn.outline {
+  border-color: #ccc; /* Couleur de la bordure */
+}
+
+/* Style des boutons remplis */
+.btn.filled {
+  background-color: #f7c52f; /* Couleur de fond */
+  color: #000000; /* Couleur du texte */
+  font-weight: bold; /* Épaisseur de la police */
+  margin-right: 2rem;
+}
+
+/* Changement de couleur au survol des boutons remplis */
+.btn.filled:hover {
+  background-color: #e0b127; /* Couleur de fond au survol */
+}
+
+/* Changement de couleur au survol des boutons avec bordure */
+.btn.outline:hover {
+  border-color: #999; /* Couleur de la bordure au survol */
+}
+
+/* Conteneur du menu utilisateur */
+.user-menu {
+  display: flex; /* Utiliser Flexbox pour l'alignement */
+  align-items: center; /* Aligner les éléments enfants au centre verticalement */
+  position: relative; /* Position relative pour le dropdown */
+  margin-left: 10px; /* Marge à gauche pour espacement */
+}
+
+/* Image de profil */
+.profile-pic {
+  width: 40px; /* Largeur de l'image */
+  height: 40px; /* Hauteur de l'image */
+  border-radius: 50%; /* Image ronde */
+  margin-right: 10px; /* Marge à droite pour espacement */
+}
+
+/* Conteneur du dropdown */
+.dropdown {
+  position: relative; /* Position relative pour le dropdown */
+  display: inline-block; /* Affichage en ligne */
+}
+
+/* Bouton du dropdown */
+.dropbtn {
+  background-color: #e0b127; /* Couleur de fond */
+  color: white; /* Couleur du texte */
+  padding: 10px; /* Espacement interne */
+  font-size: 16px; /* Taille de la police */
+  border: none; /* Sans bordure */
+  cursor: pointer; /* Curseur pointeur au survol */
+  border-radius: 5px; /* Bordure arrondie */
+}
+
+/* Contenu du dropdown */
+.dropdown-content {
+  display: none; /* Masquer par défaut */
+  position: absolute; /* Position absolue pour dropdown */
+  right: 0; /* Aligner à droite */
+  background-color: white; /* Couleur de fond */
+  min-width: 160px; /* Largeur minimale */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Ombre portée */
+  z-index: 1; /* Assurer que le dropdown est au-dessus des autres éléments */
+  border-radius: 5px; /* Bordure arrondie */
+  overflow: hidden; /* Cacher le débordement */
+}
+
+/* Style des liens et boutons dans le dropdown */
+.dropdown-content a, .dropdown-content button {
+  color: black; /* Couleur du texte */
+  padding: 12px 16px; /* Espacement interne */
+  text-decoration: none; /* Supprimer la décoration de texte par défaut */
+  display: block; /* Affichage en bloc */
+  text-align: left; /* Aligner le texte à gauche */
+  background: none; /* Sans fond */
+  border: none; /* Sans bordure */
+  width: 100%; /* Largeur complète */
+  cursor: pointer; /* Curseur pointeur au survol */
+}
+
+/* Changement de fond au survol des liens et boutons dans le dropdown */
+.dropdown-content a:hover, .dropdown-content button:hover {
+  background-color: #f1f1f1; /* Couleur de fond au survol */
+}
+
+/* Afficher le dropdown au survol */
+.dropdown:hover .dropdown-content {
+  display: block; /* Afficher le dropdown */
+}
+
+/* Changement de fond du bouton dropdown au survol */
+.dropdown:hover .dropbtn {
+  background-color: #000; /* Couleur de fond au survol */
+}

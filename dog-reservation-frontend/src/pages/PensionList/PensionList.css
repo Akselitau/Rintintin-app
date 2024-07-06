@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 4rem;
 }
 
 .content-container {
@@ -14,12 +15,14 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center; /* Add this line */
+  min-height: 300px; /* Add this line to set a minimum height */
 }
 
 .map-container {
   position: -webkit-sticky; /* Pour les navigateurs WebKit/Safari */
   position: sticky;
-  top: 20px; /* Distance du haut de la page lorsque l'élément devient "collant" */
+  top: 5rem; /* Distance du haut de la page lorsque l'élément devient "collant" */
   flex: 1; /* Augmentez cette valeur pour augmenter la largeur de la carte */
   margin-left: 20px; /* Ajout d'une marge à gauche */
   margin-right: 100px; /* Ajout d'une marge à droite */

@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import HomePage from './pages/Home/HomePage';
-import PensionList from './components/PensionList/PensionList';
+import PensionList from './pages/PensionList/PensionList';
 import PensionDetail from './pages/PensionDetail/PensionDetail';
 import LoginPage from './pages/Login/LoginPage';
 import SignupAddDogPage from './pages/SignupAddDog/SignupAddDogPage';
@@ -10,7 +10,7 @@ import DogPage from './pages/Dog/DogPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import Footer from './components/Footer/Footer';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import RegisterPension from './components/RegisterPension/RegisterPension';
+import RegisterPension from './pages/RegisterPension/RegisterPension';
 import ContactPage from './pages/Contact/ContactPage';
 import LegalPage from './pages/Legal/LegalPage';
 import DashboardPage from './pages/Dashboard/DashboardPage';
@@ -20,6 +20,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AlphaBanner from './components/BannerAlphaWarning/AlphaBanner';
 import ReservationsPage from './pages/Reservations/ReservationsPage';
+import AboutPage from './pages/About/About';
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated } = useAuth();
@@ -57,6 +58,7 @@ const App: React.FC = () => {
               <Route path="/register-pension" element={<RegisterPension />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/legal" element={<LegalPage />} />
+              <Route path="/about" element={<AboutPage />} />
             </Routes>
           </div>
           <Footer />

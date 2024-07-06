@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import PensionCard from '../PensionCard/PensionCard';
-import SearchBar from '../SearchBar/SearchBar';
-import MapComponent from '../Map/MapComponent';
+import PensionCard from '../../components/PensionCard/PensionCard';
+import SearchBar from '../../components/SearchBar/SearchBar';
+import MapComponent from '../../components/Map/MapComponent';
+import { ClipLoader } from 'react-spinners'; // Import the spinner
 import './PensionList.css';
 
 interface Pension {
@@ -71,7 +72,7 @@ const PensionList: React.FC = () => {
       <div className="content-container">
         <div className="pension-cards">
           {loading ? (
-            <p>Loading...</p>
+            <ClipLoader size={50} color={"#e0b127"} loading={loading} /> // Use the spinner
           ) : (
             pensions.map(pension => (
               <PensionCard

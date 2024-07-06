@@ -1,0 +1,24 @@
+/* src/pages/AboutPage/AboutPage.css */
+.about-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 4rem;
+  }
+  
+  .about-page h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .about-page p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: justify;
+  }
+  

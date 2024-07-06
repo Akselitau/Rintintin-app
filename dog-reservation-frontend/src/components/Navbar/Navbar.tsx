@@ -1,25 +1,39 @@
-import React from 'react';
+// src/components/Navbar/Navbar.tsx
+import React, { useEffect, useState } from 'react';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 const Navbar: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
+  const [isFloating, setIsFloating] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsFloating(true);
+      } else {
+        setIsFloating(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${isFloating ? 'floating' : 'normal'}`}>
       <div className="logo">
         <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
           RINTINTIN
         </Link>
       </div>
-      <div className="search-container">
-        <input type="text" placeholder="Rechercher une pension" className="search-input" />
-        <button className="search-button">
-          <svg width="24" height="24" viewBox="0 0 24 24">
-            <path d="M10 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8zm8.293 1.707l4.707 4.707-1.414 1.414-4.707-4.707c-.391.391-.902.707-1.414.707s-1.023-.316-1.414-.707c-.391-.391-.707-.902-.707-1.414s.316-1.023.707-1.414c.391-.391.902-.707 1.414-.707s1.023.316 1.414.707c.391.391.707.902.707 1.414s-.316 1.023-.707 1.414zm-8.293-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6z" />
-          </svg>
-        </button>
+      <div className="nav-links">
+        <Link to="/pensions" className="nav-link">Nos pensions</Link>
+        <Link to="/about" className="nav-link">À propos</Link>
+        <span className="nav-link disabled">Blog</span>
       </div>
       <div className="buttons">
         <Link to="/register-pension">
