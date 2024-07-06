@@ -4,6 +4,7 @@
   align-items: center;
   padding: 20px;
   font-family: Arial, sans-serif;
+  margin-top: 4rem;
 }
 
 .pension-detail-main {
@@ -42,7 +43,7 @@
   font-size: 36px;
   cursor: pointer;
   position: absolute; /* Ajoutez cette ligne */
-  top: 17%; /* Centre verticalement */
+  top: 15%; /* Centre verticalement */
 
   transform: translateY(-50%); /* Centre verticalement */
   z-index: 1; /* Assurez-vous que les boutons sont au-dessus de l'image */
@@ -81,7 +82,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   position: -webkit-sticky; /* Pour les navigateurs WebKit/Safari */
   position: sticky;
-  top: 20px; /* Distance du haut de la page lorsque l'élément devient "collant" */
+  top: 5rem; /* Distance du haut de la page lorsque l'élément devient "collant" */
   margin-top: 1rem;
   align-self: flex-start; /* Assurez-vous que la section de réservation est alignée en haut */
   max-height: calc(100vh - 40px); /* Limitez la hauteur pour éviter qu'elle ne prenne toute la page */

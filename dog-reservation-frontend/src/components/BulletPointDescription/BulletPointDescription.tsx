@@ -21,8 +21,8 @@ const BulletPointDescription: React.FC = () => {
 
   return (
     <div className="bullet-point-description">
-      <h2 className="bullet-point-heading">The process we follow</h2>
-      <p className="bullet-point-subheading">As a academy of business, we are going through the development cycle.</p>
+      <h2 className="bullet-point-heading">C'est super simple !</h2>
+      <p className="bullet-point-subheading">On est en contact avec les meilleurs professionnels du secteur</p>
       <div className="bullet-point-list">
         {bulletPoints.map((bullet, index) => (
           <BulletPoint key={index} title={bullet.title} description={bullet.description} />

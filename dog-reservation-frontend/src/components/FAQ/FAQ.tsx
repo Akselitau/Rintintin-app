@@ -8,10 +8,10 @@ interface FAQItem {
 }
 
 const faqItems: FAQItem[] = [
-  { question: "Will I get lifetime updates?", answer: "Yes, you will get lifetime updates for free." },
-  { question: "Can I use the Landify for a client's product?", answer: "Yes, you can use it for a client's product." },
-  { question: "Do you have a free trial of Landify?", answer: "Yes, we offer a free trial." },
-  { question: "Who can use Landify?", answer: "Anyone can use Landify for their projects." }
+  { question: "Question numéro 1", answer: "Oui" },
+  { question: "Question numéro 2", answer: "Oui" },
+  { question: "Question numéro 3", answer: "Oui" },
+  { question: "Question numéro 4", answer: "Oui" }
 ];
 
 const FAQ: React.FC = () => {
@@ -23,8 +23,8 @@ const FAQ: React.FC = () => {
 
   return (
     <div className="faq-section">
-      <h2 className="faq-title">Frequently Asked Questions</h2>
-      <p className="faq-subtitle">If you have any further questions please contact us.</p>
+      <h2 className="faq-title">Questions récurrentes</h2>
+      <p className="faq-subtitle">Si vous avez d'autres questions n'hésitez pas à nous contacter.</p>
       <div className="faq-list">
         {faqItems.map((item, index) => (
           <div
