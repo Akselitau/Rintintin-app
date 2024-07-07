@@ -78,7 +78,7 @@ const DogPage: React.FC = () => {
       {dogs.length > 0 ? (
         dogs.map(dog => (
           <div key={dog.dog_id} className="dog-details">
-            <img src={dog.profile_photo_url || 'default-dog.png'} alt={dog.name} />
+            <img src={dog.profile_photo_url || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwXrptniMc0-eplVbfcJP42Hp-yChjpat0eXPG2XN_VT0olqpdMtDEpfLmusypE-9aV1Y&usqp=CAU'} alt={dog.name} />
             <div>
               <h3>{dog.name}</h3>
               <p>Race: {dog.breed}</p>

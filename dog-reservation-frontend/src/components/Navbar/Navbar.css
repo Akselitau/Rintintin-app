@@ -96,6 +96,8 @@
   align-items: center; /* Aligner les éléments enfants au centre verticalement */
   position: relative; /* Position relative pour le dropdown */
   margin-left: 10px; /* Marge à gauche pour espacement */
+  margin-right: 2rem;
+
 }
 
 /* Image de profil */

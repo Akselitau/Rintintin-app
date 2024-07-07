@@ -4,11 +4,11 @@
   padding: 10px;
   position: fixed;
   top: 10px; /* Un petit espace en haut */
-  left: 10px; /* Un petit espace à gauche */
-  right: 10px; /* Un petit espace à droite */
+  left: 50%; /* Centrer horizontalement */
+  transform: translateX(-50%); /* Centrer horizontalement */
   border-radius: 10px; /* Coins arrondis */
   text-align: center;
-  z-index: 1000;
+  z-index: 1001; /* Assurer que l'alpha banner est au-dessus de la navbar */
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Une ombre pour un meilleur effet visuel */
   opacity: 0; /* Commence invisible */
   animation: fadeIn 0.5s forwards; /* Animation d'apparition */

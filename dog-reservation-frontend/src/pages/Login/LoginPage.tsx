@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextInput, Card, Heading } from 'evergreen-ui';
 import './LoginPage.css';
+import Divider from '@mui/material/Divider';
+import { Button } from 'evergreen-ui';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -26,24 +27,38 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="login-container">
-      <Card elevation={2} padding={32} borderRadius={8} className="login-form">
-        <Heading size={700} marginBottom={24} className="login-title">Login</Heading>
-        <TextInput
-          value={email}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-          placeholder="Email"
-          className="input-field"
-        />
-        <TextInput
-          type="password"
-          value={password}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-          placeholder="Password"
-          className="input-field"
-        />
-        <Button appearance="primary" onClick={handleLogin} className="login-button">Login</Button>
-        <Button appearance="minimal" onClick={() => navigate('/signup')} className="signup-button">Create Account</Button>
-      </Card>
+      <div className="login-image"></div>
+      <div className="login-form-container">
+        <h2>Vous avez déjà utilisé Rintintin ?</h2>
+        <form>
+          <label htmlFor="email">Email *</label>
+          <input 
+            type="email" 
+            id="email" 
+            placeholder="Email" 
+            value={email}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+          />
+          
+          <label htmlFor="password">Mot de passe *</label>
+          <input 
+            type="password" 
+            id="password" 
+            placeholder="Mot de passe" 
+            value={password}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+          />
+          
+          <a href="#">Mot de passe oublié ?</a>
+          
+          <Button onClick={handleLogin} className="login-button">Se connecter</Button>
+          
+          <Divider>OU</Divider>
+          
+          <h3>Nouveau sur Rintintin ?</h3>
+          <Button appearance="minimal" className="create-account" onClick={() => navigate('/signup')}>Créer mon compte</Button>
+        </form>
+      </div>
     </div>
   );
 };
