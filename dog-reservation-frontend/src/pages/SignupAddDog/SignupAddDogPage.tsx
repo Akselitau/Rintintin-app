@@ -143,114 +143,116 @@ const SignupAddDogPage: React.FC = () => {
   };
 
   return (
-    <Pane className="signup-add-dog-container">
-      <Tablist className="tablist">
-        <Tab
-          key="account"
-          isSelected={selectedIndex === 0}
-          onSelect={() => setSelectedIndex(0)}
-          disabled={selectedIndex !== 0}
-        >
-          Créer un compte
-        </Tab>
-        <Tab
-          key="dog"
-          isSelected={selectedIndex === 2}
-          onSelect={() => setSelectedIndex(2)}
-          disabled={selectedIndex !== 2}
-        >
-          Ajouter un chien
-        </Tab>
-      </Tablist>
-      <Pane className="form-container">
-        {selectedIndex === 0 && (
-          <Pane className="form-section">
-            <TextInputField
-              label="Nom"
-              placeholder="Nom"
-              value={name}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setName(e.target.value)
-              }
-            />
-            <TextInputField
-              label="Email"
-              placeholder="Email"
-              value={email}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEmail(e.target.value)
-              }
-            />
-            <TextInputField
-              label="Mot de passe"
-              placeholder="Mot de passe"
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-            <TextInputField
-              label="Confirmer le mot de passe"
-              placeholder="Confirmer le mot de passe"
-              type="password"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
-            />
-            {passwordError && <Paragraph color="danger">{passwordError}</Paragraph>}
-            {signupError && <Paragraph color="danger">{signupError}</Paragraph>}
-            <Button
-              appearance="primary"
-              onClick={handleNext}
-              disabled={!name || !email || !password || !confirmPassword || password !== confirmPassword}
-            >
-              Créer un compte
-            </Button>
-            <Paragraph>J'ai déjà un compte</Paragraph>
-            <Button onClick={() => navigate('/login')}>Connexion</Button>
-          </Pane>
-        )}
-        {selectedIndex === 2 && (
-          <Pane className="form-section">
-            <TextInputField
-              label="Nom du chien"
-              placeholder="Nom du chien"
-              value={dogName}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setDogName(e.target.value)
-              }
-            />
-            <SelectMenu
-              options={breeds}
-              selected={breed}
-              hasFilter={false}
-              onSelect={(item: any) => setBreed(item.value)}
-            >
-              <Button>{breed || 'Sélectionner une race'}</Button>
-            </SelectMenu>
-            <TextInputField
-              label="Date de naissance"
-              placeholder="Date de naissance"
-              type="date"
-              value={birthDate}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setBirthDate(e.target.value)
-              }
-            />
-            <Button
-              appearance="primary"
-              onClick={handleNext}
-              disabled={!dogName || !breed || !birthDate}
-            >
-              Ajouter un chien
-            </Button>
-            <Button appearance="default" onClick={handleSkip} marginLeft={16}>
-              Faire plus tard
-            </Button>
-          </Pane>
-        )}
-      </Pane>
-    </Pane>
+    <div className="signup-container">
+      <div className="signup-image"></div>
+      <div className="signup-form-container">
+        <Tablist className="tablist">
+          <Tab
+            key="account"
+            isSelected={selectedIndex === 0}
+            onSelect={() => setSelectedIndex(0)}
+            disabled={selectedIndex !== 0}
+          >
+            Créer un compte
+          </Tab>
+          <Tab
+            key="dog"
+            isSelected={selectedIndex === 2}
+            onSelect={() => setSelectedIndex(2)}
+            disabled={selectedIndex !== 2}
+          >
+            Ajouter un chien
+          </Tab>
+        </Tablist>
+        <Pane className="form-container">
+          {selectedIndex === 0 && (
+            <Pane className="form-section">
+              <TextInputField
+                label="Nom"
+                placeholder="Nom"
+                value={name}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setName(e.target.value)
+                }
+              />
+              <TextInputField
+                label="Email"
+                placeholder="Email"
+                value={email}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setEmail(e.target.value)
+                }
+              />
+              <TextInputField
+                label="Mot de passe"
+                placeholder="Mot de passe"
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+              <TextInputField
+                label="Confirmer le mot de passe"
+                placeholder="Confirmer le mot de passe"
+                type="password"
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+              />
+              {passwordError && <Paragraph color="danger">{passwordError}</Paragraph>}
+              {signupError && <Paragraph color="danger">{signupError}</Paragraph>}
+              <Button
+                appearance="primary"
+                onClick={handleNext}
+                disabled={!name || !email || !password || !confirmPassword || password !== confirmPassword}
+              >
+                Créer un compte
+              </Button>
+              <Paragraph>J'ai déjà un compte</Paragraph>
+              <Button onClick={() => navigate('/login')}>Connexion</Button>
+            </Pane>
+          )}
+          {selectedIndex === 2 && (
+            <Pane className="form-section">
+              <TextInputField
+                label="Nom du chien"
+                placeholder="Nom du chien"
+                value={dogName}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setDogName(e.target.value)
+                }
+              />
+              <SelectMenu
+                options={breeds}
+                selected={breed}
+                hasFilter={false}
+                onSelect={(item: any) => setBreed(item.value)}
+              >
+                <Button>{breed || 'Sélectionner une race'}</Button>
+              </SelectMenu>
+              <TextInputField
+                label="Date de naissance"
+                placeholder="Date de naissance"
+                type="date"
+                value={birthDate}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setBirthDate(e.target.value)
+                }
+              />
+              <Button
+                appearance="primary"
+                onClick={handleNext}
+                disabled={!dogName || !breed || !birthDate}
+              >
+                Ajouter un chien
+              </Button>
+              <Button appearance="default" onClick={handleSkip} marginLeft={16}>
+                Faire plus tard
+              </Button>
+            </Pane>
+          )}
+        </Pane>
+      </div>
+    </div>
   );
 };
 
 export default SignupAddDogPage;
-

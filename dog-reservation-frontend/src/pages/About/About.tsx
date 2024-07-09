@@ -5,9 +5,9 @@ import './About.css';
 const AboutPage: React.FC = () => {
   return (
     <div className="about-page">
-      <h1>À propos de RINTINTIN</h1>
+      <h1>À propos de Rintintin</h1>
       <p>
-        Bienvenue sur RINTINTIN, votre plateforme de confiance pour trouver la pension idéale pour vos compagnons de vie.
+        Bienvenue sur Rintintin, votre plateforme de confiance pour trouver la pension idéale pour vos compagnons de vie.
       </p>
       <p>
         Notre mission est de faciliter la recherche de pensions de qualité pour vos animaux de compagnie, en vous offrant une expérience utilisateur simple et intuitive.

@@ -1,5 +1,5 @@
-import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import React, { useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './MapComponent.css';
@@ -35,12 +35,22 @@ interface Pension {
 
 interface MapComponentProps {
   pensions: Pension[];
+  center?: { lat: number, lon: number }; // Add optional center prop
 }
 
-const MapComponent: React.FC<MapComponentProps> = ({ pensions }) => {
+const ChangeMapView: React.FC<{ center: { lat: number, lon: number } }> = ({ center }) => {
+  const map = useMap();
+  useEffect(() => {
+    map.setView([center.lat, center.lon], 12); // Adjust zoom level as needed
+  }, [center, map]);
+  return null;
+};
+
+const MapComponent: React.FC<MapComponentProps> = ({ pensions, center }) => {
   return (
     // @ts-ignore
-    <MapContainer center={[48.8566, 2.3522]} zoom={6} style={{ height: '500px', width: '100%' }}>
+    <MapContainer center={center ? [center.lat, center.lon] : [48.8566, 2.3522]} zoom={4} style={{ height: '500px', width: '100%' }}>
+      {center && <ChangeMapView center={center} />}
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         // @ts-ignore

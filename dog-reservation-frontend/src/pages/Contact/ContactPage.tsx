@@ -8,11 +8,11 @@ const ContactPage: React.FC = () => {
       <p>
         Si vous avez des questions ou des préoccupations, n'hésitez pas à nous contacter via les informations ci-dessous :
       </p>
-      <ul>
-        <li>akseelmh@gmail.com</li>
-      </ul>
       <p>
-        Nous vous répondrons dès que possible.
+        akseelmh@gmail.com
+      </p>
+      <p>
+        N'oubliez pas de joindre vos coordonnées à votre message si vous souhaitez être recontacté plus rapidement. Nous vous répondrons dès que possible.
       </p>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import './DashboardPage.css';
 
 const DashboardPage: React.FC = () => {
   return (

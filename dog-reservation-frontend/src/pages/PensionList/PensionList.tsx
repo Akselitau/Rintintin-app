@@ -29,6 +29,7 @@ const PensionList: React.FC = () => {
   const { address, coordinates } = location.state || {};
   const [pensions, setPensions] = useState<Pension[]>([]);
   const [loading, setLoading] = useState(true);
+  const [center, setCenter] = useState<{ lat: number, lon: number } | undefined>(coordinates);
 
   const fetchPensions = async (address?: string, coordinates?: { lat: number, lon: number }) => {
     try {
@@ -63,7 +64,10 @@ const PensionList: React.FC = () => {
   }, [address, coordinates]);
 
   const handleSearch = (address: string) => {
-    fetchPensions(address);
+    getCoordinates(address).then((coords) => {
+      setCenter({ lat: coords[0], lon: coords[1] });
+      fetchPensions(address, { lat: coords[0], lon: coords[1] });
+    });
   };
 
   return (
@@ -88,9 +92,11 @@ const PensionList: React.FC = () => {
             ))
           )}
         </div>
-        <div className="map-container">
-          <MapComponent pensions={pensions} />
-        </div>
+        {center && (
+          <div className="map-container">
+            <MapComponent pensions={pensions} center={center} />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './LoginPage.css';
 import Divider from '@mui/material/Divider';
 import { Button } from 'evergreen-ui';
@@ -10,18 +12,19 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleLogin = async (event: React.FormEvent) => {
+    event.preventDefault(); // Empêche le rechargement de la page
     try {
       const response = await axios.post('http://localhost:8000/login', {
         email: email,
         password: password,
       });
       localStorage.setItem('token', response.data.user.token);
-      alert('Logged in successfully!');
+      toast.success('Connexion réussie !'); // Notification de succès
       navigate('/');
     } catch (error: any) {
       console.error('Error logging in:', error);
-      alert('Error logging in: ' + (error.response?.data?.message || 'Unknown error'));
+      toast.error('Erreur lors de la connexion : ' + (error.response?.data?.message || 'Erreur inconnue')); // Notification d'erreur
     }
   };
 
@@ -30,7 +33,7 @@ const LoginPage: React.FC = () => {
       <div className="login-image"></div>
       <div className="login-form-container">
         <h2>Vous avez déjà utilisé Rintintin ?</h2>
-        <form>
+        <form onSubmit={handleLogin}>
           <label htmlFor="email">Email *</label>
           <input 
             type="email" 
@@ -51,7 +54,7 @@ const LoginPage: React.FC = () => {
           
           <a href="#">Mot de passe oublié ?</a>
           
-          <Button onClick={handleLogin} className="login-button">Se connecter</Button>
+          <Button type="submit" className="login-button">Se connecter</Button>
           
           <Divider>OU</Divider>
           
