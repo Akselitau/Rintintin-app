@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {
-  Pane,
-  TextInputField,
-  Button,
-  Tablist,
-  Tab,
-  Paragraph,
-  SelectMenu,
-} from 'evergreen-ui';
+import { Pane, TextInputField, Button, Tablist, Tab, Paragraph, SelectMenu } from 'evergreen-ui';
 import './SignupAddDogPage.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -69,7 +61,7 @@ const SignupAddDogPage: React.FC = () => {
       }
   
       try {
-        const response = await axios.post('http://localhost:8000/create-user', {
+        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/create-user`, {
           name: name,
           email: email,
           password: password,

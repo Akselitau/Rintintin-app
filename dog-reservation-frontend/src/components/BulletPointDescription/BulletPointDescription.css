@@ -1,26 +1,24 @@
-/* src/components/BulletPointDescription/BulletPointDescription.css */
 .bullet-point-description {
-    width: 100%;
-    max-width: 1200px;
-    margin: 40px auto;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .bullet-point-heading {
-    font-size: 2rem;
-    margin-bottom: 10px;
-  }
-  
-  .bullet-point-subheading {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 40px;
-  }
-  
-  .bullet-point-list {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-  }
-  
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px auto;
+  text-align: center;
+  padding: 20px;
+}
+
+.bullet-point-heading {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.bullet-point-subheading {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.bullet-point-list {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}

@@ -15,7 +15,7 @@ const LoginPage: React.FC = () => {
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault(); // Empêche le rechargement de la page
     try {
-      const response = await axios.post('http://localhost:8000/login', {
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login`, {
         email: email,
         password: password,
       });
