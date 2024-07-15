@@ -23,7 +23,7 @@ const SignupAddDogPage: React.FC = () => {
   const [birthDate, setBirthDate] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [passwordError, setPasswordError] = useState('');
-  const [signupError, setSignupError] = useState('');
+  const [signupError] = useState('');
   const [breeds, setBreeds] = useState<{ label: string, value: string }[]>([]);
 
   const navigate = useNavigate();
@@ -98,7 +98,6 @@ const SignupAddDogPage: React.FC = () => {
           });
     
           if (response.ok) {
-            const result = await response.json();
             toast.success('Chien ajouté avec succès !');
             navigate('/');
           } else {
@@ -106,7 +105,7 @@ const SignupAddDogPage: React.FC = () => {
             console.error('Failed to add dog');
           }
         } catch (error) {
-          toast.error('Erreur lors de l\'ajout du chien : ' + 'Erreur inconnue');
+          toast.error('Erreur lors de l\'ajout du chien : Erreur inconnue');
           console.error('Error adding dog:', error);
         }
       }

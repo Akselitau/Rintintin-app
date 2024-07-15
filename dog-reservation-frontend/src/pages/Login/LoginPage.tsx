@@ -52,7 +52,7 @@ const LoginPage: React.FC = () => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
           />
           
-          <a href="#">Mot de passe oublié ?</a>
+          <a href="password-forgotten">Mot de passe oublié ?</a>
           
           <Button type="submit" className="login-button">Se connecter</Button>
           

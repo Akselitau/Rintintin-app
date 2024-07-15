@@ -21,6 +21,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import AlphaBanner from './components/BannerAlphaWarning/AlphaBanner';
 import ReservationsPage from './pages/Reservations/ReservationsPage';
 import AboutPage from './pages/About/About';
+import PasswordForgotten from './pages/PasswordForgotten/PasswordForgotten';
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated } = useAuth();
@@ -40,6 +41,7 @@ const App: React.FC = () => {
               <Route path="/pensions" element={<PensionList />} />
               <Route path="/pensions/:id" element={<PensionDetail />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/password-forgotten" element={<PasswordForgotten/>} />
               <Route path="/signup" element={<SignupAddDogPage />} />
               <Route
                 path="/my-pension/*"

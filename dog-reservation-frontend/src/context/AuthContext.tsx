@@ -19,7 +19,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [update, setUpdate] = useState(0);
+  const [, setUpdate] = useState(0);
   const navigate = useNavigate();
 
   const logout = useCallback(() => {
