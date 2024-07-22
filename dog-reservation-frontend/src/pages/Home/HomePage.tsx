@@ -1,16 +1,11 @@
-// src/pages/HomePage/HomePage.tsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import BulletPointDescription from '../../components/BulletPointDescription/BulletPointDescription';
-import SocialProof from '../../components/SocialProof/SocialProof';
-import FAQ from '../../components/FAQ/FAQ';
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
-  // Function to get geographical coordinates
   const getCoordinates = async (address: string) => {
     try {
       const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
@@ -51,15 +46,6 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </div>
-      
-      {/* BulletPointDescription Section */}
-      <BulletPointDescription />
-      
-      {/* SocialProof Section */}
-      <SocialProof />
-
-      {/* FAQ Section */}
-      <FAQ />
     </div>
   );
 };

@@ -73,6 +73,7 @@ const DogPage: React.FC = () => {
   };
 
   return (
+    <div className="dog-background-container">
     <div className="dog-container">
       <h2>Mes Chiens</h2>
       {dogs.length > 0 ? (
@@ -104,6 +105,7 @@ const DogPage: React.FC = () => {
         </form>
         <button onClick={() => setModalIsOpen(false)}>Fermer</button>
       </Modal>
+    </div>
     </div>
   );
 };

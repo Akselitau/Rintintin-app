@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   margin-top: 4rem;
+  min-height: 80vh;
 }
 
 .content-container {

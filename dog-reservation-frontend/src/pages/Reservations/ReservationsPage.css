@@ -1,3 +1,8 @@
+.reservations-background-page {
+    min-height: 800vh;
+}
+
+
 .reservations-page {
     padding: 20px;
     max-width: 800px;

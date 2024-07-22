@@ -6,7 +6,7 @@ const ReservationsPage: React.FC = () => {
   const { user } = useAuth();
 
   return (
-    <div>
+    <div className='reservations-background-container'>
       <h1>Mes Réservations</h1>
       {user ? <ReservationList userId={user.user_id} /> : <p>User is not logged in</p>}
     </div>

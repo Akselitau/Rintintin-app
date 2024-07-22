@@ -28,7 +28,7 @@ def get_dogs(user_id):
     except Exception as e:
         raise InternalServerError(f"An error occurred: {e}")
 
-#No need of an usecase here
+
 @dog.route('/get-dog-breeds', methods=['GET'], cors=True)
 def get_dog_breeds():
     try:
