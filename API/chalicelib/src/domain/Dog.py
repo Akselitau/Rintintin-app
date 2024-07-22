@@ -8,6 +8,7 @@ class Dog(BaseModel):
     breed: str
     profile_photo_url: Optional[str] = None
     information: Optional[str] = None
+    birthdate: Optional[str] = None
 
     class Config:
         orm_mode = True

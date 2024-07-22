@@ -30,6 +30,9 @@ class UserPsqlRepository:
                 self.conn.commit()
                 print("User ID created:", user_id)  # Debugging line
             return user_id
+        except psycopg2.IntegrityError as err:
+            print("Integrity error (duplicate email or other constraint):", err)
+            raise
         except psycopg2.Error as err:
             print("Error database: ", err)
             return None

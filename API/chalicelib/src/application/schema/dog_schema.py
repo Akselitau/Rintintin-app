@@ -8,3 +8,4 @@ class DogSchema(CamelCaseSchema):
     breed = fields.String(required=True)
     profile_photo_url = fields.String(missing=None)
     information = fields.String(missing=None)
+    birthdate = fields.String(missing=None)

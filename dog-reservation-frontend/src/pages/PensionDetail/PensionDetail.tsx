@@ -27,10 +27,12 @@ interface Pension {
 }
 
 interface Dog {
-  dog_id: number;
+  dogId: number;
   name: string;
   breed: string;
-  profile_photo_url: string;
+  profilePhotoUrl: string;
+  information: string;
+  birthdate: string;
 }
 
 const PensionDetail: React.FC = () => {
@@ -43,7 +45,7 @@ const PensionDetail: React.FC = () => {
   const [fees] = useState(10);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [dogs, setDogs] = useState<Dog[]>([]);
-  const [selectedDog, setSelectedDog] = useState<string | number>('');
+  const [selectedDog, setSelectedDog] = useState<number | null>(null);
   const [user, setUser] = useState<{ name: string; token: string } | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -196,7 +198,7 @@ const PensionDetail: React.FC = () => {
               <p>{pension.hours}</p>
             </div>
           </div>
-  
+
           <div className="pension-team">
             <h2>L'équipe</h2>
             <div className="team-members">
@@ -248,10 +250,10 @@ const PensionDetail: React.FC = () => {
               {isLoggedIn ? (
                 <div className="dog-selection">
                   <label>Choisissez votre chien:</label>
-                  <select value={selectedDog} onChange={(e) => setSelectedDog(e.target.value)}>
+                  <select value={selectedDog || ''} onChange={(e) => setSelectedDog(parseInt(e.target.value))}>
                     <option value="">Sélectionner un chien</option>
                     {dogs.map(dog => (
-                      <option key={dog.dog_id} value={dog.dog_id}>{dog.name}</option>
+                      <option key={dog.dogId} value={dog.dogId}>{dog.name}</option>
                     ))}
                   </select>
                   <button className="add-dog-button" onClick={() => setModalIsOpen(true)}>Ajouter un chien</button>
@@ -282,4 +284,3 @@ const PensionDetail: React.FC = () => {
 };
 
 export default PensionDetail;
-

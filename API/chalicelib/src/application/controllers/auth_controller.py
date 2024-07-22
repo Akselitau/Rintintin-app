@@ -1,13 +1,21 @@
-from chalice import Blueprint, Response
+from chalice import Blueprint, Response, CORSConfig
+import psycopg2
 from chalicelib.src.utils import create_jwt_token, hash_password, check_password
 from chalicelib.src.bootstrap import get_user_repo
 from chalicelib.src.errors import BadRequestError, InternalServerError, UnauthorizedError
 
 auth = Blueprint(__name__)
 
-DEFAULT_PROFIL_PICTURE = 'https://img.freepik.com/vecteurs-premium/photo-profil-avatar-homme-illustration-vectorielle_268834-538.jpg'
+cors_config = CORSConfig(
+    allow_origin='*',
+    allow_headers=['Content-Type', 'Authorization'],
+    max_age=600,
+    expose_headers=['X-Custom-Header'],
+    allow_credentials=True
+)
 
-from chalicelib.src.utils import create_jwt_token, hash_password
+
+DEFAULT_PROFIL_PICTURE = 'https://img.freepik.com/vecteurs-premium/photo-profil-avatar-homme-illustration-vectorielle_268834-538.jpg'
 
 @auth.route('/create-user', methods=['POST'], cors=True)
 def create_user():
@@ -20,28 +28,34 @@ def create_user():
         raise BadRequestError("Missing required parameters")
 
     try:
-        print(f"Received request to create user: {name}, {email}")
-        hashed_password = hash_password(password)
-        print(f"Hashed password: {hashed_password}")
-        
+        if not isinstance(name, str) or not isinstance(email, str) or not isinstance(password, str):
+            raise BadRequestError("Parameters must be strings")
+
         user_repo = get_user_repo()
+        existing_user = user_repo.get_user_by_email(email)
+        if existing_user:
+            raise BadRequestError("User with this email already exists")
+
+        hashed_password = hash_password(password)
+
         user_id = user_repo.create_user(name, email, hashed_password, DEFAULT_PROFIL_PICTURE)
         if user_id is None:
             raise InternalServerError("Failed to create user")
-        
+
         token = create_jwt_token(user_id)
-        print(f"Generated token: {token}")
-        
+
         return Response(
             body={"user_id": user_id, "token": token, "message": "User created successfully"},
             status_code=201,
             headers={"Content-Type": "application/json"},
         )
+    except BadRequestError as e:
+        raise e  
+    except psycopg2.IntegrityError as e:
+        raise BadRequestError("User with this email already exists")
     except Exception as e:
-        print(f"An error occurred: {e}")  # Log the exception
         raise InternalServerError(f"An error occurred: {e}")
 
-    
 @auth.route('/login', methods=['POST'], cors=True)
 def login():
     request = auth.current_request.json_body
@@ -53,11 +67,10 @@ def login():
 
     try:
         user_repo = get_user_repo()
-        user = user_repo.get_user_by_email(email)  # On utilise l'email pour récupérer l'utilisateur
+        user = user_repo.get_user_by_email(email)
 
         if user:
             user_id, name, stored_hashed_password, profile_photo_url = user
-            print(f"Stored hashed password: {stored_hashed_password}")  # Log pour débogage
             if check_password(password, stored_hashed_password):
                 token = create_jwt_token(user_id)
                 payload = {
@@ -66,21 +79,17 @@ def login():
                     "profile_photo_url": profile_photo_url,
                     "token": token
                 }
-                print(f"User logged in: {payload}")  # Log pour débogage
                 return Response(
                     body={"user": payload, "message": "Login successful"},
                     status_code=200,
                     headers={"Content-Type": "application/json"},
                 )
             else:
-                print("Password check failed")  # Log pour débogage
                 raise UnauthorizedError("Invalid credentials")
         else:
-            print("User not found")  # Log pour débogage
             raise UnauthorizedError("Invalid credentials")
 
     except UnauthorizedError:
-        raise  # Propagate the UnauthorizedError
+        raise 
     except Exception as e:
-        print(f"Login error: {e}")  # Log pour débogage
         raise InternalServerError(f"An error occurred: {e}")

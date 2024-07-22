@@ -38,4 +38,5 @@ def get_profile_handler(auth_header, secret_key, user_repo=None):
     except jwt.InvalidTokenError:
         raise UnauthorizedError("Invalid token")
     except Exception as e:
+        print(f"An error occurred: {e}")  # Log for debugging
         raise InternalServerError(f"An error occurred: {e}")

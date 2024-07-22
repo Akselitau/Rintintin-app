@@ -33,27 +33,24 @@ class DogPsqlRepository:
             print("Error database: ", err)
             return None
 
-
-    def get_dogs_by_user(self, user_id: int) -> List[dict]:
+    def get_dogs_by_user(self, user_id: int) -> List[Dog]:
         try:
             with self.conn.cursor() as cursor:
                 cursor.execute(
-                    "SELECT dog_id, user_id, name, breed, profile_photo_url, information FROM dogs WHERE user_id = %s",
+                    "SELECT dog_id, user_id, name, breed, profile_photo_url, information, birthdate FROM dogs WHERE user_id = %s",
                     (user_id,)
                 )
                 rows = cursor.fetchall()
 
-            dogs = []
-            for row in rows:
-                dog = {
-                    "dog_id": row[0],
-                    "user_id": row[1],
-                    "name": row[2],
-                    "breed": row[3],
-                    "profile_photo_url": row[4],
-                    "information": row[5]
-                }
-                dogs.append(dog)
+            dogs = [Dog(
+                dog_id=row[0],
+                user_id=row[1],
+                name=row[2],
+                breed=row[3],
+                profile_photo_url=row[4],
+                information=row[5],
+                birthdate=row[6].strftime('%Y-%m-%d') if row[6] else None
+            ) for row in rows]
             return dogs
         except psycopg2.Error as err:
             print("Error database: ", err)

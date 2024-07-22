@@ -1,6 +1,5 @@
 from datetime import datetime
 from typing import Any, Dict, List
-from psycopg2 import sql
 import psycopg2
 from chalicelib.src.infrastructure.database import Database
 from chalicelib.src.domain.Pension import Pension, PensionDetail
@@ -14,15 +13,13 @@ class PsqlPensionRepository:
 
     def get_all_pensions(self) -> List[Pension]:
         try:
-            pension_query = sql.SQL(
-                """
+            query = """
                 SELECT pension_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours AS opening_hours, status
                 FROM pensions
                 """
-            )
-            with self.conn.cursor() as curs:
-                curs.execute(pension_query)
-                query_results = curs.fetchall()
+            with self.conn.cursor() as cursor:
+                cursor.execute(query)
+                query_results = cursor.fetchall()
 
             pensions = []
             for row in query_results:
@@ -50,13 +47,13 @@ class PsqlPensionRepository:
 
     def get_pension_by_user_id(self, user_id: int) -> Dict[str, Any]:
         try:
+            query = """
+                SELECT pension_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours, status 
+                FROM pensions 
+                WHERE user_id = %s
+                """
             with self.conn.cursor() as cursor:
-                cursor.execute(
-                    """SELECT pension_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours, status 
-                    FROM pensions 
-                    WHERE user_id = %s""",
-                    (user_id,)
-                )
+                cursor.execute(query, (user_id,))
                 pension = cursor.fetchone()
 
             if pension:
@@ -86,8 +83,7 @@ class PsqlPensionRepository:
 
     def get_pension_by_id(self, id: int) -> PensionDetail:
         try:
-            pension_query = sql.SQL(
-                """
+            query = """
                 SELECT 
                     p.pension_id, p.name, p.address, p.phone, p.email, p.max_capacity, 
                     p.current_occupancy, p.rating, p.description, p.image_urls,
@@ -97,22 +93,20 @@ class PsqlPensionRepository:
                 FROM pensions p
                 LEFT JOIN staff s ON p.pension_id = s.pension_id
                 LEFT JOIN reviews r ON p.pension_id = r.pension_id
-                WHERE p.pension_id = {id}
+                WHERE p.pension_id = %s
                 """
-            ).format(id=sql.Literal(id))
+            with self.conn.cursor() as cursor:
+                cursor.execute(query, (id,))
+                query_results = cursor.fetchall()
 
-            with self.conn.cursor() as curs:
-                curs.execute(pension_query)
-                query_result = curs.fetchall()
-
-            if not query_result:
+            if not query_results:
                 return None
 
-            pension_data = query_result[0]
+            pension_data = query_results[0]
             staff_members = []
             reviews = []
 
-            for row in query_result:
+            for row in query_results:
                 print("Processing row:", row) 
 
                 if row[14]: 
@@ -160,14 +154,14 @@ class PsqlPensionRepository:
             print("Error database: ", err)
             return None
 
-
     def create_pension_profile(self, user_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours, night_price):
         try:
+            query = """
+                INSERT INTO pensions (user_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours, night_price, status) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING pension_id
+                """
             with self.conn.cursor() as cursor:
-                cursor.execute(
-                    "INSERT INTO pensions (user_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours, night_price, status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING pension_id",
-                    (user_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours, night_price, 'Référencé')
-                )
+                cursor.execute(query, (user_id, name, address, phone, email, max_capacity, current_occupancy, rating, description, image_urls, equipment, hours, night_price, 'Référencé'))
                 pension_id = cursor.fetchone()[0]
                 self.conn.commit()
             return pension_id
@@ -177,11 +171,12 @@ class PsqlPensionRepository:
 
     def update_pension(self, pension: PensionDetail):
         try:
+            query = """
+                UPDATE pensions SET name = %s, address = %s, phone = %s, email = %s, max_capacity = %s, rating = %s, description = %s, equipment = %s, hours = %s, night_price = %s, status = %s 
+                WHERE pension_id = %s
+                """
             with self.conn.cursor() as cursor:
-                cursor.execute(
-                    "UPDATE pensions SET name = %s, address = %s, phone = %s, email = %s, max_capacity = %s, rating = %s, description = %s, equipment = %s, hours = %s, night_price = %s, status = %s WHERE pension_id = %s",
-                    (pension.name, pension.address, pension.phone, pension.email, pension.max_capacity, pension.rating, pension.description, pension.equipment, pension.hours, pension.night_price, pension.status, pension.id)
-                )
+                cursor.execute(query, (pension.name, pension.address, pension.phone, pension.email, pension.max_capacity, pension.rating, pension.description, pension.equipment, pension.hours, pension.night_price, pension.status, pension.id))
                 self.conn.commit()
             return True
         except psycopg2.Error as err:

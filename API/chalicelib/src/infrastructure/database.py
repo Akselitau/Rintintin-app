@@ -5,6 +5,7 @@ import psycopg2
 class Database:
     _connection = None
 
+    #Initialisation de la database
     @staticmethod
     def initialize_connection():
         load_dotenv()

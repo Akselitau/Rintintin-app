@@ -1,4 +1,16 @@
 {
   "version": "2.0",
-  "app_name": "rintintin-API"
+  "app_name": "rintintin-API",
+  "stages": {
+    "dev": {
+      "environment_variables": {
+        "DB_HOST": "rintintin-db.cra8ueqsi8ry.eu-west-3.rds.amazonaws.com",
+        "DB_PORT": "5432",
+        "DB_NAME": "rintintin-db",
+        "DB_USER": "postgresrtt",
+        "DB_PASSWORD": "Hd738D0Jf__hd2#Ff",
+        "SECRET_KEY":"your_secret_key_here"
+      }
+    }
+  }
 }

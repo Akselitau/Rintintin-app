@@ -1,7 +1,6 @@
 from datetime import timedelta
 from typing import List
 from chalicelib.src.infrastructure.database import Database
-from psycopg2 import sql
 import psycopg2
 
 class ReservationPsqlRepository:
@@ -61,23 +60,21 @@ class ReservationPsqlRepository:
 
     def get_reservations_by_user(self, user_id: int) -> List[dict]:
         try:
-            reservation_query = sql.SQL(
-                """
+            query = """
                 SELECT r.reservation_id, r.dog_id, r.pension_id, r.start_date, r.end_date, r.status,
-                    p.name as pension_name, d.name as dog_name, d.breed as dog_breed
+                       p.name as pension_name, d.name as dog_name, d.breed as dog_breed
                 FROM reservations r
                 JOIN dogs d ON r.dog_id = d.dog_id
                 JOIN pensions p ON r.pension_id = p.pension_id
-                WHERE d.user_id = {user_id}
-                """
-            ).format(user_id=sql.Literal(user_id))
+                WHERE d.user_id = %s
+            """
 
-            with self.conn.cursor() as curs:
-                curs.execute(reservation_query)
-                query_results = curs.fetchall()
+            with self.conn.cursor() as cursor:
+                cursor.execute(query, (user_id,))
+                rows = cursor.fetchall()
 
             reservations = []
-            for row in query_results:
+            for row in rows:
                 reservations.append({
                     "reservation_id": row[0],
                     "dog_id": row[1],
@@ -97,23 +94,21 @@ class ReservationPsqlRepository:
 
     def get_reservations_by_pension(self, pension_id: int) -> List[dict]:
         try:
-            reservation_query = sql.SQL(
-                """
+            query = """
                 SELECT r.reservation_id, r.dog_id, r.pension_id, r.start_date, r.end_date, r.status,
                        p.name as pension_name, d.name as dog_name, d.breed as dog_breed
                 FROM reservations r
                 JOIN dogs d ON r.dog_id = d.dog_id
                 JOIN pensions p ON r.pension_id = p.pension_id
-                WHERE r.pension_id = {pension_id}
-                """
-            ).format(pension_id=sql.Literal(pension_id))
+                WHERE r.pension_id = %s
+            """
 
-            with self.conn.cursor() as curs:
-                curs.execute(reservation_query)
-                query_results = curs.fetchall()
+            with self.conn.cursor() as cursor:
+                cursor.execute(query, (pension_id,))
+                rows = cursor.fetchall()
 
             reservations = []
-            for row in query_results:
+            for row in rows:
                 reservations.append({
                     "reservation_id": row[0],
                     "dog_id": row[1],
@@ -133,19 +128,14 @@ class ReservationPsqlRepository:
 
     def update_reservation_status(self, reservation_id: int, status: str) -> bool:
         try:
-            update_query = sql.SQL(
-                """
+            query = """
                 UPDATE reservations
-                SET status = {status}
-                WHERE reservation_id = {reservation_id}
-                """
-            ).format(
-                status=sql.Literal(status),
-                reservation_id=sql.Literal(reservation_id)
-            )
+                SET status = %s
+                WHERE reservation_id = %s
+            """
 
-            with self.conn.cursor() as curs:
-                curs.execute(update_query)
+            with self.conn.cursor() as cursor:
+                cursor.execute(query, (status, reservation_id))
                 self.conn.commit()
 
             return True
