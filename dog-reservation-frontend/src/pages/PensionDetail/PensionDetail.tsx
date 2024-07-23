@@ -234,18 +234,11 @@ const PensionDetail: React.FC = () => {
             />
             <div className="reservation-details">
               <div className="number-of-dogs">
-                <label>Nombre de chiens:</label>
-                <input
-                  type="number"
-                  min="1"
-                  value={numDogs}
-                  onChange={(e) => setNumDogs(parseInt(e.target.value))}
-                />
               </div>
               <div className="price-details">
-                <p>Price: {pension.night_price * numDogs}$ / night</p>
-                <p>Fees: {fees}$</p>
-                <p>Total: {(pension.night_price * numDogs + fees)}$</p>
+                <p>Prix: {pension.night_price * numDogs}€ /nuit</p>
+                <p>Frais de service: {fees}€</p>
+                <p>Total: {(pension.night_price * numDogs + fees)}€</p>
               </div>
               {isLoggedIn ? (
                 <div className="dog-selection">

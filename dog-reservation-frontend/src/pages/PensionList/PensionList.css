@@ -16,21 +16,21 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center; /* Add this line */
-  min-height: 300px; /* Add this line to set a minimum height */
+  align-items: center;
+  min-height: 300px;
 }
 
 .map-container {
-  position: -webkit-sticky; /* Pour les navigateurs WebKit/Safari */
+  position: -webkit-sticky; 
   position: sticky;
-  top: 5rem; /* Distance du haut de la page lorsque l'élément devient "collant" */
-  flex: 1; /* Augmentez cette valeur pour augmenter la largeur de la carte */
-  margin-left: 20px; /* Ajout d'une marge à gauche */
-  margin-right: 100px; /* Ajout d'une marge à droite */
+  top: 5rem;
+  flex: 1;
+  margin-left: 20px;
+  margin-right: 100px;
   border-radius: 15px;
   overflow: hidden;
-  max-height: calc(100vh - 40px); /* Limitez la hauteur pour éviter qu'elle ne prenne toute la page */
-  overflow-y: auto; /* Ajoutez un défilement vertical si nécessaire */
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
   margin-top: 1rem;
 }
 

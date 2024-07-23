@@ -83,7 +83,7 @@ const SignupAddDogPage: React.FC = () => {
           birthdate: birthDate || null,
         };
     
-        if (birthDate) {  // Ajouter birthdate seulement si elle est fournie
+        if (birthDate) {
           data.birthdate = birthDate;
         }
     
