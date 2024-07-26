@@ -6,11 +6,31 @@ import jwt
 import requests
 from chalicelib.src.errors import CustomError
 import bcrypt
+import boto3
+from botocore.exceptions import NoCredentialsError
 
 
 load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
+
+def upload_to_s3(file_name, bucket, object_name=None):
+    s3 = boto3.client(
+        's3',
+        aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+        aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY')
+    )
+
+    if object_name is None:
+        object_name = file_name
+
+    try:
+        s3.upload_file(file_name, bucket, object_name, ExtraArgs={'ACL': 'public-read'})
+        url = f"https://{bucket}.s3.amazonaws.com/{object_name}"
+        return url
+    except NoCredentialsError:
+        print("Credentials not available")
+        return None
 
 def hash_password(password: str) -> str:
     salt = bcrypt.gensalt()

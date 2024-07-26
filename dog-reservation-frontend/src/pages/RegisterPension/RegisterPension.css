@@ -1,9 +1,12 @@
 .pension-signup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-  margin-top: 3rem;
+  min-height: 80vh;
 }
 
 .pension-signup-container h1 {

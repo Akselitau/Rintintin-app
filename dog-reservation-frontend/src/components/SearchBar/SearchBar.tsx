@@ -17,7 +17,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, withMarginTop = false }
     <div className={`search-bar-container ${withMarginTop ? 'margin-top' : ''}`}>
       <div className="search-bar">
         <div className="search-input-container">
-          <label htmlFor="location" >Où ?</label>
+          <label htmlFor="location" >Ville</label>
           <input
             id="location"
             type="text"

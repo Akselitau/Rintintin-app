@@ -15,7 +15,6 @@ const Footer: React.FC = () => {
             <Link to="/signup">Créer un compte</Link>
             <Link to="/register-pension">Inscrire ma pension</Link>
             <Link to="/contact">Nous contacter</Link>
-            <Link to="/legal">Mentions légales</Link>
           </div>
         </div>
       </div>

@@ -31,6 +31,7 @@ const DogPage: React.FC = () => {
         });
         if (response.ok) {
           const data = await response.json();
+          console.log('Fetched dogs:', data.dogs);
           setDogs(data.dogs);
         } else {
           console.error('Failed to fetch dogs');
@@ -105,15 +106,20 @@ const DogPage: React.FC = () => {
       <div className="dog-container">
         <h2>Mes Chiens</h2>
         {dogs.length > 0 ? (
-          dogs.map(dog => (
-            <div key={dog.dog_id} className="dog-details">
-              <img src={dog.profile_photo_url || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwXrptniMc0-eplVbfcJP42Hp-yChjpat0eXPG2XN_VT0olqpdMtDEpfLmusypE-9aV1Y&usqp=CAU'} alt={dog.name} />
-              <div>
-                <h3>{dog.name}</h3>
-                <p>Race: {dog.breed}</p>
+          dogs.map(dog => {
+            console.log('Dog object:', dog);
+            console.log('Image URL:', dog.profilePhotoUrl);  // Assurez-vous que cela affiche la bonne URL
+
+            return (
+              <div key={dog.dogId} className="dog-details">
+                <img src={dog.profilePhotoUrl} alt={dog.name} onError={() => console.error('Failed to load image:', dog.profilePhotoUrl)} />
+                <div>
+                  <h3>{dog.name}</h3>
+                  <p>Race: {dog.breed}</p>
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         ) : (
           <p>Vous n'avez pas encore de chiens enregistrés.</p>
         )}

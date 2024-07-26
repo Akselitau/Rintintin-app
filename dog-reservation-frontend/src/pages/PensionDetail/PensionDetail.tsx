@@ -27,12 +27,10 @@ interface Pension {
 }
 
 interface Dog {
-  dogId: number;
+  dog_id: number;
   name: string;
   breed: string;
-  profilePhotoUrl: string;
-  information: string;
-  birthdate: string;
+  profile_photo_url: string;
 }
 
 const PensionDetail: React.FC = () => {
@@ -41,11 +39,11 @@ const PensionDetail: React.FC = () => {
   const [pension, setPension] = useState<Pension | null>(null);
   const [loading, setLoading] = useState(true);
   const [dateRange, setDateRange] = useState<[Date, Date] | null>(null);
-  const [numDogs, setNumDogs] = useState(1);
+  const [numDogs] = useState(1); // Remove setNumDogs if not used
   const [fees] = useState(10);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [dogs, setDogs] = useState<Dog[]>([]);
-  const [selectedDog, setSelectedDog] = useState<number | null>(null);
+  const [selectedDog, setSelectedDog] = useState<string | number>('');
   const [user, setUser] = useState<{ name: string; token: string } | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -198,7 +196,7 @@ const PensionDetail: React.FC = () => {
               <p>{pension.hours}</p>
             </div>
           </div>
-
+  
           <div className="pension-team">
             <h2>L'équipe</h2>
             <div className="team-members">
@@ -234,19 +232,26 @@ const PensionDetail: React.FC = () => {
             />
             <div className="reservation-details">
               <div className="number-of-dogs">
+                <label>Nombre de chiens:</label>
+                <input
+                  type="number"
+                  min="1"
+                  value={numDogs}
+                  readOnly
+                />
               </div>
               <div className="price-details">
-                <p>Prix: {pension.night_price * numDogs}€ /nuit</p>
-                <p>Frais de service: {fees}€</p>
-                <p>Total: {(pension.night_price * numDogs + fees)}€</p>
+                <p>Price: {pension.night_price * numDogs}$ / night</p>
+                <p>Fees: {fees}$</p>
+                <p>Total: {(pension.night_price * numDogs + fees)}$</p>
               </div>
               {isLoggedIn ? (
                 <div className="dog-selection">
                   <label>Choisissez votre chien:</label>
-                  <select value={selectedDog || ''} onChange={(e) => setSelectedDog(parseInt(e.target.value))}>
+                  <select value={selectedDog} onChange={(e) => setSelectedDog(e.target.value)}>
                     <option value="">Sélectionner un chien</option>
                     {dogs.map(dog => (
-                      <option key={dog.dogId} value={dog.dogId}>{dog.name}</option>
+                      <option key={dog.dog_id} value={dog.dog_id}>{dog.name}</option>
                     ))}
                   </select>
                   <button className="add-dog-button" onClick={() => setModalIsOpen(true)}>Ajouter un chien</button>
@@ -277,3 +282,4 @@ const PensionDetail: React.FC = () => {
 };
 
 export default PensionDetail;
+

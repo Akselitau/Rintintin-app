@@ -18,7 +18,7 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
     name: '',
     breed: '',
     birthdate: '',
-    profile_photo_url: ''
+    profile_photo: null as File | null
   });
   const [breeds, setBreeds] = useState<{ label: string, value: string }[]>([]);
 
@@ -47,27 +47,37 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, files } = e.target;
+    if (name === 'profile_photo') {
+      setFormData({ ...formData, profile_photo: files ? files[0] : null });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
-
+  
   const handleAddDog = async () => {
-    const data = { ...formData, user_id: user?.user_id };
-
+    const data = new FormData();
+    data.append('name', formData.name);
+    data.append('breed', formData.breed);
+    data.append('birthdate', formData.birthdate);
+    if (formData.profile_photo) {
+      data.append('profile_photo', formData.profile_photo);
+    }
+    data.append('user_id', user?.user_id);
+  
     try {
       const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/create-dog-profile`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        body: JSON.stringify(data),
+        body: data,
       });
-
+  
       if (response.ok) {
         const result = await response.json();
         console.log('Dog added successfully:', result);
-        onDogAdded({ ...data, dog_id: result.dog_id });
+        onDogAdded({ ...formData, dog_id: result.dog_id });
         onRequestClose(); // Ferme la modal après l'ajout du chien
         toast.success('Chien ajouté avec succès !');
       } else {
@@ -112,10 +122,10 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
           onChange={handleInputChange}
         />
         <TextInputField
-          label="URL de la photo de profil"
-          placeholder="URL de la photo de profil"
-          name="profile_photo_url"
-          value={formData.profile_photo_url}
+          label="Photo de profil"
+          placeholder="Photo de profil"
+          name="profile_photo"
+          type="file"
           onChange={handleInputChange}
         />
         <Button
