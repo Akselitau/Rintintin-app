@@ -9,7 +9,11 @@
         "DB_NAME": "rintintin-db",
         "DB_USER": "postgresrtt",
         "DB_PASSWORD": "Hd738D0Jf__hd2#Ff",
-        "SECRET_KEY":"your_secret_key_here"
+        "SECRET_KEY": "your_secret_key_here",
+        "AWS_ACCESS_KEY_ID": "AKIA6GBMEIQNYROIG4PR",
+        "AWS_SECRET_ACCESS_KEY": "tLVCdqb/eDEGPn9LcXLtsqnDqRFxL0+sT+kV3GCq",
+        "AWS_REGION": "eu-west-3",
+        "S3_BUCKET_NAME": "rintintin-bucket"
       }
     }
   }
