@@ -18,7 +18,7 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
     name: '',
     breed: '',
     birthdate: '',
-    profile_photo: null as File | null
+    profile_photo: '' // Stockage de la chaîne base64 ici
   });
   const [breeds, setBreeds] = useState<{ label: string, value: string }[]>([]);
 
@@ -48,37 +48,42 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
-    if (name === 'profile_photo') {
-      setFormData({ ...formData, profile_photo: files ? files[0] : null });
+    if (name === 'profile_photo' && files) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, profile_photo: reader.result as string });
+      };
+      reader.readAsDataURL(file);
     } else {
       setFormData({ ...formData, [name]: value });
     }
   };
-  
+
   const handleAddDog = async () => {
-    const data = new FormData();
-    data.append('name', formData.name);
-    data.append('breed', formData.breed);
-    data.append('birthdate', formData.birthdate);
-    if (formData.profile_photo) {
-      data.append('profile_photo', formData.profile_photo);
-    }
-    data.append('user_id', user?.user_id);
-  
+    const data = {
+      name: formData.name,
+      breed: formData.breed,
+      birthdate: formData.birthdate,
+      profile_photo: formData.profile_photo,
+      user_id: user?.user_id
+    };
+
     try {
       const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/create-dog-profile`, {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        body: data,
+        body: JSON.stringify(data)
       });
-  
+
       if (response.ok) {
         const result = await response.json();
         console.log('Dog added successfully:', result);
         onDogAdded({ ...formData, dog_id: result.dog_id });
-        onRequestClose(); // Ferme la modal après l'ajout du chien
+        onRequestClose();
         toast.success('Chien ajouté avec succès !');
       } else {
         console.error('Failed to add dog');
