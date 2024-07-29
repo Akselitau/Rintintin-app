@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { Pane, TextInputField, Button, SelectMenu } from 'evergreen-ui';
 import { toast } from 'react-toastify';
 
-Modal.setAppElement('#root'); // Important pour l'accessibilité
+Modal.setAppElement('#root');
 
 interface AddDogModalProps {
   isOpen: boolean;
@@ -18,7 +18,8 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
     name: '',
     breed: '',
     birthdate: '',
-    profile_photo: '' // Stockage de la chaîne base64 ici
+    profile_photo: null as File | null,
+    information: ''  // Ajout de l'information
   });
   const [breeds, setBreeds] = useState<{ label: string, value: string }[]>([]);
 
@@ -49,51 +50,82 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
     if (name === 'profile_photo' && files) {
-      const file = files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({ ...formData, profile_photo: reader.result as string });
-      };
-      reader.readAsDataURL(file);
+      setFormData({ ...formData, profile_photo: files[0] });
     } else {
       setFormData({ ...formData, [name]: value });
     }
   };
 
   const handleAddDog = async () => {
-    const data = {
-      name: formData.name,
-      breed: formData.breed,
-      birthdate: formData.birthdate,
-      profile_photo: formData.profile_photo,
-      user_id: user?.user_id
-    };
+    if (!formData.profile_photo) {
+        toast.error('Please select a photo for the dog.');
+        return;
+    }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/create-dog-profile`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(data)
-      });
+        // Generate presigned URL
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/generate-upload-url`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({
+                file_name: formData.profile_photo.name,
+                file_type: formData.profile_photo.type
+            })
+        });
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Dog added successfully:', result);
-        onDogAdded({ ...formData, dog_id: result.dog_id });
-        onRequestClose();
-        toast.success('Chien ajouté avec succès !');
-      } else {
-        console.error('Failed to add dog');
-        toast.error('Erreur lors de l\'ajout du chien');
-      }
+        const presignedData = await response.json();
+
+        // Upload file to S3
+        const formDataForS3 = new FormData();
+        Object.keys(presignedData.fields).forEach(key => {
+            formDataForS3.append(key, presignedData.fields[key]);
+        });
+        formDataForS3.append('file', formData.profile_photo);
+
+        const uploadResponse = await fetch(presignedData.url, {
+            method: 'POST',
+            body: formDataForS3
+        });
+
+        if (uploadResponse.ok) {
+            // Corriger l'URL ici
+            const imageUrl = `${presignedData.url}${presignedData.fields.key}`;
+            // Create dog profile
+            const profileResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/create-dog-profile`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({
+                    user_id: user.user_id,
+                    name: formData.name,
+                    breed: formData.breed,
+                    birthdate: formData.birthdate,
+                    information: formData.information,
+                    profile_photo_url: imageUrl  // URL corrigée
+                })
+            });
+
+            if (profileResponse.ok) {
+                const newDog = await profileResponse.json();
+                toast.success('Dog profile created successfully!');
+                onDogAdded(newDog);
+                onRequestClose();
+            } else {
+                toast.error('Failed to create dog profile');
+            }
+        } else {
+            toast.error('Failed to upload file to S3');
+        }
     } catch (error) {
-      console.error('Error:', error);
-      toast.error('Erreur lors de l\'ajout du chien : Erreur inconnue');
+        console.error('Error:', error);
+        toast.error('An error occurred while uploading the dog photo');
     }
-  };
+};
 
   return (
     <Modal
@@ -124,6 +156,13 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
           type="date"
           name="birthdate"
           value={formData.birthdate}
+          onChange={handleInputChange}
+        />
+        <TextInputField
+          label="Informations supplémentaires"
+          placeholder="Informations sur le chien"
+          name="information"
+          value={formData.information}
           onChange={handleInputChange}
         />
         <TextInputField
