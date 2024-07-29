@@ -112,9 +112,6 @@ async function getCoordinates(address: string): Promise<[number, number]> {
         format: 'json',
         limit: 1
       },
-      headers: {
-        'User-Agent': 'my-app/1.0.0'
-      }
     });
 
     if (response.data && response.data.length > 0) {
