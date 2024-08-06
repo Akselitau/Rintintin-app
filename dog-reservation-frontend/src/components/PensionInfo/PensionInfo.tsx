@@ -11,7 +11,7 @@ const PensionInfo: React.FC = () => {
   const [pension, setPension] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);  // Ajout de l'état pour la modal
 
   useEffect(() => {
     const fetchPension = async () => {
@@ -25,11 +25,17 @@ const PensionInfo: React.FC = () => {
           });
           if (response.data.pension) {
             setPension(response.data.pension);
+            setError(null); // Clear any existing error
           } else {
-            setError('No pension found for user');
+            setPension(null);
+            setError('Tu n\'as pas de pension pour l\'instant. Veuillez en créer une pour voir les détails.');
           }
         } catch (error) {
-          setError('Error fetching pension');
+          if (axios.isAxiosError(error) && error.response?.status === 404) {
+            setError('Tu n\'as pas de pension pour l\'instant. Veuillez en créer une pour voir les détails.');
+          } else {
+            setError('Erreur lors de la récupération de la pension');
+          }
         } finally {
           setLoading(false);
         }
@@ -66,27 +72,26 @@ const PensionInfo: React.FC = () => {
           }
         });
         console.log('Update Response:', response.data);
-        toast.success('Pension updated successfully!');
-        setShowModal(false);
+        toast.success('Pension mise à jour avec succès !');
         setPension(updatedPension); // Mettre à jour l'état de la pension avec les nouvelles données
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          console.error('Error updating pension:', error.response?.data || error.message);
-          toast.error(`Error updating pension: ${error.response?.data.message || error.message}`);
+          console.error('Erreur lors de la mise à jour de la pension:', error.response?.data || error.message);
+          toast.error(`Erreur lors de la mise à jour de la pension: ${error.response?.data.message || error.message}`);
         } else {
-          console.error('Unexpected error updating pension:', error);
-          toast.error('Unexpected error occurred');
+          console.error('Erreur inattendue lors de la mise à jour de la pension:', error);
+          toast.error('Une erreur inattendue est survenue');
         }
       }
     }
   };
 
   if (!user) {
-    return <p className="error">User is not logged in</p>;
+    return <p className="error">L'utilisateur n'est pas connecté</p>;
   }
 
   if (loading) {
-    return <p className="loading">Loading...</p>;
+    return <p className="loading">Chargement...</p>;
   }
 
   if (error) {
@@ -94,22 +99,22 @@ const PensionInfo: React.FC = () => {
   }
 
   if (!pension) {
-    return <p className="error">No pension found. Please create one.</p>;
+    return <p className="info">Tu n'as pas de pension pour l'instant. Veuillez en créer une pour voir les détails.</p>;
   }
 
   return (
     <div className="pension-info">
       <h1>{pension.name}</h1>
-      <p><strong>Address:</strong> {pension.address}</p>
-      <p><strong>Phone:</strong> {pension.phone}</p>
+      <p><strong>Adresse:</strong> {pension.address}</p>
+      <p><strong>Téléphone:</strong> {pension.phone}</p>
       <p><strong>Email:</strong> {pension.email}</p>
-      <p><strong>Max Capacity:</strong> {pension.max_capacity}</p>
-      <p><strong>Current Occupancy:</strong> {pension.current_occupancy}</p>
-      <p><strong>Rating:</strong> {pension.rating}</p>
+      <p><strong>Capacité Max:</strong> {pension.max_capacity}</p>
+      <p><strong>Occupation Actuelle:</strong> {pension.current_occupancy}</p>
+      <p><strong>Évaluation:</strong> {pension.rating}</p>
       <p><strong>Description:</strong> {pension.description}</p>
-      <p><strong>Hours:</strong> {pension.hours}</p>
+      <p><strong>Heures:</strong> {pension.hours}</p>
       <div>
-        <h2>Equipment</h2>
+        <h2>Équipements</h2>
         <ul>
           {pension.equipment.map((item: string, index: number) => (
             <li key={index}>{item}</li>
@@ -119,11 +124,10 @@ const PensionInfo: React.FC = () => {
       <div>
         <h2>Images</h2>
         {pension.image_urls.map((url: string, index: number) => (
-          // eslint-disable-next-line jsx-a11y/img-redundant-alt
           <img key={index} src={url} alt={`Pension image ${index}`} />
         ))}
       </div>
-      <button onClick={() => setShowModal(true)}>Update Pension</button>
+      <button onClick={() => setShowModal(true)}>Mettre à jour la pension</button>
       <ModalComponent
         show={showModal}
         handleClose={() => setShowModal(false)}

@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { useAuth } from '../context/AuthContext';
 import { Pane, TextInputField, Button, SelectMenu } from 'evergreen-ui';
 import { toast } from 'react-toastify';
+import './AddDogModal.css';
 
 Modal.setAppElement('#root');
 
@@ -125,7 +126,7 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
         console.error('Error:', error);
         toast.error('An error occurred while uploading the dog photo');
     }
-};
+  };
 
   return (
     <Modal
@@ -172,16 +173,18 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
           type="file"
           onChange={handleInputChange}
         />
-        <Button
-          appearance="primary"
-          onClick={handleAddDog}
-          disabled={!formData.name || !formData.breed || !formData.birthdate}
-        >
-          Ajouter un chien
-        </Button>
-        <Button appearance="default" onClick={onRequestClose} marginLeft={16}>
-          Fermer
-        </Button>
+        <div className="button-group">
+          <Button
+            appearance="primary"
+            onClick={handleAddDog}
+            disabled={!formData.name || !formData.breed || !formData.birthdate}
+          >
+            Ajouter un chien
+          </Button>
+          <Button appearance="default" onClick={onRequestClose}>
+            Fermer
+          </Button>
+        </div>
       </Pane>
     </Modal>
   );

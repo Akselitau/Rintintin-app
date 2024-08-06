@@ -18,7 +18,7 @@ const PensionReservationsPage: React.FC = () => {
   const { user } = useAuth();
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>('Tu n\'as pas de pension pour l\'instant. Veuillez en créer une pour voir les réservations.');
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -39,19 +39,21 @@ const PensionReservationsPage: React.FC = () => {
               }
             });
 
-            console.log('Reservations response:', reservationsResponse.data);
-
-            if (reservationsResponse.data.reservations) {
+            if (reservationsResponse.data.reservations.length > 0) {
               setReservations(reservationsResponse.data.reservations);
+              setError(null);
             } else {
-              setError('No reservations found for this pension');
+              setError('Aucune réservation trouvée pour cette pension');
             }
           } else {
-            setError('No pension found for user');
+            setError('Tu n\'as pas de pension pour l\'instant. Veuillez en créer une pour voir les réservations.');
           }
         } catch (error) {
-          console.error('Error fetching reservations:', error);
-          setError('Error fetching reservations');
+          if (axios.isAxiosError(error) && error.response?.status === 404) {
+            setError('Tu n\'as pas de pension pour l\'instant. Veuillez en créer une pour voir les réservations.');
+          } else {
+            setError('Erreur lors de la récupération des réservations');
+          }
         } finally {
           setLoading(false);
         }
@@ -87,19 +89,19 @@ const PensionReservationsPage: React.FC = () => {
           )
         );
       } else {
-        console.error('Failed to update reservation status');
+        console.error('Échec de la mise à jour du statut de la réservation');
       }
     } catch (error) {
-      console.error('Error updating reservation status:', error);
+      console.error('Erreur lors de la mise à jour du statut de la réservation:', error);
     }
   };
 
   if (!user) {
-    return <p>User is not logged in</p>;
+    return <p>L'utilisateur n'est pas connecté</p>;
   }
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p>Chargement...</p>;
   }
 
   if (error) {
@@ -112,13 +114,13 @@ const PensionReservationsPage: React.FC = () => {
       <ul>
         {reservations.map((reservation) => (
           <li key={reservation.reservation_id}>
-            <p><strong>Dog Name:</strong> {reservation.dog_name}</p>
-            <p><strong>Dog Breed:</strong> {reservation.dog_breed}</p>
-            <p><strong>Start Date:</strong> {reservation.start_date}</p>
-            <p><strong>End Date:</strong> {reservation.end_date}</p>
-            <p><strong>Status:</strong> {reservation.status}</p>
-            <button onClick={() => updateReservationStatus(reservation.reservation_id, 'Accepted')}>Accept</button>
-            <button onClick={() => updateReservationStatus(reservation.reservation_id, 'Rejected')}>Reject</button>
+            <p><strong>Nom du chien:</strong> {reservation.dog_name}</p>
+            <p><strong>Race du chien:</strong> {reservation.dog_breed}</p>
+            <p><strong>Date de début:</strong> {reservation.start_date}</p>
+            <p><strong>Date de fin:</strong> {reservation.end_date}</p>
+            <p><strong>Statut:</strong> {reservation.status}</p>
+            <button onClick={() => updateReservationStatus(reservation.reservation_id, 'Accepted')}>Accepter</button>
+            <button onClick={() => updateReservationStatus(reservation.reservation_id, 'Rejected')}>Rejeter</button>
             <hr />
           </li>
         ))}

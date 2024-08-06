@@ -8,7 +8,7 @@ from chalicelib.src.application.controllers.pension_controller import pension
 from chalicelib.src.application.controllers.reservation_controller import reservation
 from chalicelib.src.application.controllers.user_controller import user
 from chalicelib.src.application.controllers.dog_controller import dog
-from chalice import Chalice, Response
+from chalice import Chalice, Response, CORSConfig
 
 # TODO: to help debugging geolocalisation in prod, to delete once the feature's complete
 try:
@@ -17,6 +17,16 @@ try:
 except Exception as e:
     logger.error(f"Error importing module: {e}")
     raise e
+
+
+cors_config = CORSConfig(
+    allow_origin='*',
+    allow_headers=['Content-Type', 'Authorization'],
+    max_age=600,
+    expose_headers=['X-Custom-Header'],
+    allow_credentials=True
+)
+
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'chalicelib/src'))
 

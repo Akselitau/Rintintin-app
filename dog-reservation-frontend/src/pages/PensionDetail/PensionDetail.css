@@ -1,3 +1,97 @@
+/* Style global pour le calendrier */
+.react-calendar {
+  width: 100%;
+  background: #f9f9f9;
+  border: 1px solid #dfe1e5;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+}
+
+/* En-tête du calendrier */
+.react-calendar__navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.react-calendar__navigation button {
+  color: #333;
+  min-width: 44px;
+  background: none;
+  font-size: 16px;
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background-color: #e6b800;
+  border-radius: 50%;
+}
+
+/* Jours de la semaine */
+.react-calendar__month-view__weekdays {
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  color: #777;
+  padding: 10px 0;
+}
+
+/* Jours du mois */
+.react-calendar__month-view__days__day--weekend {
+  color: #d10000;
+}
+
+.react-calendar__tile {
+  max-width: 100%;
+  text-align: center;
+  padding: 10px 6.6667px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  border-radius: 50%;
+  transition: background-color 0.1s, color 0.1s;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background: #e6b800;
+  color: white;
+  border-radius: 50%;
+}
+
+.react-calendar__tile--now {
+  background: #ffcc00;
+  border-radius: 50%;
+  color: white;
+}
+
+.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:focus {
+  background: #e6b800;
+  border-radius: 50%;
+}
+
+.react-calendar__tile--active {
+  background: #ffcc00;
+  color: white;
+  border-radius: 50%;
+}
+
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: #e6b800;
+  border-radius: 50%;
+}
+
+.react-calendar--selectRange .react-calendar__tile--hover {
+  background-color: #e6b800;
+}
+
+
 .pension-detail {
   display: flex;
   flex-direction: column;
@@ -198,37 +292,105 @@
   font-size: 1em; /* Regular font size for the comment */
 }
 
-.referenced-section {
+.reservation-section {
   width: 25%;
-  background: #F0F0F0;
+  background: #f9f9f9; /* Change background to a lighter shade */
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  position: -webkit-sticky;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Lighten the shadow */
+  position: -webkit-sticky; /* For WebKit/Safari browsers */
   position: sticky;
-  top: 20px;
+  top: 5rem; /* Distance from the top of the page when the element becomes "sticky" */
   margin-top: 1rem;
-  align-self: flex-start;
-  max-height: calc(100vh - 40px);
-  overflow-y: auto;
-  text-align: center;
+  align-self: flex-start; /* Ensure the reservation section is aligned at the top */
+  max-height: calc(100vh - 40px); /* Limit the height to avoid taking the whole page */
+  overflow-y: auto; /* Add vertical scroll if necessary */
+  font-family: Arial, sans-serif; /* Ensure consistent font */
 }
 
-.referenced-section h2 {
-  color: #333;
-  margin-bottom: 15px;
+.reservation-details {
+  margin-top: 20px;
 }
 
-.referenced-section p {
-  color: #666;
-  margin-bottom: 20px;
+.number-of-dogs,
+.price-details {
+  margin-bottom: 15px; /* Add some space between sections */
 }
 
-.contact-button {
+.reservation-button {
   background: #ffcc00;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 20px; /* Adjust padding for better touch targets */
+  cursor: pointer;
+  margin-top: 10px; /* Add space at the top */
+  border-radius: 4px;
+  font-weight: bold; /* Make the text bold */
+  font-size: 16px; /* Increase font size */
+  width: 100%; /* Make the button take full width */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a slight shadow */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.reservation-button:hover {
+  background-color: #e6b800; /* Darken the background on hover */
+}
+
+.dog-selection {
+  margin-bottom: 10px; /* Reduce space between sections */
+}
+
+.dog-selection label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.dog-selection select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+}
+
+.add-dog-button {
+  background: #ffcc00;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%; /* Make the button take full width */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a slight shadow */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.add-dog-button:hover {
+  background-color: #e6b800; /* Darken the background on hover */
+}
+
+.login-button {
+  background: #ffcc00;
+  border: none;
+  padding: 10px;
   cursor: pointer;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 14px;
+  width: 100%; /* Make the button take full width */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a slight shadow */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.login-button:hover {
+  background-color: #e6b800; /* Darken the background on hover */
+}
+
+.price-details p {
+  margin: 5px 0; /* Add space between price details */
+}
+
+.calendar {
+  width: 100%; /* Ensure calendar takes full width */
+  margin-bottom: 10px; /* Reduce margin-bottom to make the buttons closer */
 }

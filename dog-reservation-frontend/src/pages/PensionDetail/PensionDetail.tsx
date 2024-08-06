@@ -40,7 +40,7 @@ const PensionDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [dateRange, setDateRange] = useState<[Date, Date] | null>(null);
   const [numDogs] = useState(1); // Remove setNumDogs if not used
-  const [fees] = useState(10);
+  const [fees] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [dogs, setDogs] = useState<Dog[]>([]);
   const [selectedDog, setSelectedDog] = useState<string | number>('');
@@ -231,19 +231,10 @@ const PensionDetail: React.FC = () => {
               selectRange={true}
             />
             <div className="reservation-details">
-              <div className="number-of-dogs">
-                <label>Nombre de chiens:</label>
-                <input
-                  type="number"
-                  min="1"
-                  value={numDogs}
-                  readOnly
-                />
-              </div>
               <div className="price-details">
-                <p>Price: {pension.night_price * numDogs}$ / night</p>
-                <p>Fees: {fees}$</p>
-                <p>Total: {(pension.night_price * numDogs + fees)}$</p>
+                <p>Prix: {pension.night_price * numDogs}€ / jour</p>
+                <p>Frais de service: {fees}€</p>
+                <p>Total: {(pension.night_price * numDogs + fees)}€</p>
               </div>
               {isLoggedIn ? (
                 <div className="dog-selection">
