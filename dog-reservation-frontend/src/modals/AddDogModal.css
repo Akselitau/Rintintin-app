@@ -1,80 +1,80 @@
-.modal-overlay {
+.add-dog-modal-overlay {
     background: rgba(0, 0, 0, 0.75);
     display: flex;
     align-items: center;
     justify-content: center;
   }
   
-  .modal-content {
+  .add-dog-modal-content {
     background: #fff;
-    padding: 10px;  /* Réduire encore le padding pour diminuer la taille globale */
+    padding: 10px;
     border-radius: 10px;
     width: 90%;
-    max-width: 400px;  /* Réduire la largeur maximale */
-    max-height: 60%;  /* Limiter encore la hauteur maximale */
-    overflow-y: auto; /* Ajouter un défilement vertical si nécessaire */
+    max-width: 400px;
+    max-height: 60%;
+    overflow-y: auto;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: relative;
     font-family: Arial, sans-serif;
   }
   
-  h2 {
-    margin-bottom: 6px;  /* Réduire encore la marge pour compacter le titre */
-    font-size: 20px;  /* Réduire la taille de la police */
+  .add-dog-modal h2 {
+    margin-bottom: 6px;
+    font-size: 20px;
     text-align: center;
   }
   
-  .form-section {
+  .add-dog-modal .form-section {
     display: flex;
     flex-direction: column;
-    gap: 6px;  /* Réduire encore l'écart entre les éléments */
+    gap: 6px;
   }
   
-  .button-group {
+  .add-dog-modal .button-group {
     display: flex;
-    justify-content: space-between;  /* Centrer les boutons */
-    gap: 6px;  /* Réduire encore l'écart entre les boutons */
-    margin-top: 6px;  /* Réduire encore la marge au-dessus des boutons */
+    justify-content: space-between;
+    gap: 6px;
+    margin-top: 6px;
   }
   
-  .button-group button {
-    width: calc(50% - 3px);  /* Définir une largeur fixe pour les boutons et les rendre de même taille */
+  .add-dog-modal .button-group button {
+    width: calc(50% - 3px);
   }
   
-  .TextInputField__label {
-    margin-bottom: 3px;  /* Réduire encore la marge sous les étiquettes */
+  .add-dog-modal .TextInputField__label {
+    margin-bottom: 3px;
     font-weight: bold;
   }
   
-  .TextInputField__input {
+  .add-dog-modal .TextInputField__input {
     width: 100%;
-    padding: 6px;  /* Réduire encore le padding pour compacter les champs de texte */
+    padding: 6px;
     border-radius: 5px;
     border: 1px solid #ccc;
   }
   
-  .SelectMenu__container {
-    margin-bottom: 6px;  /* Réduire encore la marge sous le sélecteur */
+  .add-dog-modal .SelectMenu__container {
+    margin-bottom: 6px;
   }
   
-  .SelectMenu__button {
+  .add-dog-modal .SelectMenu__button {
     width: 100%;
-    padding: 6px;  /* Réduire encore le padding pour compacter le bouton du sélecteur */
+    padding: 6px;
     border-radius: 5px;
     border: 1px solid #ccc;
     background-color: #fff;
     text-align: left;
   }
   
-  .SelectMenu__menu {
+  .add-dog-modal .SelectMenu__menu {
     width: 100%;
   }
   
-  .SelectMenu__menu-item {
-    padding: 6px;  /* Réduire encore le padding des éléments du menu */
+  .add-dog-modal .SelectMenu__menu-item {
+    padding: 6px;
   }
   
-  .SelectMenu__menu-item:hover {
+  .add-dog-modal .SelectMenu__menu-item:hover {
     background-color: #f0f0f0;
   }
   

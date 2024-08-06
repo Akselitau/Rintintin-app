@@ -20,7 +20,7 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
     breed: '',
     birthdate: '',
     profile_photo: null as File | null,
-    information: ''  // Ajout de l'information
+    information: ''
   });
   const [breeds, setBreeds] = useState<{ label: string, value: string }[]>([]);
 
@@ -133,6 +133,8 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Ajouter un chien"
+      overlayClassName="add-dog-modal-overlay"
+      className="add-dog-modal-content"
     >
       <h2>Ajouter un chien</h2>
       <Pane className="form-section">
@@ -142,6 +144,7 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
           name="name"
           value={formData.name}
           onChange={handleInputChange}
+          className="add-dog-modal TextInputField__input"
         />
         <SelectMenu
           title="Sélectionner une race"
@@ -149,7 +152,7 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
           selected={formData.breed}
           onSelect={(item: any) => setFormData({ ...formData, breed: item.value })}
         >
-          <Button>{formData.breed || 'Sélectionner une race'}</Button>
+          <Button className="add-dog-modal SelectMenu__button">{formData.breed || 'Sélectionner une race'}</Button>
         </SelectMenu>
         <TextInputField
           label="Date de naissance"
@@ -158,6 +161,7 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
           name="birthdate"
           value={formData.birthdate}
           onChange={handleInputChange}
+          className="add-dog-modal TextInputField__input"
         />
         <TextInputField
           label="Informations supplémentaires"
@@ -165,6 +169,7 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
           name="information"
           value={formData.information}
           onChange={handleInputChange}
+          className="add-dog-modal TextInputField__input"
         />
         <TextInputField
           label="Photo de profil"
@@ -172,6 +177,7 @@ const AddDogModal: React.FC<AddDogModalProps> = ({ isOpen, onRequestClose, onDog
           name="profile_photo"
           type="file"
           onChange={handleInputChange}
+          className="add-dog-modal TextInputField__input"
         />
         <div className="button-group">
           <Button
