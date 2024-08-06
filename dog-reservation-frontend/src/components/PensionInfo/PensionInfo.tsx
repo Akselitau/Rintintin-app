@@ -124,7 +124,7 @@ const PensionInfo: React.FC = () => {
       <div>
         <h2>Images</h2>
         {pension.image_urls.map((url: string, index: number) => (
-          <img key={index} src={url} alt={`Pension image ${index}`} />
+          <img key={index} src={url} alt={`Pension view ${index + 1}`} />
         ))}
       </div>
       <button onClick={() => setShowModal(true)}>Mettre à jour la pension</button>
