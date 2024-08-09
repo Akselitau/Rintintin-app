@@ -25,8 +25,6 @@ chalice local
 - The backend will be accessible at:
 http://127.0.0.1:8000
 
-- Call create-tables.py
-- Call populate-database.py
 
 
 FRONTEND
@@ -44,10 +42,4 @@ The project is still in its early stages, and some features may not be fully fun
 
 Code Information
 
-Comments: There are a lot of comments in the frontend code because I am currently learning new things about it.
 Code Review: My code has not been reviewed by anyone yet, so I apologize in advance for any mistakes or inconsistencies you might encounter.
-
-
-
-
-Pour le front ne pas oublier de faire "npm install" pour la première fois
